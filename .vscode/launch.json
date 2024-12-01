@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "SimpleCalculator",
+      "request": "launch",
+      "mainClass": "hellofx.SimpleCalculator",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "EscapePlanetGame",
+      "request": "launch",
+      "mainClass": "hellofx.EscapePlanetGame",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "Current File",
+      "request": "launch",
+      "mainClass": "${file}",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "hellofx.Main",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    }
+  ]
+}

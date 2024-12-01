@@ -1,0 +1,63 @@
+.root {
+  -fx-background-color: #728156; /* Dark olive background */
+  -fx-padding: 20;
+  -fx-spacing: 10;
+}
+
+.display {
+  -fx-font-size: 24px;
+  -fx-font-family: "Arial";
+  -fx-background-color: #88976C; /* Muted olive-green background */
+  -fx-text-fill: #E7F5DC;       /* Very light green for contrast */
+  -fx-border-color: #B6C99B;   /* Lighter olive for borders */
+  -fx-border-width: 2;
+  -fx-padding: 10;
+  -fx-pref-height: 80;
+  -fx-alignment: CENTER_RIGHT;
+}
+
+.grid {
+  -fx-alignment: CENTER;
+}
+
+.button {
+  -fx-font-size: 30px;
+  -fx-background-color: #98A77C; /* Softer olive-green */
+  -fx-text-fill: #E7F5DC;        /* Light green text */
+  -fx-padding: 15;
+  -fx-pref-width: 80;
+  -fx-pref-height: 80;
+  -fx-background-radius: 7;
+}
+
+.button:hover {
+  -fx-background-color: #B6C99B; /* Highlighted green on hover */
+}
+
+.operator-button {
+  -fx-background-color: #B6C99B; /* Brighter olive for operators */
+  -fx-text-fill: #FFFFFF;        /* White for text */
+}
+
+.operator-button:hover {
+  -fx-background-color: #CFE1B9; /* Even lighter green on hover */
+}
+
+.clear-button {
+  -fx-background-color: #CFE1B9; /* Pale olive for clear button */
+  -fx-text-fill: #728156;        /* Dark olive text */
+}
+
+.clear-button:hover {
+  -fx-background-color: #E7F5DC; /* Subtle green hover */
+}
+
+.equal-button {
+  -fx-background-color: #88976C; /* Olive green for equals */
+  -fx-text-fill: #FFFFFF;        /* White for text */
+  -fx-font-weight: bold;
+}
+
+.equal-button:hover {
+  -fx-background-color: #98A77C; /* Softer olive-green hover */
+}
