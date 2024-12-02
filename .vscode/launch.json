@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "LoginScreen",
+      "request": "launch",
+      "mainClass": "hellofx.LoginScreen",
+      "projectName": "MiniGameMaster_231f154e"
+    },
+    {
+      "type": "java",
       "name": "SimpleCalculator",
       "request": "launch",
       "mainClass": "hellofx.SimpleCalculator",

@@ -1,97 +1,91 @@
-.root {
-  -fx-background-color: #728156; /* Dark olive background */
+@font-face {
+  font-family: "Poppins";
+  src: url("../../resources/fonts/Poppins-Regular.ttf");
+}
+
+.root-pane {
+  -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
   -fx-padding: 20;
-  -fx-spacing: 10;
 }
 
-.display {
-  -fx-font-size: 24px;
-  -fx-font-family: "Arial, sans-serif";
-  -fx-background-color: #919883; /* Muted olive-green background */
-  -fx-text-fill: #f5fbf0; /* Very light green for contrast */
-  -fx-border-color: #b6c99b; /* Lighter olive for borders */
-  -fx-border-width: 2;
-  -fx-border-radius: 8; /* Subtle rounding for softer edges */
+.form-pane {
+  -fx-background-color: white;
+  -fx-background-radius: 10;
+  -fx-border-color: black;
+  -fx-border-width: 4;
+  -fx-border-radius: 10;
+  -fx-font-family: "Poppins";
+}
+
+.left-section {
+  -fx-background-color: white;
+  -fx-alignment: center;
+  -fx-background-radius: 10 0 0 10;
+  -fx-font-family: "Poppins";
+}
+
+.right-section {
+  -fx-background-color: #fef200;
+  -fx-alignment: center;
+  -fx-background-radius: 0 10 10 0;
+  -fx-font-family: "Poppins";
+}
+
+.title-mini {
+  -fx-font-size: 26px;
+  -fx-font-weight: bold;
+  -fx-text-fill: black;
+  -fx-font-family: "Poppins";
+}
+
+.title-master {
+  -fx-font-size: 50px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #ffd700;
+  -fx-font-family: "Poppins";
+}
+
+.title-login {
+  -fx-font-size: 30px;
+  -fx-font-weight: bold;
+  -fx-text-fill: black;
+  -fx-font-family: "Poppins";
+}
+
+.label-text {
+  -fx-font-size: 22px;
+  -fx-text-fill: black;
+  -fx-font-family: "Poppins";
+}
+
+.input-field {
+  -fx-font-size: 15px;
   -fx-padding: 10;
-  -fx-pref-height: 80;
-  -fx-alignment: CENTER_RIGHT;
-  -fx-effect: dropshadow(
-    three-pass-box,
-    rgba(0, 0, 0, 0.2),
-    10,
-    0,
-    0,
-    4
-  ); /* Shadow for depth */
+  -fx-border-color: black;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+  -fx-font-family: "Poppins";
 }
 
-.grid {
-  -fx-alignment: CENTER;
-  -fx-hgap: 10; /* Add some spacing between buttons */
-  -fx-vgap: 10;
-}
-
-.button {
-  -fx-font-size: 28px;
-  -fx-font-family: "Arial, sans-serif";
-  -fx-background-color: #98a77c; /* Softer olive-green */
-  -fx-text-fill: #e7f5dc; /* Light green text */
-  -fx-padding: 15;
-  -fx-pref-width: 80;
-  -fx-pref-height: 80;
-  -fx-background-radius: 8; /* Rounded edges */
-  -fx-border-color: #b6c99b; /* Subtle border */
-  -fx-border-width: 1.5;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.15), 5, 0, 0, 3);
-  -fx-cursor: hand; /* Pointer cursor for interactivity */
-  -fx-transition: all 0.3s ease; /* Smooth hover effect */
-}
-
-.button:hover {
-  -fx-background-color: #b6c99b; /* Highlighted green on hover */
-  -fx-scale-x: 1.05; /* Slight zoom effect */
-  -fx-scale-y: 1.05;
-}
-
-.operator-button {
-  -fx-background-color: #b6c99b; /* Brighter olive for operators */
-  -fx-text-fill: #ffffff; /* White for text */
+.login-button {
+  -fx-font-size: 22px;
   -fx-font-weight: bold;
-  -fx-border-radius: 8;
-  -fx-transition: all 0.3s ease;
+  -fx-background-color: black;
+  -fx-text-fill: white;
+  -fx-background-radius: 5;
+  -fx-padding: 10;
+  -fx-pref-width: 400;
+  -fx-font-family: "Poppins";
 }
 
-.operator-button:hover {
-  -fx-background-color: #cfe1b9; /* Even lighter green on hover */
-  -fx-scale-x: 1.05;
-  -fx-scale-y: 1.05;
-}
-
-.clear-button {
-  -fx-background-color: #cfe1b9; /* Pale olive for clear button */
-  -fx-text-fill: #728156; /* Dark olive text */
-  -fx-border-radius: 8;
-  -fx-font-weight: bold;
-  -fx-transition: all 0.3s ease;
-}
-
-.clear-button:hover {
-  -fx-background-color: #e7f5dc; /* Subtle green hover */
-  -fx-scale-x: 1.05;
-  -fx-scale-y: 1.05;
-}
-
-.equal-button {
-  -fx-background-color: #88976c; /* Olive green for equals */
-  -fx-text-fill: #ffffff; /* White for text */
-  -fx-font-weight: bold;
-  -fx-border-radius: 8;
-  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 7, 0, 0, 3);
-  -fx-transition: all 0.3s ease;
-}
-
-.equal-button:hover {
-  -fx-background-color: #98a77c; /* Softer olive-green hover */
-  -fx-scale-x: 1.08; /* Slightly larger zoom effect */
-  -fx-scale-y: 1.08;
+.create-account-button {
+  -fx-font-size: 22px;
+  -fx-background-color: #fef200;
+  -fx-border-color: black;
+  -fx-border-radius: 5;
+  -fx-background-radius: 5;
+  -fx-padding: 10;
+  -fx-text-fill: black;
+  -fx-pref-width: 400;
+  -fx-font-family: "Poppins";
 }
