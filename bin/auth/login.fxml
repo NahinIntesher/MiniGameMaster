@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml" prefWidth="1000" prefHeight="600" styleClass="root-pane" fx:controller="auth.Controller">
+    <HBox spacing="0" alignment="CENTER" maxWidth="800" maxHeight="500" styleClass="form-pane">
+        <!-- Left Section -->
+        <VBox alignment="CENTER" prefWidth="300" styleClass="left-section">
+            <Label text="MINI GAME" styleClass="title-mini" />
+            <Label text="MASTER" styleClass="title-master" />
+        </VBox>
+
+        <!-- Right Section -->
+        <VBox alignment="CENTER" spacing="16" prefWidth="500" styleClass="right-section">
+            <Label text="Login" styleClass="title-login" />
+            <VBox spacing="6" alignment="CENTER_LEFT" maxWidth="400">
+                <Label fx:id="loginMessageLabel" text="" styleClass="login-message" visible="false" managed="false"/>
+                <Label text="Username" styleClass="label-text" />
+                <TextField fx:id="usernameField" promptText="Enter your username" styleClass="input-field" />
+                <Label text="Password" styleClass="label-text" />
+                <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="input-field" />
+            </VBox>
+            <Button fx:id="loginButton" text="Login" styleClass="login-button" onAction="#loginButtonOnAction"/>
+            <Button text="Create New Account" styleClass="create-account-button" />
+        </VBox>
+    </HBox>
+</StackPane>
