@@ -11,7 +11,6 @@ public class SimpleCalculator extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("calculator.fxml"));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
         primaryStage.setTitle("Simple Calculator");
         primaryStage.setScene(scene);
