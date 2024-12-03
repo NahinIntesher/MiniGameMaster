@@ -3,6 +3,21 @@
   "configurations": [
     {
       "type": "java",
+      "name": "SignupScreen",
+      "request": "launch",
+      "mainClass": "auth.SignupScreen",
+      "projectName": "DemoGame_1d4b881e",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "HomeScreen",
+      "request": "launch",
+      "mainClass": "home.HomeScreen",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
       "name": "LoginScreen",
       "request": "launch",
       "mainClass": "auth.LoginScreen",
