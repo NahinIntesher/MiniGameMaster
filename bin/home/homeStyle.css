@@ -264,8 +264,8 @@
     -fx-border-color: #000000;
     -fx-border-width: 2px;
     -fx-alignment: CENTER;
-    -fx-pref-height: 110px;
-    -fx-max-height: 110px;
+    -fx-pref-height: 120px;
+    -fx-max-height: 120px;
     -fx-cursor: hand;
 }
 .clan-btn-icon {
@@ -274,7 +274,7 @@
 }
 .clan-btn-text {
     -fx-font-family: "Poppins SemiBold";
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
 }
 .clan-btn:hover {
     -fx-scale-x: 1.05;
