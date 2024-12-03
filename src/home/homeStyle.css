@@ -10,6 +10,14 @@
     font-family: "Poppins Medium";
     src: url("../../resources/fonts/Poppins-Medium.ttf");
 }
+@font-face {
+    font-family: "Poppins SemiBold";
+    src: url("../../resources/fonts/Poppins-SemiBold.ttf");
+}
+@font-face {
+    font-family: "Ador Orjoma Unicode";
+    src: url("../../resources/fonts/Ador-Orjoma.ttf");
+}
 
 
 @font-face {
@@ -25,16 +33,27 @@
 }
 
 
-.game-title {
-    -fx-font-size: 36px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #000000;
+.game-logo-cont {
+    -fx-alignment: TOP_CENTER;
 }
 
-.game-subtitle {
-    -fx-font-size: 48px;
+.game-logo-title {
+    -fx-font-size: 120px;
+    -fx-font-weight: bold;
+    -fx-fill: #fefe00;
+    -fx-text-fill: #fefe00;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 2px;
+    -fx-font-family: "Ador Orjoma Unicode";
+    -fx-translate-y: -14;
+}
+
+.game-logo-sub-title {
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
+    -fx-translate-y: 14;
+    -fx-font-family: "Poppins SemiBold";
 }
 
 
@@ -134,17 +153,32 @@
     -fx-text-fill: #ffffff;
 }
 
+.left-cont {
+    -fx-pref-width: 80px;
+    -fx-max-width: 80px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.right-cont {
+    -fx-pref-width: 80px;
+    -fx-max-width: 80px;
+    -fx-alignment: CENTER_RIGHT;
+}
+
 .top-cont {
     -fx-padding: 10px 0;
+    -fx-pref-height: 120px;
 }
 
 .player-detail {
     -fx-background-color: #0000cc;
-    -fx-padding: 16px;
+    -fx-padding: 20px;
     -fx-pref-height: -1;
-    -fx-shape: "M 50 0 L 580 0 L 550 200 L 50 200 Z";
+    -fx-shape: "M 50 0 L 600 0 L 550 200 L 50 200 Z";
     -fx-border-color: #000000;
     -fx-border-width: 2px;
+    -fx-pref-width: 240px;
+    -fx-max-width: 240px;
 }
 .player-detail-pic {
     -fx-pref-width: 60px;
@@ -167,22 +201,83 @@
     -fx-background-color: #00000033;
     -fx-alignment: CENTER-LEFT;
     -fx-translate-x: 10;
-    -fx-max-width: 80px;
+    -fx-max-width: 82px;
 }
 .player-detail-trophy-icon {
     -fx-font-family: "MGMIcon";
+    -fx-fill: #fefe00;
     -fx-text-fill: #fefe00;
     -fx-font-size: 20px;
     -fx-scale-x: 1.5;
     -fx-scale-y: 1.5;
     -fx-translate-x: -8;
-    -fx-translate-y: -2;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 1px;
 }
 
 
 .player-detail-trophy-text {
     -fx-text-fill: #ffffff;
-    -fx-font-family: "Poppins Medium";
+    -fx-font-weight: bold;
     -fx-font-size: 18px;
     -fx-padding: 1px 4px;
+    -fx-stroke: firebrick;
+    -fx-stroke-width: 4px;
+}
+
+
+.gold-box {
+    -fx-background-color: #fefe00;
+    -fx-pref-width: 160px;
+    -fx-max-width: 160px;
+    -fx-pref-height: 45px;
+    -fx-max-height: 45px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+}
+
+.gold-box-icon {
+    -fx-font-family: "MGMIcon";
+    -fx-fill: #fefe00;
+    -fx-text-fill: #fefe00;
+    -fx-font-size: 24px;
+    -fx-scale-x: 2;
+    -fx-scale-y: 2;
+    -fx-translate-x: -8;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 1px;
+}
+
+.gold-box-text {
+    -fx-text-fill: #000000;
+    -fx-font-family: "Poppins SemiBold";
+    -fx-font-size: 20px;
+    -fx-padding: 2px 12px;
+    -fx-pref-width: 125px;
+    -fx-alignment: CENTER;
+}
+
+.clan-btn {
+    -fx-shape: "M 0 15 L 100 0 L 100 100 L 0 85 Z";
+    -fx-background-color: #fefe00;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-alignment: CENTER;
+    -fx-pref-height: 110px;
+    -fx-max-height: 110px;
+    -fx-cursor: hand;
+}
+.clan-btn-icon {
+    -fx-font-family: "MGMIcon";
+    -fx-font-size: 36px;
+}
+.clan-btn-text {
+    -fx-font-family: "Poppins SemiBold";
+    -fx-font-size: 16px;
+}
+.clan-btn:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-background-color: #eded00;
 }

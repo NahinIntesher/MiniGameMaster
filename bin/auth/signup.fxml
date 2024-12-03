@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml" prefWidth="1000" prefHeight="600" styleClass="root-pane" fx:controller="auth.SignupController">
+<StackPane xmlns:fx="http://javafx.com/fxml" prefWidth="1000" prefHeight="600" styleClass="root-pane"  stylesheets="@styles.css" fx:controller="auth.SignupController">
     <HBox spacing="0" alignment="CENTER" maxWidth="800" maxHeight="500" styleClass="form-pane">
         <!-- Left Section -->
         <VBox alignment="CENTER" prefWidth="300" styleClass="left-section">
@@ -28,7 +28,7 @@
                 <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="input-field" />
             </VBox>
             <Button fx:id="signupButton" text="Signup" styleClass="login-button" onAction="#signupButtonOnAction"/>
-            <Button text="Login with your account" styleClass="create-account-button" />
+            <Button text="Login with your account" styleClass="create-account-button" onAction="#gotoLoginButtonAction" />
         </VBox>
     </HBox>
 </StackPane>

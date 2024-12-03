@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.prefs.Preferences;
+
+import database.DatabaseConnection;
 
 public class LoginController {
     @FXML
@@ -31,6 +34,23 @@ public class LoginController {
     private Label loginMessageLabel;
 
     @FXML
+    private void gotoSignupButtonAction(ActionEvent e){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("./signup.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            root.requestFocus();
+            stage.setTitle("Signup");
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    @FXML
     public void loginButtonOnAction(ActionEvent e) {
         if (usernameField.getText().isBlank()) {
             loginMessageLabel.setVisible(true);
@@ -42,23 +62,27 @@ public class LoginController {
             loginMessageLabel.setText("Please enter password!");
         } else {
             DatabaseConnection databaseConnection = new DatabaseConnection();
+            Connection connection = null;
+            Statement statement = null;
+            ResultSet result = null;
 
-            Connection connection = databaseConnection.getConnection();
-
-            String query = "SELECT * FROM users WHERE username = '" + usernameField.getText() + "'";
             try {
-                Statement statement = connection.createStatement();
-                ResultSet result = statement.executeQuery(query);
+                connection = databaseConnection.getConnection();
+                statement = connection.createStatement();
+                
+                String query = "SELECT * FROM users WHERE username = '" + usernameField.getText() + "'";
+                
+                result = statement.executeQuery(query);
 
                 if (result.next()) {
-                    String username = result.getString("username");
+                    String userid = result.getString("id");
                     String password = result.getString("password");
-
-                    System.out.println(password);
-                    System.out.println(passwordField.getText());
 
                     if (password.equals(passwordField.getText())) {
                         try {
+                            Preferences preferences = Preferences.userRoot().node("authData");
+                            preferences.put("userid", userid);
+
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
                             Parent root = loader.load();
                 
@@ -84,6 +108,14 @@ public class LoginController {
 
             } catch (Exception ex) {
                 ex.printStackTrace();
+            } finally {
+                try {
+                    if (result != null) result.close();
+                    if (statement != null) statement.close();
+                    if (connection != null) connection.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ public class SignupScreen extends Application {
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+            root.requestFocus();
 
             primaryStage.setTitle("Signup");
             primaryStage.setScene(scene);
