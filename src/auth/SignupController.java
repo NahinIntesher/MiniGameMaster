@@ -38,61 +38,63 @@ public class SignupController {
         if (usernameField.getText().isBlank()) {
             loginMessageLabel.setVisible(true);
             loginMessageLabel.setManaged(true);
-            loginMessageLabel.setText("Please enter username!");
+            loginMessageLabel.setText("Please enter a username!");
         } else if (emailField.getText().isBlank()) {
             loginMessageLabel.setVisible(true);
             loginMessageLabel.setManaged(true);
-            loginMessageLabel.setText("Please enter email!");
+            loginMessageLabel.setText("Please enter an email!");
         } else if (passwordField.getText().isBlank()) {
             loginMessageLabel.setVisible(true);
             loginMessageLabel.setManaged(true);
-            loginMessageLabel.setText("Please enter password!");
+            loginMessageLabel.setText("Please enter a password!");
         } else {
             DatabaseConnection databaseConnection = new DatabaseConnection();
+            Connection connection = null;
+            Statement statement = null;
 
-            Connection connection = databaseConnection.getConnection();
-
-            String query = "INSERT INTO Customers (email, ContactName, Address, City, PostalCode, Country)\r\n" + //
-                                "VALUES ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');" + usernameField.getText() + "'";
             try {
-                Statement statement = connection.createStatement();
-                ResultSet result = statement.executeQuery(query);
+                connection = databaseConnection.getConnection();
+                statement = connection.createStatement();
 
-                if (result.next()) {
-                    String username = result.getString("username");
-                    String password = result.getString("password");
+                String query = "INSERT INTO users (email, username, password, trophies) " +
+                    "VALUES ('" + emailField.getText() + "', '" + usernameField.getText() + "', '" + passwordField.getText() + "', 0)";
 
-                    System.out.println(password);
-                    System.out.println(passwordField.getText());
+                int rowsAffected = statement.executeUpdate(query);
 
-                    if (password.equals(passwordField.getText())) {
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
-                            Parent root = loader.load();
-                
-                            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                
-                            stage.setScene(new Scene(root));
-                            stage.setTitle("Dashboard");
-                            stage.show();
+                if (rowsAffected > 0) {
+                    // System.out.println("register success");
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
+                        Parent root = loader.load();
 
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    } else {
-                        loginMessageLabel.setVisible(true);
-                        loginMessageLabel.setManaged(true);
-                        loginMessageLabel.setText("Password does not found!");
+                        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+                        stage.setScene(new Scene(root));
+                        stage.setTitle("Dashboard");
+                        stage.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                 } else {
                     loginMessageLabel.setVisible(true);
                     loginMessageLabel.setManaged(true);
-                    loginMessageLabel.setText("User not found!");
+                    loginMessageLabel.setText("Failed to register user.");
                 }
-
             } catch (Exception ex) {
                 ex.printStackTrace();
+                loginMessageLabel.setVisible(true);
+                loginMessageLabel.setManaged(true);
+                loginMessageLabel.setText("An error occurred while registering.");
+            } finally {
+                try {
+                    if (statement != null) statement.close();
+                    if (connection != null) connection.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
+
+    
 }

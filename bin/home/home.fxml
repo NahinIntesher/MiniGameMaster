@@ -66,25 +66,25 @@
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
                      <children>
                         <Label styleClass="footer-btn-icon" text="" />
-                        <Label style="-fx-min-width: fit-content;" styleClass="footer-btn-name" text="Friends" />
+                        <Label styleClass="footer-btn-name" text="Friends" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
                      <children>
                         <Label styleClass="footer-btn-icon" text="" />
-                        <Label style="-fx-min-width: fit-content;" styleClass="footer-btn-name" text="Settings" />
+                        <Label styleClass="footer-btn-name" text="Settings" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
                      <children>
                         <Label styleClass="footer-btn-icon" text="" />
-                        <Label style="-fx-min-width: fit-content;" styleClass="footer-btn-name" text="Leaderboard" />
+                        <Label styleClass="footer-btn-name" text="Leaderboard" />
                      </children>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
                      <children>
                         <Label styleClass="footer-btn-icon" text="" />
-                        <Label style="-fx-min-width: fit-content;" styleClass="footer-btn-name" text="Shops" />
+                        <Label styleClass="footer-btn-name" text="Shops" />
                      </children>
                   </VBox>
                </children>
