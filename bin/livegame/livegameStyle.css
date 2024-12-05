@@ -1,0 +1,58 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../../resources/fonts/Poppins-Regular.ttf");
+}
+@font-face {
+    font-family: "Poppins";
+    src: url("../../resources/fonts/Poppins-Bold.ttf");
+}
+@font-face {
+    font-family: "Poppins Medium";
+    src: url("../../resources/fonts/Poppins-Medium.ttf");
+}
+@font-face {
+    font-family: "Poppins SemiBold";
+    src: url("../../resources/fonts/Poppins-SemiBold.ttf");
+}
+@font-face {
+    font-family: "MGMIcon";
+    src: url("../../resources/fonts/MGMIcon.ttf");
+}
+
+.root {
+    -fx-font-family: "Poppins";
+}
+
+
+.player-blue-detail {
+    -fx-background-color: #0000cc;
+    -fx-border-color: transparent transparent #000000 transparent;
+    -fx-border-width: 2px;
+}
+
+.player-red-detail {
+    -fx-background-color: #cc0000;
+    -fx-border-color: transparent transparent #000000 transparent;
+    -fx-border-width: 2px;
+}
+
+.time-box {
+    -fx-shape: "M 8 100 L 92 100 L 100 0 L 0 0 Z";
+    -fx-background-color: #fefe00;
+    -fx-alignment: CENTER;
+    -fx-padding: 8px;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+}
+
+.time-box-title {
+    -fx-font-family: "Poppins Medium";
+    -fx-font-size: 14px;
+    -fx-translate-y: 6px;
+}
+.time-box-time {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}

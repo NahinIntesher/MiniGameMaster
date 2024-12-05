@@ -51,7 +51,7 @@ public class LoginController {
 
 
     @FXML
-    public void loginButtonOnAction(ActionEvent e) {
+    private void loginButtonOnAction(ActionEvent e) {
         if (usernameField.getText().isBlank()) {
             loginMessageLabel.setVisible(true);
             loginMessageLabel.setManaged(true);

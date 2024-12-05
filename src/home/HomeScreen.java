@@ -15,8 +15,6 @@ public class HomeScreen extends Application {
 
             Scene scene = new Scene(root);
 
-            scene.getStylesheets().add(getClass().getResource("homeStyle.css").toExternalForm());
-
             primaryStage.setScene(scene);
             primaryStage.setTitle("Mini Game Master"); 
             primaryStage.show(); 

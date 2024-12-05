@@ -3,6 +3,28 @@
   "configurations": [
     {
       "type": "java",
+      "name": "GameClient",
+      "request": "launch",
+      "mainClass": "livegame.GameClient",
+      "projectName": "DemoGame_1d4b881e",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "GameServer",
+      "request": "launch",
+      "mainClass": "livegame.GameServer",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
       "name": "SignupScreen",
       "request": "launch",
       "mainClass": "auth.SignupScreen",
