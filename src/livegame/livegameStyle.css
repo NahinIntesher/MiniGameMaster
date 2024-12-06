@@ -23,6 +23,11 @@
     -fx-font-family: "Poppins";
 }
 
+.child-container {
+    background-color: red;
+    -fx-pref-width: -1; 
+}
+
 
 .player-blue-detail {
     -fx-background-color: #0000cc;
@@ -41,18 +46,71 @@
     -fx-background-color: #fefe00;
     -fx-alignment: CENTER;
     -fx-padding: 8px;
-    -fx-scale-x: 1.2;
-    -fx-scale-y: 1.2;
     -fx-border-color: #000000;
     -fx-border-width: 2px;
+    -fx-translate-y: -2px;
+    -fx-pref-width: 220px;
+    -fx-pref-height: 90px;
+    -fx-max-width: 200px;
+    -fx-max-height: 90px;
 }
 
 .time-box-title {
     -fx-font-family: "Poppins Medium";
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-translate-y: 6px;
 }
 .time-box-time {
-    -fx-font-size: 32px;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
+}
+
+.playground-blue {
+    -fx-border-color: transparent #000000 transparent transparent;
+    -fx-border-width: 1.5px;
+    -fx-background-color: green;
+}
+
+.playground-red {
+    -fx-border-color: transparent transparent transparent #000000;
+    -fx-border-width: 1.5px;
+    -fx-background-color: cyan;
+}
+
+.center {
+    -fx-alignment: CENTER;
+}
+
+.progress-bar-stick {
+    -fx-background-color: #fefe00;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-max-height: 12px;
+    -fx-pref-height: 12px;
+}
+
+.progress-bar-point {
+    -fx-max-width: 25px;
+    -fx-max-height: 25px;
+    -fx-pref-width: 25px;
+    -fx-pref-height: 25px;
+    -fx-background-color: #fefe00;
+    -fx-border-radius: 13px;
+    -fx-background-radius: 15px;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+}
+
+.progress-bar-text {
+    -fx-font-size: 14px;
+}
+
+.progress-bar-cont {
+    -fx-shape: "M 0 100 L 100 100 L 95 0 L 5 0 Z";
+    -fx-background-color: #fefe00;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-max-height: 60px;
+    -fx-pref-height: 60px;
+    -fx-translate-y: 4px;
 }

@@ -53,7 +53,7 @@ public class HomeController {
     @FXML
     private void liveGameButtonAction() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../livegame/findingplayer.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../livegame/livegame.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) borderPane.getScene().getWindow();
 

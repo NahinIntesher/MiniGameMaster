@@ -26,9 +26,7 @@ public class GameClient extends Application {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             StackPane root = new StackPane();
-            statusText = new Text("Waiting for opponent...");
-            root.getChildren().add(statusText);
-
+ 
             Scene scene = new Scene(root, 400, 400);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Snake Game");

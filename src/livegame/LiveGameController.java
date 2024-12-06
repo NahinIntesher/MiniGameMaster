@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class LiveGameController {
@@ -20,12 +22,16 @@ public class LiveGameController {
     private BufferedReader in;
 
     @FXML
-    private BorderPane findingPlayerContainer;
+    private StackPane findingPlayerContainer;
+
+    @FXML
+    private StackPane runningGameContainer;
+
+    @FXML
+    private StackPane playerBluePlayground;
 
     @FXML
     public void initialize() {
-        System.out.println("hullo");
-
         try {
             socket = new Socket("localhost", 12345); // Connect to the server
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -38,18 +44,13 @@ public class LiveGameController {
                         System.out.println("Server says: " + message);
                         if (message.startsWith("Game starting")) {
                             Platform.runLater(() -> {
-                                try {
-                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("livegame.fxml"));
-                                    Parent newRoot = loader.load();
+                                findingPlayerContainer.setVisible(false);
+                                findingPlayerContainer.setManaged(false);
+                                runningGameContainer.setVisible(true);
+                                runningGameContainer.setManaged(true);
 
-                                    Scene newScene = new Scene(newRoot);
-                                    Stage currentStage = (Stage) findingPlayerContainer.getScene().getWindow();
-                                    currentStage.setScene(newScene);
-                                    currentStage.setTitle("Game");
-                                    currentStage.show();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                                Label newLabel = new Label("New Label at Runtime");
+                                playerBluePlayground.getChildren().add(newLabel);
                             });
                         } else if (message.startsWith("Waiting for another player")) {
 
