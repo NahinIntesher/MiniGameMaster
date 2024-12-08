@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.util.UUID;
+import java.util.prefs.Preferences;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,6 +24,11 @@ public class LiveGameController {
     private PrintWriter out;
     private BufferedReader in;
 
+    String playerId = UUID.randomUUID().toString();
+
+    Preferences preferences = Preferences.userRoot().node("authData");
+    String userid = preferences.get("userid", "default");
+
     @FXML
     private StackPane findingPlayerContainer;
 
@@ -31,12 +39,30 @@ public class LiveGameController {
     private StackPane playerBluePlayground;
 
     @FXML
-    public void initialize() {
+    private StackPane playerRedPlayground;
+
+    @FXML
+    public void initialize() {  
         try {
-            socket = new Socket("localhost", 12345); // Connect to the server
+            String IPV4Address = InetAddress.getLocalHost().getHostAddress();
+            socket = new Socket(IPV4Address, 12345); // Connect to the server
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        }
+        catch (Exception e) {  
+            e.printStackTrace();
+        }
 
+        Platform.runLater(() -> {
+            Scene primaryScene = runningGameContainer.getScene(); 
+
+            primaryScene.setOnKeyPressed(event -> {
+                out.println(playerId+":move:"+event.getCode());
+            });
+        });
+
+        System.out.println(playerId);
+        try {
             new Thread(() -> {
                 try {
                     String message;
@@ -49,11 +75,12 @@ public class LiveGameController {
                                 runningGameContainer.setVisible(true);
                                 runningGameContainer.setManaged(true);
 
-                                Label newLabel = new Label("New Label at Runtime");
-                                playerBluePlayground.getChildren().add(newLabel);
-                            });
-                        } else if (message.startsWith("Waiting for another player")) {
+                                SnakeGame snakeGameBlue = new SnakeGame(socket, playerId);
+                                playerBluePlayground.getChildren().add(snakeGameBlue);
 
+                                SnakeGame snakeGameRed= new SnakeGame(socket, playerId);
+                                playerRedPlayground.getChildren().add(snakeGameRed);
+                            });
                         }
                     }
                 } catch (IOException e) {

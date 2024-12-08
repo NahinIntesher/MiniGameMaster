@@ -92,9 +92,10 @@ public class GameServer {
         private void broadcastToRoom(String roomId, String message) {
             for (Socket player : rooms.get(roomId)) {
                 try {
-                    if (player != socket) {  // Don't send back to the original sender
-                        new PrintWriter(player.getOutputStream(), true).println(message);
-                    }
+                    //if (player != socket) {  } // Don't send back to the original sender
+                    new PrintWriter(player.getOutputStream(), true).println(message);
+                    
+                    System.out.println(message);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
