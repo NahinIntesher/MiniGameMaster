@@ -57,7 +57,7 @@
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="time-box">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="time-box-title" text="Battle Running" />
-                        <Label fx:id="battleTimer" styleClass="time-box-time" text="00:00" />
+                        <Label styleClass="time-box-time" text="00:00" fx:id="battleTimer"/>
                      </children>
                   </VBox>
                </children>
@@ -171,19 +171,14 @@
             </StackPane>
          </children>
       </StackPane>
-      <StackPane fx:id="startingInContainer" managed="false" styleClass="starting-in-screen" visible="false">
+      <StackPane styleClass="starting-in-screen" fx:id="startingInContainer" managed="false" visible="false">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label styleClass="starting-in-screen-title" text="Battle Starting In" />
-                  <Text fx:id="startingInCount" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="starting-in-screen-count" text="5" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="starting-in-screen-count" text="5" fx:id="startingInCount"/>
                </children>
             </VBox>
-         </children>
-      </StackPane>
-      <StackPane managed="false" visible="false" styleClass="victory-screen" fx:id="victoryContainer">
-         <children>
-            <Label styleClass="victory-screen-title" text="Victory"  fx:id="victoryLabel"/>
          </children>
       </StackPane>
    </children>

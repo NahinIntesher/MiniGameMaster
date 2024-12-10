@@ -33,12 +33,14 @@
     -fx-background-color: #0000cc;
     -fx-border-color: transparent transparent #000000 transparent;
     -fx-border-width: 2px;
+    -fx-padding: 0 0 80px 0;
 }
 
 .player-red-detail {
     -fx-background-color: #cc0000;
     -fx-border-color: transparent transparent #000000 transparent;
     -fx-border-width: 2px;
+    -fx-padding: 0 0 80px 0;
 }
 
 .time-box {
@@ -68,14 +70,14 @@
 .playground-blue {
     -fx-border-color: transparent #000000 transparent transparent;
     -fx-border-width: 1.5px;
-    -fx-background-color: green;
+    -fx-background-color: gray;
     -fx-alignment: CENTER;
 }
 
 .playground-red {
     -fx-border-color: transparent transparent transparent #000000;
     -fx-border-width: 1.5px;
-    -fx-background-color: green;
+    -fx-background-color: gray;
 }
 
 .center {
@@ -114,4 +116,47 @@
     -fx-max-height: 60px;
     -fx-pref-height: 60px;
     -fx-translate-y: 4px;
+}
+
+.starting-in-screen {
+    -fx-background-color: #00000066;
+    -fx-alignment: CENTER;
+}
+
+
+.starting-in-screen-title {
+    -fx-shape: "M 10 0 L 90 0 L 100 50 L 90 100 L 10 100 L 0 50 Z";
+    -fx-background-color: #fefe00;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-font-family: "Poppins Medium";
+    -fx-font-size: 22px;
+    -fx-padding: 14px 38px;
+}
+
+
+.starting-in-screen-count {
+    -fx-fill: #fefe00;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 2px;
+    -fx-font-weight: bold;
+    -fx-font-size: 200px;
+}
+
+
+.victory-screen {
+    -fx-background-color: #00000066;
+    -fx-alignment: CENTER;
+}
+
+
+.victory-screen-title {
+    -fx-shape: "M 15 0 L 85 0 L 100 50 L 85 100 L 15 100 L 0 50 Z";
+    -fx-background-color: #fefe00;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+    -fx-font-size: 52px;
+    -fx-padding: 20px 80px;
 }

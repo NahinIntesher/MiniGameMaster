@@ -5,6 +5,8 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import org.json.JSONObject;
+
 public class GameServer {
     private static final int PORT = 12345;
     private static final ConcurrentHashMap<String, List<Socket>> rooms = new ConcurrentHashMap<>();
@@ -39,9 +41,28 @@ public class GameServer {
                 out = new PrintWriter(socket.getOutputStream(), true);
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                // Find or create a room for the player
-                String roomId = findOrCreateRoom();
-                System.out.println("Player added to room: " + roomId);
+                // Wait for first message to determine room joining strategy
+                String firstMessage = in.readLine();
+                if (firstMessage == null) {
+                    throw new IOException("No initial message received");
+                }
+
+                String roomId;
+                if (firstMessage.equals("findRoom")) {
+                    // Original logic: find or create a room with one player
+                    roomId = findOrCreateRoom();
+                    System.out.println("Player added to room: " + roomId);
+                } else if (firstMessage.startsWith("joinRoom:")) {
+                    // New logic: join a specific room
+                    roomId = firstMessage.substring("joinRoom:".length());
+                    joinSpecificRoom(roomId);
+                } else {
+                    out.println("Invalid initial command. Use 'findRoom' or 'joinRoom:roomId'");
+                    return;
+                }
+
+                // Send room ID to the client
+                out.println("setRoomId:" + roomId);
 
                 // Check if game can start
                 List<Socket> roomPlayers = rooms.get(roomId);
@@ -89,12 +110,31 @@ public class GameServer {
             return roomId;
         }
 
+        private synchronized void joinSpecificRoom(String roomId) {
+            List<Socket> roomPlayers = rooms.get(roomId);
+            
+            // Check if room exists and is not full
+            if (roomPlayers == null) {
+                roomPlayers = new CopyOnWriteArrayList<>();
+                rooms.put(roomId, roomPlayers);
+            }
+
+            synchronized (roomPlayers) {
+                // if (roomPlayers.size() >= 2) {
+                //     out.println("Room is full. Cannot join.");
+                //     return;
+                // }
+
+                roomPlayers.add(socket);
+                playerRooms.put(socket, roomId);
+                out.println("Joined room: " + roomId);
+            }
+        }
+
         private void broadcastToRoom(String roomId, String message) {
             for (Socket player : rooms.get(roomId)) {
                 try {
-                    //if (player != socket) {  } // Don't send back to the original sender
                     new PrintWriter(player.getOutputStream(), true).println(message);
-                    
                     System.out.println(message);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -103,10 +143,28 @@ public class GameServer {
         }
 
         private void startGameForRoom(String roomId) {
-            System.out.println("Game starting in room: " + roomId);
+            System.out.println("startGame: " + roomId);
             for (Socket player : rooms.get(roomId)) {
                 try {
-                    new PrintWriter(player.getOutputStream(), true).println("Game starting in room " + roomId);
+                    JSONObject initializationInfo = new JSONObject();
+
+                    String games[] = {"Snake", "Tetirs", "Golf"};
+
+                    JSONObject game1InitInfo = new JSONObject();
+                    JSONObject game2InitInfo = new JSONObject();
+                    JSONObject game3InitInfo = new JSONObject();
+
+                    game1InitInfo.put("randomFoodX", "");
+                    game1InitInfo.put("randomFoodY", "");
+                    
+                    JSONObject gamesInitInfo[] = {game1InitInfo, game2InitInfo, game3InitInfo};
+
+                    initializationInfo.put("type", "gameInitialize");
+                    initializationInfo.put("games", games);
+                    initializationInfo.put("gamesInitInfo", gamesInitInfo);
+
+                    new PrintWriter(player.getOutputStream(), true).println(initializationInfo);
+                    new PrintWriter(player.getOutputStream(), true).println("startGame:" + roomId);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
