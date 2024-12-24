@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml" prefWidth="1000" prefHeight="600" styleClass="root-pane" stylesheets="@styles.css" fx:controller="auth.LoginController">
+<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="700.0" prefWidth="1200.0"  styleClass="root-pane" stylesheets="@styles.css" fx:controller="auth.LoginController">
     <HBox spacing="0" alignment="CENTER" maxWidth="800" maxHeight="500" styleClass="form-pane">
         <!-- Left Section -->
         <VBox alignment="CENTER" prefWidth="300" styleClass="left-section">

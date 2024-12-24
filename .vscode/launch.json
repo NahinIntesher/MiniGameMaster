@@ -3,6 +3,22 @@
   "configurations": [
     {
       "type": "java",
+      "name": "MiniGolf",
+      "request": "launch",
+      "mainClass": "livegame.MiniGolf",
+      "projectName": "DemoGame_1d4b881e",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "TetrisGame",
+      "request": "launch",
+      "mainClass": "livegame.TetrisGame",
+      "projectName": "DemoGame_1d4b881e",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
       "name": "SnakeGame",
       "request": "launch",
       "mainClass": "livegame.SnakeGame",

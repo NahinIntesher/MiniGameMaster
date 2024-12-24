@@ -268,7 +268,7 @@ public class SnakeGame extends StackPane {
             if (self) {
                 spawnFood();
             }
-            if(score == targetScore) {
+            if(self && score == targetScore) {
                 out.println("gameComplete:"+playerId);
             }
         } else {
