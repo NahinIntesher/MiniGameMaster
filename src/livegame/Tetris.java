@@ -35,7 +35,7 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Tetris extends StackPane {
+public class Tetris extends LiveGame {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -56,10 +56,10 @@ public class Tetris extends StackPane {
     private int[][] nextTetromino = null;
     private int currentX, currentY;
     private Label currentScoreValue;
+    private Boolean running = true;
     private int score = 0;
-    private int targetScore = 30;
+    private int targetScore = 50;
 
-    
     private String message;
     private JSONArray jsonBoard;
     private JSONArray jsonCurrentTetromino;
@@ -103,19 +103,19 @@ public class Tetris extends StackPane {
 
         for (int i = 0; i < newBlock.length; i++) {
             for (int j = 0; j < newBlock[i].length; j++) {
-                if(newBlock[i][j] != 0) {
-                    newBlock[i][j] = randomShape[shapeI]+1;
+                if (newBlock[i][j] != 0) {
+                    newBlock[i][j] = randomShape[shapeI] + 1;
                 }
             }
         }
 
-        if(shapeI < 99) {
+        if (shapeI < 99) {
             shapeI++;
         } else {
             shapeI = 0;
         }
 
-        return newBlock; 
+        return newBlock;
     }
 
     void rotate() {
@@ -128,7 +128,7 @@ public class Tetris extends StackPane {
         currentTetromino = rotated;
     }
 
-    public Tetris(String roomId, String playerId, boolean self) {   
+    public Tetris(String roomId, String playerId, boolean self) {
         this.playerId = playerId;
         this.self = self;
 
@@ -197,7 +197,7 @@ public class Tetris extends StackPane {
         targetScoreLabel.setFont(Font.font("Poppins Medium", 16));
         targetScoreLabel.setTextFill(Color.BLACK);
 
-        Label targetScoreValue = new Label("30");
+        Label targetScoreValue = new Label(String.valueOf(targetScore));
         targetScoreValue.setFont(Font.font("Poppins Bold", 32));
         targetScoreValue.setTextFill(Color.BLACK);
 
@@ -230,7 +230,7 @@ public class Tetris extends StackPane {
 
     private void setupGameLoop(GraphicsContext gc) {
         new Thread(() -> {
-            while (true) {
+            while (running) {
                 try {
                     Thread.sleep(500); // Drop speed
                     Platform.runLater(() -> {
@@ -246,7 +246,7 @@ public class Tetris extends StackPane {
             }
         }).start();
 
-            new Thread(() -> {
+        new Thread(() -> {
             try {
                 while ((message = in.readLine()) != null) {
                     String messageType = message.split(":")[0];
@@ -257,18 +257,24 @@ public class Tetris extends StackPane {
                             updateGameState(gameState);
                         }
                     }
-                    // if (!self && messageType.equals("gameOver")) {
-                    //     String fromPlayerId = message.split(":")[1];
-                    //     if (!fromPlayerId.equals(playerId)) {
-                    //         gameOver();
-                    //     }
-                    // }
+
+                    if (messageType.equals("gameComplete")) {
+                        String fromPlayerId = message.split(":")[1];
+                        if (!self && !fromPlayerId.equals(playerId)) {
+                            terminateGame();
+                            break;
+                        }
+                        if (self && fromPlayerId.equals(playerId)) {
+                            terminateGame();
+                            break;
+                        }
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
-    
+
     }
 
     public void actionOnKeyPressed(String key) {
@@ -301,7 +307,7 @@ public class Tetris extends StackPane {
         currentX = BOARD_WIDTH / 2 - currentTetromino.length / 2;
         currentY = 0;
 
-        if(self) {
+        if (self) {
             drawNextBlockPreview();
             sendGameState("all");
         }
@@ -318,7 +324,7 @@ public class Tetris extends StackPane {
             currentY--;
             placeTetromino();
             clearLines();
-            if(self) {
+            if (self) {
                 sendGameState("all");
             }
             currentTetromino = null;
@@ -402,12 +408,12 @@ public class Tetris extends StackPane {
                 linesToClear.add(row);
             }
         }
-    
+
         // If no lines to clear, return
         if (linesToClear.isEmpty()) {
             return;
         }
-    
+
         // Create a deep copy of the current board state
         int[][] newBoard = new int[BOARD_HEIGHT][BOARD_WIDTH];
         for (int row = 0; row < BOARD_HEIGHT; row++) {
@@ -415,14 +421,14 @@ public class Tetris extends StackPane {
                 newBoard[row][col] = board[row][col];
             }
         }
-    
+
         // Clear the original board
         for (int row = 0; row < BOARD_HEIGHT; row++) {
             for (int col = 0; col < BOARD_WIDTH; col++) {
                 board[row][col] = 0;
             }
         }
-    
+
         // Rebuild the board without the cleared lines
         int newRow = BOARD_HEIGHT - 1;
         for (int row = BOARD_HEIGHT - 1; row >= 0; row--) {
@@ -430,7 +436,7 @@ public class Tetris extends StackPane {
             if (linesToClear.contains(row)) {
                 continue;
             }
-    
+
             // Copy the non-cleared line to the new position
             for (int col = 0; col < BOARD_WIDTH; col++) {
                 if (newBoard[row][col] != 0) {
@@ -439,15 +445,15 @@ public class Tetris extends StackPane {
             }
             newRow--;
         }
-    
+
         // Calculate score based on number of lines cleared
         int linesCleared = linesToClear.size();
-        score += linesCleared * 10;  // Bonus for multiple line clear
-        
-        if(self && score == targetScore) {
-            out.println("gameComplete:"+playerId);
+        score += linesCleared * 10; // Bonus for multiple line clear
+
+        if (self && score >= targetScore) {
+            out.println("gameComplete:" + playerId);
         }
-    
+
         // Update score label
         Platform.runLater(() -> currentScoreValue.setText(String.valueOf(score)));
     }
@@ -459,6 +465,7 @@ public class Tetris extends StackPane {
             }
         }
         score = 0;
+        sendGameState("all");
         Platform.runLater(() -> currentScoreValue.setText("0"));
     }
 
@@ -485,7 +492,7 @@ public class Tetris extends StackPane {
         for (int row = 0; row < BOARD_HEIGHT; row++) {
             for (int col = 0; col < BOARD_WIDTH; col++) {
                 if (board[row][col] != 0) {
-                    gc.setFill(COLORS[board[row][col]-1]);
+                    gc.setFill(COLORS[board[row][col] - 1]);
                     gc.fillRect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
                     gc.strokeRect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -499,7 +506,7 @@ public class Tetris extends StackPane {
             for (int row = 0; row < currentTetromino.length; row++) {
                 for (int col = 0; col < currentTetromino[row].length; col++) {
                     if (currentTetromino[row][col] != 0) {
-                        gc.setFill(COLORS[currentTetromino[row][col]-1]);
+                        gc.setFill(COLORS[currentTetromino[row][col] - 1]);
                         gc.fillRect(
                                 (currentX + col) * CELL_SIZE,
                                 (currentY + row) * CELL_SIZE,
@@ -529,7 +536,7 @@ public class Tetris extends StackPane {
         for (int row = 0; row < nextTetromino.length; row++) {
             for (int col = 0; col < nextTetromino[row].length; col++) {
                 if (nextTetromino[row][col] != 0) {
-                    nextBlockGc.setFill(COLORS[nextTetromino[row][col]-1]);
+                    nextBlockGc.setFill(COLORS[nextTetromino[row][col] - 1]);
                     nextBlockGc.fillRect(
                             col * PREVIEW_CELL_SIZE + 5 + offsetX,
                             row * PREVIEW_CELL_SIZE + 5 + offsetY,
@@ -548,29 +555,31 @@ public class Tetris extends StackPane {
         }
     }
 
+    public void terminateGame() {
+        running = false;
+    }
+
     public void updateGameState(JSONObject gameState) {
         this.currentX = gameState.getInt("currentX");
         this.currentY = gameState.getInt("currentY");
         this.shapeI = gameState.getInt("shapeI");
 
-        System.out.println(this.score);
-        System.out.println(gameState.getInt("score"));
-        if(this.score != gameState.getInt("score")) {
+        if (this.score != gameState.getInt("score")) {
             this.score = gameState.getInt("score");
             Platform.runLater(() -> currentScoreValue.setText(String.valueOf(score)));
         }
-                
+
         if (gameState.has("currentTetromino")) {
             jsonCurrentTetromino = gameState.getJSONArray("currentTetromino");
-            
+
             newCurrentTetromino = new int[jsonCurrentTetromino.length()][];
-            
+
             for (int i = 0; i < jsonCurrentTetromino.length(); i++) {
                 JSONArray innerArray = jsonCurrentTetromino.getJSONArray(i);
                 int cols = innerArray.length();
-    
+
                 newCurrentTetromino[i] = new int[cols];
-    
+
                 for (int j = 0; j < cols; j++) {
                     newCurrentTetromino[i][j] = innerArray.getInt(j);
                 }
@@ -582,14 +591,13 @@ public class Tetris extends StackPane {
             jsonNextTetromino = gameState.getJSONArray("nextTetromino");
 
             newNextTetromino = new int[jsonNextTetromino.length()][];
-            
+
             for (int i = 0; i < jsonNextTetromino.length(); i++) {
                 JSONArray innerArray = jsonNextTetromino.getJSONArray(i);
                 int cols = innerArray.length();
-    
-                
+
                 newNextTetromino[i] = new int[cols];
-    
+
                 for (int j = 0; j < cols; j++) {
                     newNextTetromino[i][j] = innerArray.getInt(j);
                 }
@@ -600,14 +608,14 @@ public class Tetris extends StackPane {
 
         if (gameState.has("board")) {
             jsonBoard = gameState.getJSONArray("board");
-        
+
             newBoard = new int[BOARD_HEIGHT][BOARD_WIDTH];
-    
+
             for (int i = 0; i < BOARD_HEIGHT; i++) {
                 JSONArray innerArray = jsonBoard.getJSONArray(i);
-    
+
                 newBoard[i] = new int[BOARD_WIDTH];
-    
+
                 for (int j = 0; j < BOARD_WIDTH; j++) {
                     newBoard[i][j] = innerArray.getInt(j);
                 }
@@ -615,7 +623,6 @@ public class Tetris extends StackPane {
             this.board = newBoard;
         }
     }
-
 
     private void sendGameState(String type) {
         JSONObject gameState = new JSONObject();
@@ -625,10 +632,10 @@ public class Tetris extends StackPane {
         gameState.put("currentY", currentY);
         gameState.put("shapeI", shapeI);
         gameState.put("score", score);
-        if(type.equals("currentTetromino")) {
+        if (type.equals("currentTetromino")) {
             gameState.put("currentTetromino", currentTetromino);
         }
-        if(type.equals("all")) {
+        if (type.equals("all")) {
             gameState.put("board", board);
             gameState.put("currentTetromino", currentTetromino);
             gameState.put("nextTetromino", nextTetromino);

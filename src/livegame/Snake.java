@@ -34,7 +34,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class SnakeGame extends StackPane {
+public class Snake extends LiveGame {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -86,14 +86,14 @@ public class SnakeGame extends StackPane {
     private String direction = "RIGHT";
     private boolean running = true;
     private int score = 0; // Added score
-    private int targetScore = 20; // Added score
+    private int targetScore = 10; // Added score
 
     private Timeline timeline;
 
     private Label currentScoreValue = new Label("0");
     private Text gameOverText = new Text("-5");
 
-    public SnakeGame(String roomId, String playerId, boolean self) {
+    public Snake(String roomId, String playerId, boolean self) {
         this.playerId = playerId;
         this.self = self;
 
@@ -149,7 +149,7 @@ public class SnakeGame extends StackPane {
         targetScoreLabel.setFont(Font.font("Poppins Medium", 16));
         targetScoreLabel.setTextFill(Color.WHITE);
 
-        Label targetScoreValue = new Label("20");
+        Label targetScoreValue = new Label("10");
         targetScoreValue.setFont(Font.font("Poppins Bold", 32));
         targetScoreValue.setTextFill(Color.WHITE);
 
@@ -175,7 +175,7 @@ public class SnakeGame extends StackPane {
 
         initGame(0);
 
-        timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> update()));
+        timeline = new Timeline(new KeyFrame(Duration.millis(200), e -> update()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
@@ -190,12 +190,26 @@ public class SnakeGame extends StackPane {
                             updateGameState(gameState);
                         }
                     }
+
                     if (!self && messageType.equals("gameOver")) {
                         String fromPlayerId = message.split(":")[1];
                         if (!fromPlayerId.equals(playerId)) {
                             gameOver();
                         }
                     }
+                    
+                    if (messageType.equals("gameComplete")) {
+                        String fromPlayerId = message.split(":")[1];
+                        if (!self && !fromPlayerId.equals(playerId)) {
+                            terminateGame();
+                            break;
+                        }
+                        if (self && fromPlayerId.equals(playerId)) {
+                            terminateGame();
+                            break;
+                        }
+                    }
+                    
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -268,7 +282,8 @@ public class SnakeGame extends StackPane {
             if (self) {
                 spawnFood();
             }
-            if(self && score == targetScore) {
+            if(self && score >= targetScore) {
+                sendGameState();
                 out.println("gameComplete:"+playerId);
             }
         } else {
@@ -337,6 +352,12 @@ public class SnakeGame extends StackPane {
         running = false;
         timeline.stop();
         Platform.runLater(() -> {
+            if(score-5 >= 0) {
+                gameOverText.setText("-5");
+            }
+            else {
+                gameOverText.setText("0");                        
+            }
             gameOverText.setVisible(true);
         });
 
@@ -346,8 +367,14 @@ public class SnakeGame extends StackPane {
                 Platform.runLater(() -> {
                     gameOverText.setVisible(false);
                 });
-                if (self)
-                    initGame(score - 5);
+                if (self) {
+                    if(score-5 >= 0) {
+                        initGame(score - 5);
+                    }
+                    else {
+                        initGame(0);
+                    }
+                }
                 timeline.play();
             } catch (Exception e) {
                 e.printStackTrace();

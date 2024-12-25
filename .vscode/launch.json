@@ -3,6 +3,22 @@
   "configurations": [
     {
       "type": "java",
+      "name": "CarGame",
+      "request": "launch",
+      "mainClass": "livegame.CarGame",
+      "projectName": "DemoGame_1d4b881e",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
+      "name": "CarRacingGame",
+      "request": "launch",
+      "mainClass": "livegame.CarRacingGame",
+      "projectName": "DemoGame_1d4b881e",
+      "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml"
+    },
+    {
+      "type": "java",
       "name": "MiniGolf",
       "request": "launch",
       "mainClass": "livegame.MiniGolf",

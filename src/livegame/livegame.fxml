@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@livegameStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="livegame.LiveGameControllerNew">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@livegameStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="livegame.LiveGameController">
    <children>
       <StackPane fx:id="findingPlayerContainer">
          <children>
@@ -90,9 +90,9 @@
                                     <Insets />
                                  </StackPane.margin>
                                  <children>
-                                    <Pane styleClass="progress-bar-stick" GridPane.columnIndex="1" />
-                                    <Pane styleClass="progress-bar-stick" GridPane.columnIndex="2" />
-                                    <Pane styleClass="progress-bar-stick" GridPane.columnIndex="3" />
+                                    <Pane fx:id="playerBlueProgressStick1" styleClass="progress-bar-stick" GridPane.columnIndex="1" />
+                                    <Pane fx:id="playerBlueProgressStick2" styleClass="progress-bar-stick" GridPane.columnIndex="2" />
+                                    <Pane fx:id="playerBlueProgressStick3" styleClass="progress-bar-stick" GridPane.columnIndex="3" />
                                  </children>
                               </GridPane>
                               <GridPane alignment="CENTER" cacheShape="false" style="-fx-translate-y: -14;">
@@ -136,9 +136,9 @@
                                     <Insets />
                                  </StackPane.margin>
                                  <children>
-                                    <Pane styleClass="progress-bar-stick" GridPane.columnIndex="1" />
-                                    <Pane styleClass="progress-bar-stick" GridPane.columnIndex="2" />
-                                    <Pane styleClass="progress-bar-stick" GridPane.columnIndex="3" />
+                                    <Pane fx:id="playerRedProgressStick1" styleClass="progress-bar-stick" GridPane.columnIndex="1" />
+                                    <Pane fx:id="playerRedProgressStick2" styleClass="progress-bar-stick" GridPane.columnIndex="2" />
+                                    <Pane fx:id="playerRedProgressStick3" styleClass="progress-bar-stick" GridPane.columnIndex="3" />
                                  </children>
                               </GridPane>
                               <GridPane alignment="CENTER" cacheShape="false" style="-fx-translate-y: -14;">
