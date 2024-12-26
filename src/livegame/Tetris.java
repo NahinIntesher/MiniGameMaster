@@ -39,7 +39,7 @@ public class Tetris extends LiveGame {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    private String playerId;
+    private String playerToken;
     private boolean self;
 
     private static final int BOARD_WIDTH = 10;
@@ -128,13 +128,12 @@ public class Tetris extends LiveGame {
         currentTetromino = rotated;
     }
 
-    public Tetris(String roomId, String playerId, boolean self) {
-        this.playerId = playerId;
+    public Tetris(String roomId, String playerToken, boolean self) {
+        this.playerToken = playerToken;
         this.self = self;
 
         try {
-            String IPV4Address = InetAddress.getLocalHost().getHostAddress();
-            socket = new Socket(IPV4Address, 12345);
+            socket = new Socket(serverAddress, 12345);
             this.out = new PrintWriter(socket.getOutputStream(), true);
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -253,18 +252,18 @@ public class Tetris extends LiveGame {
 
                     if (!self && message.startsWith("{")) {
                         JSONObject gameState = new JSONObject(message);
-                        if (!gameState.getString("playerId").equals(playerId)) {
+                        if (!gameState.getString("playerToken").equals(playerToken)) {
                             updateGameState(gameState);
                         }
                     }
 
                     if (messageType.equals("gameComplete")) {
-                        String fromPlayerId = message.split(":")[1];
-                        if (!self && !fromPlayerId.equals(playerId)) {
+                        String fromPlayerToken = message.split(":")[1];
+                        if (!self && !fromPlayerToken.equals(playerToken)) {
                             terminateGame();
                             break;
                         }
-                        if (self && fromPlayerId.equals(playerId)) {
+                        if (self && fromPlayerToken.equals(playerToken)) {
                             terminateGame();
                             break;
                         }
@@ -451,7 +450,7 @@ public class Tetris extends LiveGame {
         score += linesCleared * 10; // Bonus for multiple line clear
 
         if (self && score >= targetScore) {
-            out.println("gameComplete:" + playerId);
+            out.println("gameComplete:" + playerToken);
         }
 
         // Update score label
@@ -627,7 +626,7 @@ public class Tetris extends LiveGame {
     private void sendGameState(String type) {
         JSONObject gameState = new JSONObject();
         gameState.put("type", "gameState");
-        gameState.put("playerId", playerId);
+        gameState.put("playerToken", playerToken);
         gameState.put("currentX", currentX);
         gameState.put("currentY", currentY);
         gameState.put("shapeI", shapeI);

@@ -12,6 +12,7 @@ import java.util.prefs.Preferences;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import database.DatabaseConnection;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +36,7 @@ public class LiveGameController {
     private PrintWriter out;
     private BufferedReader in;
 
-    String playerId = UUID.randomUUID().toString();
+    String playerToken = UUID.randomUUID().toString();
     String roomId;
 
     String[] games = new String[3];
@@ -82,12 +83,12 @@ public class LiveGameController {
 
     @FXML
     private Pane playerBlueProgressPoint1;
-    
     @FXML
     private Pane playerBlueProgressPoint2;
-
     @FXML
     private Pane playerBlueProgressPoint3;
+    @FXML
+    private Pane playerBlueProgressPoint4;
 
     @FXML
     private Pane playerBlueProgressStick1;
@@ -98,39 +99,37 @@ public class LiveGameController {
 
     @FXML
     private Label playerBlueProgressLabel1;
-    
     @FXML
     private Label playerBlueProgressLabel2;
-
     @FXML
     private Label playerBlueProgressLabel3;
+    @FXML
+    private Label playerBlueProgressLabel4;
 
     @FXML
     private Pane playerRedProgressPoint1;
-    
     @FXML
     private Pane playerRedProgressPoint2;
-
     @FXML
     private Pane playerRedProgressPoint3;
+    @FXML
+    private Pane playerRedProgressPoint4;
     
     @FXML
     private Pane playerRedProgressStick1;
-    
     @FXML
     private Pane playerRedProgressStick2;
-
     @FXML
     private Pane playerRedProgressStick3;
 
     @FXML
     private Label playerRedProgressLabel1;
-    
     @FXML
     private Label playerRedProgressLabel2;
-
     @FXML
     private Label playerRedProgressLabel3;
+    @FXML
+    private Label playerRedProgressLabel4;
 
     private String playerBlueGameTime1 = null;
     private String playerBlueGameTime2 = null;
@@ -143,8 +142,8 @@ public class LiveGameController {
     @FXML
     public void initialize() {
         try {
-            String IPV4Address = InetAddress.getLocalHost().getHostAddress();
-            socket = new Socket(IPV4Address, 12345); // Connect to the server
+            String serverAddress = DatabaseConnection.serverAddress;
+            socket = new Socket(serverAddress, 12345); // Connect to the server
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out.println("findRoom");
@@ -152,7 +151,7 @@ public class LiveGameController {
             e.printStackTrace();
         }
 
-        // System.out.println(playerId);
+        // System.out.println(playerToken);
         try {
             new Thread(() -> {
                 try {
@@ -187,13 +186,13 @@ public class LiveGameController {
                                 startGame();
                             }
                             else if (messageType.equals("gameComplete")) {
-                                String getPlayerId = message.split(":")[1];
+                                String getPlayerToken = message.split(":")[1];
                                 
-                                if(getPlayerId.equals(playerId)) {
-                                    out.println("startNextGame:"+playerId+":"+String.format("%02d:%02d", minutes, seconds));
+                                if(getPlayerToken.equals(playerToken)) {
+                                    out.println("startNextGame:"+playerToken+":"+String.format("%02d:%02d", minutes, seconds));
                                 }
                                 // Platform.runLater(()->{
-                                //     if(!getPlayerId.equals(playerId)) {
+                                //     if(!getPlayerToken.equals(playerToken)) {
                                 //         victoryLabel.setText("Defeat");
                                 //     }
                                 //     victoryContainer.setManaged(true);
@@ -201,10 +200,10 @@ public class LiveGameController {
                                 // });
                             }
                             else if (messageType.equals("startNextGame")) {
-                                String getPlayerId = message.split(":")[1];
+                                String getPlayerToken = message.split(":")[1];
                                 String completeTime = message.split(":")[2]+":"+message.split(":")[3];
 
-                                if(getPlayerId.equals(playerId)) {
+                                if(getPlayerToken.equals(playerToken)) {
                                     startNextGame("blue", completeTime);
                                 }
                                 else {
@@ -278,14 +277,14 @@ public class LiveGameController {
             playerRedProgressLabel1.setText("Running"); 
             playerRedProgressPoint1.setBackground(new Background(new BackgroundFill(Color.web("#cc0000"), new CornerRadii(15), null)));
 
-            LiveGame snakeGameBlue = new Snake(roomId, playerId, true);
+            LiveGame snakeGameBlue = new Snake(roomId, playerToken, true);
             playerBluePlayground.getChildren().add(snakeGameBlue);
 
             primaryScene.setOnKeyPressed(event -> {
                 snakeGameBlue.actionOnKeyPressed(event.getCode().toString());
             });
 
-            LiveGame snakeGameRed = new Snake(roomId, playerId, false);
+            LiveGame snakeGameRed = new Snake(roomId, playerToken, false);
             playerRedPlayground.getChildren().add(snakeGameRed);
         });
     }
@@ -302,13 +301,18 @@ public class LiveGameController {
                     playerBlueProgressPoint2.setBackground(new Background(new BackgroundFill(Color.web("#0000cc"), new CornerRadii(15), null)));
 
                     playerBluePlayground.getChildren().clear();
+
                     Scene primaryScene = runningGameContainer.getScene();
 
-                    LiveGame tetrisGameBlue = new Tetris(roomId, playerId, true);
-                    playerBluePlayground.getChildren().add(tetrisGameBlue);
+                    LiveGame playerBlueGame2 = new Tetris(roomId, playerToken, true);
+                    playerBluePlayground.getChildren().add(playerBlueGame2);
         
                     primaryScene.setOnKeyPressed(event -> {
-                        tetrisGameBlue.actionOnKeyPressed(event.getCode().toString());
+                        playerBlueGame2.actionOnKeyPressed(event.getCode().toString());
+                    });
+                    
+                    primaryScene.setOnKeyReleased(event -> {
+                        playerBlueGame2.actionOnKeyReleased(event.getCode().toString());
                     });
                 });
             }
@@ -322,6 +326,30 @@ public class LiveGameController {
                     playerBlueProgressPoint3.setBackground(new Background(new BackgroundFill(Color.web("#0000cc"), new CornerRadii(15), null)));
 
                     playerBluePlayground.getChildren().clear();
+                    
+                    Scene primaryScene = runningGameContainer.getScene();
+
+                    LiveGame playerBlueGame3 = new MiniGolf(roomId, playerToken, true);
+                    playerBluePlayground.getChildren().add(playerBlueGame3);
+        
+                    primaryScene.setOnKeyPressed(event -> {
+                        playerBlueGame3.actionOnKeyPressed(event.getCode().toString());
+                    });
+                    
+                    primaryScene.setOnKeyReleased(event -> {
+                        playerBlueGame3.actionOnKeyReleased(event.getCode().toString());
+                    });
+                });
+            }
+            else {
+                playerBlueGameTime3 = completeTime;
+                Platform.runLater(() -> {
+                    playerBlueProgressLabel3.setText(completeTime);
+                    playerBlueProgressLabel3.setStyle("-fx-font-weight: bold;");   
+                    playerBlueProgressStick3.setBackground(new Background(new BackgroundFill(Color.web("#0000cc"), null, null)));
+                    playerBlueProgressLabel4.setStyle("-fx-font-weight: bold;");
+                    playerBlueProgressPoint4.setBackground(new Background(new BackgroundFill(Color.web("#0000cc"), new CornerRadii(15), null)));
+    
                 });
             }
         }       
@@ -337,8 +365,8 @@ public class LiveGameController {
 
                     playerRedPlayground.getChildren().clear();
 
-                    LiveGame tetrisGameRed = new Tetris(roomId, playerId, false);
-                    playerRedPlayground.getChildren().add(tetrisGameRed);
+                    LiveGame playerRedGame2 = new Tetris(roomId, playerToken, false);
+                    playerRedPlayground.getChildren().add(playerRedGame2);
                 });
             }
             else if(playerRedGameTime2 == null) {
@@ -351,7 +379,20 @@ public class LiveGameController {
                     playerRedProgressPoint3.setBackground(new Background(new BackgroundFill(Color.web("#cc0000"), new CornerRadii(15), null))); 
 
                     playerRedPlayground.getChildren().clear();
+                    
+                    LiveGame playerRedGame3 = new MiniGolf(roomId, playerToken, false);
+                    playerRedPlayground.getChildren().add(playerRedGame3);
                 });
+            }
+            else {
+                playerRedGameTime3 = completeTime;         
+                Platform.runLater(() -> {
+                    playerRedProgressLabel3.setText(completeTime); 
+                    playerRedProgressLabel3.setStyle("-fx-font-weight: bold;"); 
+                    playerRedProgressStick3.setBackground(new Background(new BackgroundFill(Color.web("#cc0000"), null, null)));
+                    playerRedProgressLabel4.setStyle("-fx-font-weight: bold;");
+                    playerRedProgressPoint4.setBackground(new Background(new BackgroundFill(Color.web("#cc0000"), new CornerRadii(15), null))); 
+                });                
             }
         }       
     }

@@ -14,8 +14,8 @@ public class Main extends Application{
 
         if (userid != "default") {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("livegame/livegame.fxml"));
-                // FXMLLoader loader = new FXMLLoader(getClass().getResource("home/home.fxml"));
+                //FXMLLoader loader = new FXMLLoader(getClass().getResource("livegame/livegame.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("home/home.fxml"));
                 Parent root = loader.load();
     
                 Scene scene = new Scene(root);

@@ -38,7 +38,7 @@ public class Snake extends LiveGame {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
-    private String playerId;
+    private String playerToken;
     private boolean self;
 
     private static final int WIDTH = 500;
@@ -93,8 +93,8 @@ public class Snake extends LiveGame {
     private Label currentScoreValue = new Label("0");
     private Text gameOverText = new Text("-5");
 
-    public Snake(String roomId, String playerId, boolean self) {
-        this.playerId = playerId;
+    public Snake(String roomId, String playerToken, boolean self) {
+        this.playerToken = playerToken;
         this.self = self;
 
         this.setBackground(new Background(new BackgroundFill(Color.web("#239b56"), null, null)));
@@ -102,8 +102,7 @@ public class Snake extends LiveGame {
         this.setPadding(new Insets(0, 0, 60, 0));
 
         try {
-            String IPV4Address = InetAddress.getLocalHost().getHostAddress();
-            socket = new Socket(IPV4Address, 12345);
+            socket = new Socket(serverAddress, 12345);
             this.out = new PrintWriter(socket.getOutputStream(), true);
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
@@ -186,25 +185,25 @@ public class Snake extends LiveGame {
 
                     if (!self && message.startsWith("{")) {
                         JSONObject gameState = new JSONObject(message);
-                        if (!gameState.getString("playerId").equals(playerId)) {
+                        if (!gameState.getString("playerToken").equals(playerToken)) {
                             updateGameState(gameState);
                         }
                     }
 
                     if (!self && messageType.equals("gameOver")) {
-                        String fromPlayerId = message.split(":")[1];
-                        if (!fromPlayerId.equals(playerId)) {
+                        String fromPlayerToken = message.split(":")[1];
+                        if (!fromPlayerToken.equals(playerToken)) {
                             gameOver();
                         }
                     }
                     
                     if (messageType.equals("gameComplete")) {
-                        String fromPlayerId = message.split(":")[1];
-                        if (!self && !fromPlayerId.equals(playerId)) {
+                        String fromPlayerToken = message.split(":")[1];
+                        if (!self && !fromPlayerToken.equals(playerToken)) {
                             terminateGame();
                             break;
                         }
-                        if (self && fromPlayerId.equals(playerId)) {
+                        if (self && fromPlayerToken.equals(playerToken)) {
                             terminateGame();
                             break;
                         }
@@ -284,7 +283,7 @@ public class Snake extends LiveGame {
             }
             if(self && score >= targetScore) {
                 sendGameState();
-                out.println("gameComplete:"+playerId);
+                out.println("gameComplete:"+playerToken);
             }
         } else {
             snake.remove(snake.size() - 1);
@@ -347,7 +346,7 @@ public class Snake extends LiveGame {
 
     private void gameOver() {
         if (self) {
-            out.println("gameOver:" + playerId);
+            out.println("gameOver:" + playerToken);
         }
         running = false;
         timeline.stop();
@@ -430,7 +429,7 @@ public class Snake extends LiveGame {
     private void sendGameState() {
         JSONObject gameState = new JSONObject();
         gameState.put("type", "gameState");
-        gameState.put("playerId", playerId);
+        gameState.put("playerToken", playerToken);
         gameState.put("snake", snake);
         gameState.put("food", food);
         gameState.put("score", score);

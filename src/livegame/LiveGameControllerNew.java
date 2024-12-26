@@ -190,7 +190,7 @@ public class LiveGameControllerNew {
             Scene primaryScene = runningGameContainer.getScene();
 
             // SnakeGame snakeGameBlue = new SnakeGame(roomId, playerId, true);
-            Tetris tetrisGameBlue = new Tetris(roomId, playerId, true);
+            MiniGolf tetrisGameBlue = new MiniGolf(roomId, playerId, true);
             
             playerBluePlayground.getChildren().add(tetrisGameBlue);
 
@@ -198,8 +198,12 @@ public class LiveGameControllerNew {
                 tetrisGameBlue.actionOnKeyPressed(event.getCode().toString());
             });
 
+            primaryScene.setOnKeyReleased(event -> {
+                tetrisGameBlue.actionOnKeyReleased(event.getCode().toString());
+            });
+
             // SnakeGame snakeGameRed = new SnakeGame(roomId, playerId, false);
-            Tetris tetrisGameRed = new Tetris(roomId, playerId, false);
+            MiniGolf tetrisGameRed = new MiniGolf(roomId, playerId, false);
             playerRedPlayground.getChildren().add(tetrisGameRed);
         });
     }
