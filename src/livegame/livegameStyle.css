@@ -33,14 +33,51 @@
     -fx-background-color: #0000cc;
     -fx-border-color: transparent transparent #000000 transparent;
     -fx-border-width: 2px;
-    -fx-padding: 0 0 80px 0;
+    -fx-padding: 0 120px 0 0;
+}
+
+.player-blue-detail-name, .player-red-detail-name {
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 18px;
+    -fx-padding: 10px 20px;
+}
+
+.player-detail-trophy {
+    -fx-background-color: #00000033;
+    -fx-alignment: CENTER-LEFT;
+    -fx-translate-x: 10;
+    -fx-max-width: 82px;
+    -fx-max-height: 30px;
+}
+.player-detail-trophy-icon {
+    -fx-font-family: "MGMIcon";
+    -fx-fill: #fefe00;
+    -fx-text-fill: #fefe00;
+    -fx-font-size: 18px;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+    -fx-translate-x: -8;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 1px;
+}
+
+
+.player-detail-trophy-text {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-padding: 1px 4px;
+    -fx-stroke-width: 4px;
+    -fx-pref-width: 50;
+    -fx-alignment: CENTER;
 }
 
 .player-red-detail {
     -fx-background-color: #cc0000;
     -fx-border-color: transparent transparent #000000 transparent;
     -fx-border-width: 2px;
-    -fx-padding: 0 0 80px 0;
+    -fx-padding: 0 0 0 100px;
 }
 
 .time-box {

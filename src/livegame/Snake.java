@@ -64,8 +64,8 @@ public class Snake extends LiveGame {
             19, 1, 17, 13, 14, 16, 18, 7, 5, 13,
             4, 0, 9, 15, 3, 12, 2, 13, 19, 10,
             10, 6, 4, 11, 18, 8, 2, 14, 16, 17,
-            1, 2, 22, 5, 3, 12, 19, 7, 14, 8,
-            13, 18, 14, 10, 21, 1, 11, 16, 4, 19,
+            1, 2, 19, 5, 3, 12, 19, 7, 14, 8,
+            13, 18, 14, 10, 19, 1, 11, 16, 4, 19,
             17, 6, 9, 13, 4, 2, 15, 0, 19, 8,
             14, 19, 18, 7, 11, 19, 6, 3, 9, 5,
             4, 18, 2, 13, 1, 0, 16, 4, 12, 17
@@ -93,7 +93,7 @@ public class Snake extends LiveGame {
     private Label currentScoreValue = new Label("0");
     private Text gameOverText = new Text("-5");
 
-    public Snake(String roomId, String playerToken, boolean self) {
+    public Snake(JSONObject gameInitializeInfo, String roomId, String playerToken, boolean self) {
         this.playerToken = playerToken;
         this.self = self;
 
@@ -224,7 +224,9 @@ public class Snake extends LiveGame {
         running = true;
         score = getScore;
         updateScore(); // Reset score
-        sendGameState();
+        if(self){
+            sendGameState();
+        }
     }
 
     private void spawnFood() {
@@ -240,7 +242,9 @@ public class Snake extends LiveGame {
             iFood = 0;
         }
 
-        sendGameState();
+        if(self) {
+            sendGameState();
+        }
     }
 
     private void update() {
@@ -429,6 +433,7 @@ public class Snake extends LiveGame {
     private void sendGameState() {
         JSONObject gameState = new JSONObject();
         gameState.put("type", "gameState");
+        gameState.put("game", "Snake");
         gameState.put("playerToken", playerToken);
         gameState.put("snake", snake);
         gameState.put("food", food);
@@ -440,28 +445,30 @@ public class Snake extends LiveGame {
     }
 
     public void updateGameState(JSONObject gameState) {
-        snakeArray = gameState.getJSONArray("snake");
-        foodArray = gameState.getJSONArray("food");
-
-        newSnake = new ArrayList<>();
-        newFood = new int[foodArray.length()];
-
-        for (int i = 0; i < snakeArray.length(); i++) {
-            JSONArray segment = snakeArray.getJSONArray(i);
-            int[] coords = new int[2];
-            coords[0] = segment.getInt(0);
-            coords[1] = segment.getInt(1);
-            newSnake.add(coords);
+        if(gameState.getString("game").equals("Snake")){
+            snakeArray = gameState.getJSONArray("snake");   
+            foodArray = gameState.getJSONArray("food");
+    
+            newSnake = new ArrayList<>();
+            newFood = new int[foodArray.length()];
+    
+            for (int i = 0; i < snakeArray.length(); i++) {
+                JSONArray segment = snakeArray.getJSONArray(i);
+                int[] coords = new int[2];
+                coords[0] = segment.getInt(0);
+                coords[1] = segment.getInt(1);
+                newSnake.add(coords);
+            }
+    
+            for (int i = 0; i < foodArray.length(); i++) {
+                newFood[i] = foodArray.getInt(i);
+            }
+    
+            this.snake = newSnake;
+            this.food = newFood;
+            this.score = gameState.getInt("score");
+            this.direction = gameState.getString("direction");
+            this.running = gameState.getBoolean("running");
         }
-
-        for (int i = 0; i < foodArray.length(); i++) {
-            newFood[i] = foodArray.getInt(i);
-        }
-
-        this.snake = newSnake;
-        this.food = newFood;
-        this.score = gameState.getInt("score");
-        this.direction = gameState.getString("direction");
-        this.running = gameState.getBoolean("running");
     }
 }

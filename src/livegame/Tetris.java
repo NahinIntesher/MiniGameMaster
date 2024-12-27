@@ -128,7 +128,7 @@ public class Tetris extends LiveGame {
         currentTetromino = rotated;
     }
 
-    public Tetris(String roomId, String playerToken, boolean self) {
+    public Tetris(JSONObject gameInitializeInfo, String roomId, String playerToken, boolean self) {
         this.playerToken = playerToken;
         this.self = self;
 
@@ -233,11 +233,13 @@ public class Tetris extends LiveGame {
                 try {
                     Thread.sleep(500); // Drop speed
                     Platform.runLater(() -> {
-                        if (currentTetromino == null) {
-                            spawnTetromino();
+                        if(running) {
+                            if (currentTetromino == null) {
+                                spawnTetromino();
+                            }
+                            moveDown();
+                            drawBoard(gc);
                         }
-                        moveDown();
-                        drawBoard(gc);
                     });
                 } catch (InterruptedException e) {
                     break;
@@ -280,6 +282,9 @@ public class Tetris extends LiveGame {
         if (currentTetromino == null)
             return;
 
+        if(!running) 
+            return;
+
         switch (key) {
             case "LEFT" -> moveLeft();
             case "RIGHT" -> moveRight();
@@ -308,6 +313,7 @@ public class Tetris extends LiveGame {
 
         if (self) {
             drawNextBlockPreview();
+        
             sendGameState("all");
         }
 
@@ -351,7 +357,9 @@ public class Tetris extends LiveGame {
             rotate();
             rotate();
         }
-        sendGameState("currentTetromino");
+        if(self) {
+            sendGameState("currentTetromino");
+        }
     }
 
     private boolean checkCollision() {
@@ -450,6 +458,7 @@ public class Tetris extends LiveGame {
         score += linesCleared * 10; // Bonus for multiple line clear
 
         if (self && score >= targetScore) {
+            running = false;
             out.println("gameComplete:" + playerToken);
         }
 
@@ -464,7 +473,9 @@ public class Tetris extends LiveGame {
             }
         }
         score = 0;
-        sendGameState("all");
+        if(self) {
+            sendGameState("all");
+        }
         Platform.runLater(() -> currentScoreValue.setText("0"));
     }
 
@@ -559,73 +570,82 @@ public class Tetris extends LiveGame {
     }
 
     public void updateGameState(JSONObject gameState) {
-        this.currentX = gameState.getInt("currentX");
-        this.currentY = gameState.getInt("currentY");
-        this.shapeI = gameState.getInt("shapeI");
-
-        if (this.score != gameState.getInt("score")) {
-            this.score = gameState.getInt("score");
-            Platform.runLater(() -> currentScoreValue.setText(String.valueOf(score)));
-        }
-
-        if (gameState.has("currentTetromino")) {
-            jsonCurrentTetromino = gameState.getJSONArray("currentTetromino");
-
-            newCurrentTetromino = new int[jsonCurrentTetromino.length()][];
-
-            for (int i = 0; i < jsonCurrentTetromino.length(); i++) {
-                JSONArray innerArray = jsonCurrentTetromino.getJSONArray(i);
-                int cols = innerArray.length();
-
-                newCurrentTetromino[i] = new int[cols];
-
-                for (int j = 0; j < cols; j++) {
-                    newCurrentTetromino[i][j] = innerArray.getInt(j);
-                }
+        if(gameState.getString("game").equals("Tetris")){
+            this.currentX = gameState.getInt("currentX");
+            this.currentY = gameState.getInt("currentY");
+            this.shapeI = gameState.getInt("shapeI");
+    
+            if (this.score != gameState.getInt("score")) {
+                this.score = gameState.getInt("score");
+                Platform.runLater(() -> currentScoreValue.setText(String.valueOf(score)));
             }
-            this.currentTetromino = newCurrentTetromino;
-        }
-
-        if (gameState.has("nextTetromino")) {
-            jsonNextTetromino = gameState.getJSONArray("nextTetromino");
-
-            newNextTetromino = new int[jsonNextTetromino.length()][];
-
-            for (int i = 0; i < jsonNextTetromino.length(); i++) {
-                JSONArray innerArray = jsonNextTetromino.getJSONArray(i);
-                int cols = innerArray.length();
-
-                newNextTetromino[i] = new int[cols];
-
-                for (int j = 0; j < cols; j++) {
-                    newNextTetromino[i][j] = innerArray.getInt(j);
+    
+            if (gameState.has("currentTetromino")) {
+                jsonCurrentTetromino = gameState.getJSONArray("currentTetromino");
+    
+                newCurrentTetromino = new int[jsonCurrentTetromino.length()][];
+    
+                for (int i = 0; i < jsonCurrentTetromino.length(); i++) {
+                    JSONArray innerArray = jsonCurrentTetromino.getJSONArray(i);
+                    int cols = innerArray.length();
+    
+                    newCurrentTetromino[i] = new int[cols];
+    
+                    for (int j = 0; j < cols; j++) {
+                        newCurrentTetromino[i][j] = innerArray.getInt(j);
+                    }
                 }
+                this.currentTetromino = newCurrentTetromino;
             }
-            this.nextTetromino = newNextTetromino;
-            drawNextBlockPreview();
-        }
-
-        if (gameState.has("board")) {
-            jsonBoard = gameState.getJSONArray("board");
-
-            newBoard = new int[BOARD_HEIGHT][BOARD_WIDTH];
-
-            for (int i = 0; i < BOARD_HEIGHT; i++) {
-                JSONArray innerArray = jsonBoard.getJSONArray(i);
-
-                newBoard[i] = new int[BOARD_WIDTH];
-
-                for (int j = 0; j < BOARD_WIDTH; j++) {
-                    newBoard[i][j] = innerArray.getInt(j);
+    
+            if (gameState.has("nextTetromino")) {
+                jsonNextTetromino = gameState.getJSONArray("nextTetromino");
+    
+                newNextTetromino = new int[jsonNextTetromino.length()][];
+    
+                for (int i = 0; i < jsonNextTetromino.length(); i++) {
+                    JSONArray innerArray = jsonNextTetromino.getJSONArray(i);
+                    int cols = innerArray.length();
+    
+                    newNextTetromino[i] = new int[cols];
+    
+                    for (int j = 0; j < cols; j++) {
+                        newNextTetromino[i][j] = innerArray.getInt(j);
+                    }
                 }
+                this.nextTetromino = newNextTetromino;
+                drawNextBlockPreview();
             }
-            this.board = newBoard;
-        }
+    
+            if (gameState.has("board")) {
+                jsonBoard = gameState.getJSONArray("board");
+    
+                newBoard = new int[BOARD_HEIGHT][BOARD_WIDTH];
+    
+                for (int i = 0; i < BOARD_HEIGHT; i++) {
+                    JSONArray innerArray = jsonBoard.getJSONArray(i);
+    
+                    newBoard[i] = new int[BOARD_WIDTH];
+    
+                    for (int j = 0; j < BOARD_WIDTH; j++) {
+                        newBoard[i][j] = innerArray.getInt(j);
+                    }
+                }
+                this.board = newBoard;
+            }
+    
+            if (currentTetromino == null || !checkCollision()) {
+                Platform.runLater(()->{
+                    drawBoard(gc);                
+                });
+            }  
+        };
     }
 
     private void sendGameState(String type) {
         JSONObject gameState = new JSONObject();
         gameState.put("type", "gameState");
+        gameState.put("game", "Tetris");
         gameState.put("playerToken", playerToken);
         gameState.put("currentX", currentX);
         gameState.put("currentY", currentY);

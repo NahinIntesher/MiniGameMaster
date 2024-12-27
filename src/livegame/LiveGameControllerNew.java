@@ -190,7 +190,7 @@ public class LiveGameControllerNew {
             Scene primaryScene = runningGameContainer.getScene();
 
             // SnakeGame snakeGameBlue = new SnakeGame(roomId, playerId, true);
-            MiniGolf tetrisGameBlue = new MiniGolf(roomId, playerId, true);
+            MiniGolf tetrisGameBlue = new MiniGolf(LiveGame.getGameInitializeInfo("MiniGolf"), roomId, playerId, true);
             
             playerBluePlayground.getChildren().add(tetrisGameBlue);
 
@@ -203,7 +203,7 @@ public class LiveGameControllerNew {
             });
 
             // SnakeGame snakeGameRed = new SnakeGame(roomId, playerId, false);
-            MiniGolf tetrisGameRed = new MiniGolf(roomId, playerId, false);
+            MiniGolf tetrisGameRed = new MiniGolf(LiveGame.getGameInitializeInfo("MiniGolf"), roomId, playerId, false);
             playerRedPlayground.getChildren().add(tetrisGameRed);
         });
     }

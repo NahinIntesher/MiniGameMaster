@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
@@ -46,8 +47,50 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="player-blue-detail" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="player-red-detail" GridPane.columnIndex="1" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="player-blue-detail">
+                           <children>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" />
+                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label fx:id="playerBlueName" styleClass="player-blue-detail-name" text="" />
+                                    <HBox styleClass="player-detail-trophy" GridPane.columnIndex="1">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="player-detail-trophy-icon" text="" />
+                                          <Label fx:id="playerBlueTrophies" styleClass="player-detail-trophy-text" text="" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="player-red-detail" GridPane.columnIndex="1">
+                           <children>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label fx:id="playerRedName" styleClass="player-blue-detail-name" text="" GridPane.columnIndex="1" />
+                                    <HBox nodeOrientation="RIGHT_TO_LEFT" styleClass="player-detail-trophy">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="player-detail-trophy-icon" text="" />
+                                          <Label fx:id="playerRedTrophies" styleClass="player-detail-trophy-text" text="" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </StackPane>
                      </children>
                   </GridPane>
                </top>
@@ -109,8 +152,8 @@
                                  <children>
                                     <Pane fx:id="playerBlueProgressPoint1" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Pane fx:id="playerBlueProgressPoint2" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerBlueProgressPoint3" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerBlueProgressPoint4" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerBlueProgressPoint3" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerBlueProgressPoint4" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label fx:id="playerBlueProgressLabel1" styleClass="progress-bar-text" text="Running" GridPane.rowIndex="1" />
                                     <Label fx:id="playerBlueProgressLabel2" styleClass="progress-bar-text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Label fx:id="playerBlueProgressLabel3" styleClass="progress-bar-text" GridPane.columnIndex="2" GridPane.rowIndex="1" />
@@ -155,8 +198,8 @@
                                  <children>
                                     <Pane fx:id="playerRedProgressPoint1" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Pane fx:id="playerRedProgressPoint2" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerRedProgressPoint3" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerRedProgressPoint4" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerRedProgressPoint3" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerRedProgressPoint4" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                                     <Label fx:id="playerRedProgressLabel1" styleClass="progress-bar-text" text="Running" GridPane.rowIndex="1" />
                                     <Label fx:id="playerRedProgressLabel2" styleClass="progress-bar-text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <Label fx:id="playerRedProgressLabel3" styleClass="progress-bar-text" GridPane.columnIndex="2" GridPane.rowIndex="1" />

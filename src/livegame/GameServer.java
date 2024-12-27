@@ -144,25 +144,21 @@ public class GameServer {
 
         private void startGameForRoom(String roomId) {
             System.out.println("startGame: " + roomId);
+            String games[] = LiveGame.selectRandomGames();
+
+            JSONObject game1InitInfo = LiveGame.getGameInitializeInfo(games[0]);
+            JSONObject game2InitInfo = LiveGame.getGameInitializeInfo(games[1]);
+            JSONObject game3InitInfo = LiveGame.getGameInitializeInfo(games[2]);
+            
+            JSONObject gamesInitInfo[] = {game1InitInfo, game2InitInfo, game3InitInfo};
+
+            JSONObject initializationInfo = new JSONObject();
+            initializationInfo.put("type", "gameInitialize");
+            initializationInfo.put("games", games);
+            initializationInfo.put("gamesInitInfo", gamesInitInfo);
+
             for (Socket player : rooms.get(roomId)) {
                 try {
-                    JSONObject initializationInfo = new JSONObject();
-
-                    String games[] = {"Snake", "Tetirs", "Golf"};
-
-                    JSONObject game1InitInfo = new JSONObject();
-                    JSONObject game2InitInfo = new JSONObject();
-                    JSONObject game3InitInfo = new JSONObject();
-
-                    game1InitInfo.put("randomFoodX", "");
-                    game1InitInfo.put("randomFoodY", "");
-                    
-                    JSONObject gamesInitInfo[] = {game1InitInfo, game2InitInfo, game3InitInfo};
-
-                    initializationInfo.put("type", "gameInitialize");
-                    initializationInfo.put("games", games);
-                    initializationInfo.put("gamesInitInfo", gamesInitInfo);
-
                     new PrintWriter(player.getOutputStream(), true).println(initializationInfo);
                     new PrintWriter(player.getOutputStream(), true).println("startGame:" + roomId);
                 } catch (IOException e) {

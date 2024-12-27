@@ -34,6 +34,7 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class MiniGolf extends LiveGame {
@@ -71,30 +72,15 @@ public class MiniGolf extends LiveGame {
     private static final long WATER_RESET_DELAY = 1500; // 1.5 seconds in milliseconds
 
     // Updated sample levels with new hazards
-    private String[] levelData = {
-            "####################",
-            "#..................#",
-            "#..&&&&....WWWW....#",
-            "#.........WWWW.....#",
-            "#...........&&&&...#",
-            "#.....SSSS.......###",
-            "#......O.........#",
-            "#.....SSSS.......###",
-            "#...&&&&...........#",
-            "#..............W...#",
-            "####..........WWW..#",
-            "   #...........W...#",
-            "####...............#",
-            "#..................#",
-            "#..................#",
-            "####################"
-    };
+    private String[] levelData;
 
     private char[][] map;
     // private double ballX = WIDTH / 2;
     // private double ballY = HEIGHT - 100;
-    private double ballX = 180;
-    private double ballY = 140;
+    private double ballXDefault;
+    private double ballYDefault;
+    private double ballX;
+    private double ballY;
     private double ballRadius = 10;
     private double directionAngle = -90;
     private double power = 0;
@@ -108,14 +94,36 @@ public class MiniGolf extends LiveGame {
     private int strokeCount = 0;
     private long waterTimestamp = 0;
     private double ballOpacity = 1.0;
+    private boolean readyToShoot = true;
+
+    
+    private String messageType;
+    private String getPlayerToken;
+    private String gameStateType;
+    private String gameStateData;
+    private String powerData;
 
     Label totalShotValue = new Label(String.valueOf(strokeCount));
 
     private Set<String> activeKeys = new HashSet<>();
 
-    public MiniGolf(String roomId, String playerToken, boolean self) {
+    public MiniGolf(JSONObject gameInitializeInfo, String roomId, String playerToken, boolean self) {
         this.playerToken = playerToken;
         this.self = self;
+
+        JSONArray levelDataJsonArray = gameInitializeInfo.getJSONArray("levelData");
+        String[] levelDataInit = new String[levelDataJsonArray.length()];
+
+        for(int i=0; i< levelDataJsonArray.length(); i++) {
+            levelDataInit[i] = levelDataJsonArray.getString(i);
+        }
+
+        levelData = levelDataInit;
+        ballXDefault = gameInitializeInfo.getInt("defaultBallX");
+        ballYDefault = gameInitializeInfo.getInt("defaultBallY");
+
+        ballX = ballXDefault*CELL_SIZE;
+        ballY = ballYDefault*CELL_SIZE;
 
         try {
             socket = new Socket(serverAddress, 12345);
@@ -191,27 +199,21 @@ public class MiniGolf extends LiveGame {
         new Thread(() -> {
             try {
                 while ((message = in.readLine()) != null) {
-                    String messageType = message.split(":")[0];
+                    messageType = message.split(":")[0];
 
                     if (!self && messageType.equals("gameState")) {
-                        String getPlayerToken = message.split(":")[1];
+                        getPlayerToken = message.split(":")[1];
+                        gameStateType = message.split(":")[2];
                         if (!getPlayerToken.equals(playerToken)) {
-                            String gameStateType = message.split(":")[2];
-                            String gameStateData = message.split(":")[3];
-                            if(gameStateType.equals("addActiveKey")) {
-                                activeKeys.add(gameStateData);
-                            }
-                            else if(gameStateType.equals("directionAngle")) {
+                            gameStateData = message.split(":")[3];
+                            if(gameStateType.equals("directionAngle")) {
                                 directionAngle = Double.parseDouble(gameStateData);
                             }
                             else if(gameStateType.equals("power")) {
                                 power = Double.parseDouble(gameStateData);
                             }
-                            else if(gameStateType.equals("removeActiveKey")) {
-                                activeKeys.remove(gameStateData);
-                            }
                             else if(gameStateType.equals("shoot")) {
-                                String powerData = message.split(":")[4];
+                                powerData = message.split(":")[4];
                                 directionAngle = Double.parseDouble(gameStateData);
                                 power = Double.parseDouble(powerData);
                                 shoot();
@@ -222,7 +224,12 @@ public class MiniGolf extends LiveGame {
                             }
                         }
                     }
-                    
+                    else if(self && messageType.equals("gameState")) {
+                        gameStateType = message.split(":")[2];
+                        if(gameStateType.equals("readyToShoot")){
+                            readyToShoot = true;
+                        }
+                    }
 
                     if (messageType.equals("gameComplete")) {
                         String fromPlayerToken = message.split(":")[1];
@@ -268,11 +275,15 @@ public class MiniGolf extends LiveGame {
     }
 
     private void resetBall() {
-        ballX = WIDTH / 2;
-        ballY = HEIGHT - 100;
+        ballX = ballXDefault*CELL_SIZE;
+        ballY = ballYDefault*CELL_SIZE;
         velocityX = 0;
         velocityY = 0;
         isShooting = false;
+        if(!self) {
+            out.println("gameState:"+playerToken+":readyToShoot:"+1);
+            readyToShoot = true;
+        }
         power = 0;
     }
 
@@ -301,6 +312,10 @@ public class MiniGolf extends LiveGame {
             inWater = true;
             waterTimestamp = System.currentTimeMillis();
             isShooting = false;
+            if(!self) {
+                out.println("gameState:"+playerToken+":readyToShoot:"+1);
+                readyToShoot = true;
+            }
             velocityX = 0;
             velocityY = 0;
         }
@@ -309,7 +324,7 @@ public class MiniGolf extends LiveGame {
     private void update() {
         if (!ballInHole && !inWater) {
             // Handle direction controls when not shooting
-            if (!isShooting) {
+            if (!isShooting && readyToShoot) {
                 if (activeKeys.contains("LEFT")) {
                     directionAngle -= 3;
                     out.println("gameState:"+playerToken+":directionAngle:"+directionAngle);
@@ -359,6 +374,10 @@ public class MiniGolf extends LiveGame {
                 // Stop the ball if it's moving very slowly
                 if (Math.abs(velocityX) < 0.1 && Math.abs(velocityY) < 0.1) {
                     isShooting = false;
+                    if(!self) {
+                        out.println("gameState:"+playerToken+":readyToShoot:"+1);
+                        readyToShoot = true;
+                    }
                     velocityX = 0;
                     velocityY = 0;
                     return;
@@ -490,6 +509,7 @@ public class MiniGolf extends LiveGame {
             velocityX = Math.cos(angleRad) * speed;
             velocityY = Math.sin(angleRad) * speed;
             isShooting = true;
+            readyToShoot = false;
             power = 0;
         }
     }
@@ -566,7 +586,7 @@ public class MiniGolf extends LiveGame {
         }
 
         // Rest of the render method remains the same
-        if (!isShooting && !ballInHole && !inWater) {
+        if (readyToShoot && !isShooting && !ballInHole && !inWater) {
             double angleRad = Math.toRadians(directionAngle);
             double lineLength = 50;
             gc.setStroke(Color.WHITE);
@@ -577,7 +597,7 @@ public class MiniGolf extends LiveGame {
         }
 
         // Draw power meter
-        if ((!self && !isShooting) || (!inWater && !isShooting && activeKeys.contains("SPACE"))) {
+        if ((!self && !isShooting) || (readyToShoot && !inWater && !isShooting && activeKeys.contains("SPACE"))) {
             speedGc.setFill(Color.web("#935116"));
             speedGc.fillRect(0, 0, 308, 48);
             speedGc.setFill(new LinearGradient(
@@ -600,11 +620,13 @@ public class MiniGolf extends LiveGame {
             speedGc.fillRect(0, 0, 308, 48);
             speedGc.setFill(Color.WHITE);
             speedGc.fillRect(4, 4, 300, 40);
-            speedGc.setFill(Color.BLACK);
-            speedGc.setFont(Font.font("Poppins", 20));
-            speedGc.fillText("Hold", 85, 32);
-            speedGc.setFont(Font.font("Poppins", FontWeight.BOLD, 28));
-            speedGc.fillText("SPACE", 140, 34);
+            if(readyToShoot) {
+                speedGc.setFill(Color.BLACK);
+                speedGc.setFont(Font.font("Poppins", 20));
+                speedGc.fillText("Hold", 85, 32);
+                speedGc.setFont(Font.font("Poppins", FontWeight.BOLD, 28));
+                speedGc.fillText("SPACE", 140, 34);   
+            }
             speedGc.setLineWidth(4.0);
             speedGc.setStroke(Color.BLACK);
             speedGc.strokeRect(4, 4, 300, 40);
@@ -640,19 +662,16 @@ public class MiniGolf extends LiveGame {
 
     public void actionOnKeyPressed(String input) {
         activeKeys.add(input);
-        // out.println("gameState:"+playerToken+":addActiveKey:"+input);
     }
 
     public void actionOnKeyReleased(String input) {
         activeKeys.remove(input);
-        // out.println("gameState:"+playerToken+":removeActiveKey:"+input);
-
         
         if (input.equals(("LEFT")) || input.equals(("RIGHT"))) {
             out.println("gameState:"+playerToken+":directionAngle:"+directionAngle);
         }
 
-        if (input.equals(("SPACE")) && !isShooting && !ballInHole && !inWater) {
+        if (input.equals(("SPACE")) && !isShooting && !ballInHole && !inWater && readyToShoot) {
             out.println("gameState:"+playerToken+":shoot:"+directionAngle+":"+power);
             shoot();
             strokeCount++;
