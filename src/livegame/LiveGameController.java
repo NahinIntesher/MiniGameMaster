@@ -17,8 +17,10 @@ import org.json.JSONObject;
 
 import database.DatabaseConnection;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -93,6 +95,10 @@ public class LiveGameController {
     private Label playerBlueName;
     @FXML
     private Label playerBlueTrophies;
+    @FXML
+    private Label startingInScreenPlayerBlueName;
+    @FXML
+    private Label startingInScreenPlayerBlueTrophy;
 
     @FXML
     private Pane playerBlueProgressPoint1;
@@ -123,6 +129,10 @@ public class LiveGameController {
     private Label playerRedName;
     @FXML
     private Label playerRedTrophies;
+    @FXML
+    private Label startingInScreenPlayerRedName;
+    @FXML
+    private Label startingInScreenPlayerRedTrophy;
 
     @FXML
     private Pane playerRedProgressPoint1;
@@ -158,6 +168,35 @@ public class LiveGameController {
     private String playerRedGameTime3 = null;
 
     @FXML
+    private Label victoryScreenGameName1;
+    @FXML
+    private Label victoryScreenGameName2;
+    @FXML
+    private Label victoryScreenGameName3;
+
+    @FXML
+    private Label victoryScreenPlayerBlueName;
+    @FXML
+    private Label victoryScreenPlayerBlueTrophy;
+    @FXML
+    private Label victoryScreenPlayerBlueGame1Time;
+    @FXML
+    private Label victoryScreenPlayerBlueGame2Time;
+    @FXML
+    private Label victoryScreenPlayerBlueGame3Time;
+
+    @FXML
+    private Label victoryScreenPlayerRedName; 
+    @FXML
+    private Label victoryScreenPlayerRedTrophy;
+    @FXML
+    private Label victoryScreenPlayerRedGame1Time;
+    @FXML
+    private Label victoryScreenPlayerRedGame2Time;
+    @FXML
+    private Label victoryScreenPlayerRedGame3Time;
+
+    @FXML
     public void initialize() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Connection connection = null;
@@ -179,6 +218,8 @@ public class LiveGameController {
                 Platform.runLater(() -> {
                     playerBlueName.setText(playerBlueNameData);
                     playerBlueTrophies.setText(playerBlueTrophiesData);
+                    startingInScreenPlayerBlueName.setText(playerBlueNameData);;
+                    startingInScreenPlayerBlueTrophy.setText(playerBlueTrophiesData);
                 });
 
             } else {
@@ -249,6 +290,8 @@ public class LiveGameController {
                                     Platform.runLater(() -> {
                                         playerRedName.setText(playerRedNameData);
                                         playerRedTrophies.setText(playerRedTrophiesData);
+                                        startingInScreenPlayerRedName.setText(playerRedNameData);
+                                        startingInScreenPlayerRedTrophy.setText(playerRedTrophiesData);
                                     });
 
                                     startCountdown();
@@ -261,13 +304,6 @@ public class LiveGameController {
                                     out.println("startNextGame:" + playerToken + ":"
                                             + String.format("%02d:%02d", minutes, seconds));
                                 }
-                                // Platform.runLater(()->{
-                                // if(!getPlayerToken.equals(playerToken)) {
-                                // victoryLabel.setText("Defeat");
-                                // }
-                                // victoryContainer.setManaged(true);
-                                // victoryContainer.setVisible(true);
-                                // });
                             } else if (messageType.equals("startNextGame")) {
                                 String getPlayerToken = message.split(":")[1];
                                 String completeTime = message.split(":")[2] + ":" + message.split(":")[3];
@@ -322,7 +358,7 @@ public class LiveGameController {
         new Thread(() -> {
             try {
                 while (battleRunning) {
-                    for (seconds = 0; seconds <= 59; seconds++) {
+                    for (seconds = 0; seconds < 60 && battleRunning; seconds++) {
                         Platform.runLater(() -> {
                             battleTimer.setText(String.format("%02d:%02d", minutes, seconds));
                         });
@@ -360,6 +396,48 @@ public class LiveGameController {
             LiveGame playerRedGame1 = LiveGame.getGameInstance(games[0], gamesInitInfo[0], roomId, playerToken, false);
             playerRedPlayground.getChildren().add(playerRedGame1);
         });
+    }
+
+    private void setVictoryScreenData() {
+        victoryScreenGameName1.setText(LiveGame.getGameTitle(games[0]));
+        victoryScreenGameName2.setText(LiveGame.getGameTitle(games[1]));
+        victoryScreenGameName3.setText(LiveGame.getGameTitle(games[2]));
+
+        victoryScreenPlayerBlueName.setText(playerBlueNameData);
+        victoryScreenPlayerBlueTrophy.setText(playerBlueTrophiesData);
+        if(playerBlueGameTime1 != null) {
+            victoryScreenPlayerBlueGame1Time.setText(playerBlueGameTime1);
+            victoryScreenPlayerBlueGame1Time.getStyleClass().remove("victory-screen-games-not-complete");
+            victoryScreenPlayerBlueGame1Time.getStyleClass().add("victory-screen-games-complete-time");
+        }
+        if(playerBlueGameTime2 != null) {
+            victoryScreenPlayerBlueGame2Time.setText(playerBlueGameTime2);
+            victoryScreenPlayerBlueGame2Time.getStyleClass().remove("victory-screen-games-not-complete");
+            victoryScreenPlayerBlueGame2Time.getStyleClass().add("victory-screen-games-complete-time");
+        }
+        if(playerBlueGameTime3 != null) {
+            victoryScreenPlayerBlueGame3Time.setText(playerBlueGameTime3);
+            victoryScreenPlayerBlueGame3Time.getStyleClass().remove("victory-screen-games-not-complete");
+            victoryScreenPlayerBlueGame3Time.getStyleClass().add("victory-screen-games-complete-time");
+        }
+
+        victoryScreenPlayerRedName.setText(playerRedNameData);
+        victoryScreenPlayerRedTrophy.setText(playerRedTrophiesData);
+        if(playerRedGameTime1 != null) {
+            victoryScreenPlayerRedGame1Time.setText(playerRedGameTime1);
+            victoryScreenPlayerRedGame1Time.getStyleClass().remove("victory-screen-games-not-complete");
+            victoryScreenPlayerRedGame1Time.getStyleClass().add("victory-screen-games-complete-time");
+        }
+        if(playerRedGameTime2 != null) {
+            victoryScreenPlayerRedGame2Time.setText(playerRedGameTime2);
+            victoryScreenPlayerRedGame2Time.getStyleClass().remove("victory-screen-games-not-complete");
+            victoryScreenPlayerRedGame2Time.getStyleClass().add("victory-screen-games-complete-time");
+        }
+        if(playerRedGameTime3 != null) {
+            victoryScreenPlayerRedGame3Time.setText(playerRedGameTime3);
+            victoryScreenPlayerRedGame3Time.getStyleClass().remove("victory-screen-games-not-complete");
+            victoryScreenPlayerRedGame3Time.getStyleClass().add("victory-screen-games-complete-time");
+        }
     }
 
     public void startNextGame(String player, String completeTime) {
@@ -418,6 +496,7 @@ public class LiveGameController {
                 });
             } else {
                 playerBlueGameTime3 = completeTime;
+                battleRunning = false;
                 Platform.runLater(() -> {
                     playerBlueProgressLabel3.setText(completeTime);
                     playerBlueProgressLabel3.setStyle("-fx-font-weight: bold;");
@@ -426,7 +505,11 @@ public class LiveGameController {
                     playerBlueProgressLabel4.setStyle("-fx-font-weight: bold;");
                     playerBlueProgressPoint4.setBackground(
                             new Background(new BackgroundFill(Color.web("#0000cc"), new CornerRadii(15), null)));
-
+                    
+                    out.println("matchEnd:"+playerToken);
+                    setVictoryScreenData();
+                    victoryContainer.setManaged(true);
+                    victoryContainer.setVisible(true);
                 });
             }
         } else if (player.equals("red")) {
@@ -464,6 +547,7 @@ public class LiveGameController {
                 });
             } else {
                 playerRedGameTime3 = completeTime;
+                battleRunning = false;
                 Platform.runLater(() -> {
                     playerRedProgressLabel3.setText(completeTime);
                     playerRedProgressLabel3.setStyle("-fx-font-weight: bold;");
@@ -472,8 +556,30 @@ public class LiveGameController {
                     playerRedProgressLabel4.setStyle("-fx-font-weight: bold;");
                     playerRedProgressPoint4.setBackground(
                             new Background(new BackgroundFill(Color.web("#cc0000"), new CornerRadii(15), null)));
+
+                    victoryLabel.setText("Defeat");
+                    setVictoryScreenData();
+                    out.println("matchEnd:"+playerToken);
+                    victoryContainer.setManaged(true);
+                    victoryContainer.setVisible(true);
                 });
             }
+        }
+    }
+
+    @FXML
+    private void backToHomeButtonOnAction(ActionEvent e){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

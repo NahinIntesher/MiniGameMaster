@@ -126,9 +126,32 @@ class LiveGame extends StackPane {
                 gameInitializeInfo.put("levelData", levelData[randomI]);
                 gameInitializeInfo.put("defaultBallX", defaultBallX[randomI]);
                 gameInitializeInfo.put("defaultBallY", defaultBallY[randomI]); 
-                return gameInitializeInfo;    
+                return gameInitializeInfo;
+
+            case "Tetris":
+                int[] randomShape = new int[100]; 
+                
+                for (int i = 0; i < 100; i++) {
+                    randomShape[i] = random.nextInt(7);
+                }    
+                gameInitializeInfo.put("randomShape", randomShape); 
+                return gameInitializeInfo;
+                
+            case "Snake":
+                int[] randomFoodX = new int[100]; 
+                int[] randomFoodY = new int[100]; 
+                
+                for (int i = 0; i < 100; i++) {
+                    randomFoodX[i] = random.nextInt(25);
+                    randomFoodY[i] = random.nextInt(20);
+                }    
+                gameInitializeInfo.put("randomFoodX", randomFoodX); 
+                gameInitializeInfo.put("randomFoodY", randomFoodY);
+                 
+                return gameInitializeInfo;
+
             default:
-                return new JSONObject();
+                return gameInitializeInfo;
         }
     }
 
@@ -156,6 +179,19 @@ class LiveGame extends StackPane {
                 return new Tetris(gameInitializeInfo, roomId, playerToken, self);        
             default:
                 return new Snake(gameInitializeInfo, roomId, playerToken, self);
+        }
+    } 
+
+    public static String getGameTitle(String gameName) {
+        switch (gameName) {
+            case "Snake":
+                return "Snake";  
+            case "MiniGolf":
+                return "Mini Golf"; 
+            case "Tetris":
+                return "Tetris";
+            default:
+                return "";
         }
     } 
 }

@@ -68,11 +68,7 @@ public class Tetris extends LiveGame {
     private int[][] newCurrentTetromino;
     private int[][] newNextTetromino;
 
-    private int[] randomShape = { 3, 5, 0, 2, 6, 1, 4, 6, 3, 0, 2, 5, 1, 6, 4, 3, 0, 5, 2, 1,
-            4, 6, 0, 3, 5, 1, 2, 6, 4, 0, 5, 3, 1, 6, 2, 4, 0, 5, 3, 6,
-            1, 4, 2, 0, 6, 3, 1, 5, 4, 0, 2, 6, 1, 3, 3, 4, 5, 0, 6, 2, 1,
-            4, 5, 3, 0, 2, 6, 1, 4, 3, 5, 0, 2, 6, 1, 4, 3, 5, 0, 6, 2,
-            1, 3, 4, 5, 6, 0, 5, 2, 1, 4, 5, 3, 6, 0, 2, 1, 4, 3, 0, 5 };
+    private int[] randomShape = new int[100];
 
     private int shapeI = 0;
 
@@ -109,7 +105,7 @@ public class Tetris extends LiveGame {
             }
         }
 
-        if (shapeI < 99) {
+        if (shapeI < 100) {
             shapeI++;
         } else {
             shapeI = 0;
@@ -131,6 +127,12 @@ public class Tetris extends LiveGame {
     public Tetris(JSONObject gameInitializeInfo, String roomId, String playerToken, boolean self) {
         this.playerToken = playerToken;
         this.self = self;
+
+        JSONArray randomShapeJsonArray = gameInitializeInfo.getJSONArray("randomShape");
+
+        for(int i=0; i< 100; i++) {
+            randomShape[i] = randomShapeJsonArray.getInt(i);
+        }
 
         try {
             socket = new Socket(serverAddress, 12345);
@@ -269,6 +271,11 @@ public class Tetris extends LiveGame {
                             terminateGame();
                             break;
                         }
+                    }
+
+                    if (messageType.equals("matchEnd")) {
+                        terminateGame();
+                        break;
                     }
                 }
             } catch (IOException e) {

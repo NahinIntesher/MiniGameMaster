@@ -45,31 +45,8 @@ public class Snake extends LiveGame {
     private static final int HEIGHT = 400;
     private static final int TILE_SIZE = 20;
 
-    int[] randomFoodX = {
-            23, 10, 15, 7, 21, 3, 12, 5, 9, 0,
-            18, 24, 4, 17, 22, 6, 8, 11, 14, 2,
-            19, 16, 24, 20, 13, 1, 7, 14, 3, 18,
-            9, 6, 12, 5, 11, 22, 8, 0, 23, 17,
-            23, 4, 15, 20, 21, 10, 19, 13, 16, 24,
-            14, 7, 9, 2, 18, 6, 11, 12, 0, 22,
-            22, 21, 1, 8, 3, 13, 17, 10, 5, 19,
-            4, 24, 15, 16, 20, 14, 7, 23, 2, 18,
-            6, 0, 21, 11, 9, 5, 1, 3, 22, 17,
-            8, 13, 10, 12, 21, 15, 20, 19, 4, 24
-    };
-
-    int[] randomFoodY = {
-            10, 18, 2, 19, 7, 5, 13, 9, 15, 19,
-            19, 12, 0, 9, 3, 6, 11, 8, 5, 4,
-            19, 1, 17, 13, 14, 16, 18, 7, 5, 13,
-            4, 0, 9, 15, 3, 12, 2, 13, 19, 10,
-            10, 6, 4, 11, 18, 8, 2, 14, 16, 17,
-            1, 2, 19, 5, 3, 12, 19, 7, 14, 8,
-            13, 18, 14, 10, 19, 1, 11, 16, 4, 19,
-            17, 6, 9, 13, 4, 2, 15, 0, 19, 8,
-            14, 19, 18, 7, 11, 19, 6, 3, 9, 5,
-            4, 18, 2, 13, 1, 0, 16, 4, 12, 17
-    };
+    int[] randomFoodX = new int[100];
+    int[] randomFoodY = new int[100];
 
     int iFood = 0;
 
@@ -91,11 +68,19 @@ public class Snake extends LiveGame {
     private Timeline timeline;
 
     private Label currentScoreValue = new Label("0");
-    private Text gameOverText = new Text("-5");
+    private Text gameOverText = new Text("-2");
 
     public Snake(JSONObject gameInitializeInfo, String roomId, String playerToken, boolean self) {
         this.playerToken = playerToken;
         this.self = self;
+
+        JSONArray randomFoodXJsonArray = gameInitializeInfo.getJSONArray("randomFoodX");
+        JSONArray randomFoodYJsonArray = gameInitializeInfo.getJSONArray("randomFoodY");
+
+        for(int i=0; i< 100; i++) {
+            randomFoodX[i] = randomFoodXJsonArray.getInt(i);
+            randomFoodY[i] = randomFoodYJsonArray.getInt(i);
+        }
 
         this.setBackground(new Background(new BackgroundFill(Color.web("#239b56"), null, null)));
         this.setAlignment(Pos.CENTER);
@@ -209,6 +194,10 @@ public class Snake extends LiveGame {
                         }
                     }
                     
+                    if (messageType.equals("matchEnd")) {
+                        terminateGame();
+                        break;
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -236,7 +225,7 @@ public class Snake extends LiveGame {
         food[0] = randomFoodX[iFood];
         food[1] = randomFoodY[iFood];
 
-        if (iFood <= 98) {
+        if (iFood < 100) {
             iFood++;
         } else {
             iFood = 0;
@@ -355,8 +344,8 @@ public class Snake extends LiveGame {
         running = false;
         timeline.stop();
         Platform.runLater(() -> {
-            if(score-5 >= 0) {
-                gameOverText.setText("-5");
+            if(score-2 >= 0) {
+                gameOverText.setText("-2");
             }
             else {
                 gameOverText.setText("0");                        
@@ -371,8 +360,8 @@ public class Snake extends LiveGame {
                     gameOverText.setVisible(false);
                 });
                 if (self) {
-                    if(score-5 >= 0) {
-                        initGame(score - 5);
+                    if(score-2 >= 0) {
+                        initGame(score - 2);
                     }
                     else {
                         initGame(0);
@@ -421,13 +410,6 @@ public class Snake extends LiveGame {
     public void terminateGame() {
         timeline.stop();
         running = false;
-        if (socket != null) {
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private void sendGameState() {

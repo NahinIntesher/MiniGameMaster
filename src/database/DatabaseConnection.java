@@ -3,8 +3,10 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class DatabaseConnection {
+public class DatabaseConnection {  
+//    public static String serverAddress = "10.15.10.191";
     public static String serverAddress = "192.168.10.100";
+
 
     public Connection databaseLink;
 

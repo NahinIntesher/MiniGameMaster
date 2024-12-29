@@ -63,8 +63,8 @@ public class MiniGolf extends LiveGame {
     private static final char WATER = 'W';
 
     // Added friction multiplier for sand
-    private static final double SAND_FRICTION = 0.78;
-    private static final double NORMAL_FRICTION = 0.98;
+    private static final double SAND_FRICTION = 0.80;
+    private static final double NORMAL_FRICTION = 0.95;
 
     // Previous variables remain the same, but friction is no longer final
     private double friction = NORMAL_FRICTION;
@@ -81,7 +81,7 @@ public class MiniGolf extends LiveGame {
     private double ballYDefault;
     private double ballX;
     private double ballY;
-    private double ballRadius = 10;
+    private double ballRadius = 8;
     private double directionAngle = -90;
     private double power = 0;
     private double powerIncrement = 2;
@@ -234,11 +234,17 @@ public class MiniGolf extends LiveGame {
                     if (messageType.equals("gameComplete")) {
                         String fromPlayerToken = message.split(":")[1];
                         if (!self && !fromPlayerToken.equals(playerToken)) {
+                            terminateGame();
                             break;
                         }
                         if (self && fromPlayerToken.equals(playerToken)) {
+                            terminateGame();
                             break;
                         }
+                    }
+                    if (messageType.equals("matchEnd")) {
+                        terminateGame();
+                        break;
                     }
                 }
             } catch (IOException e) {
@@ -615,18 +621,16 @@ public class MiniGolf extends LiveGame {
             speedGc.setLineWidth(4.0);
             speedGc.setStroke(Color.BLACK);
             speedGc.strokeRect(4, 4, 300, 40);
-        } else if (self && !isShooting && !inWater && !ballInHole) {
+        } else if (readyToShoot && self && !isShooting && !inWater && !ballInHole) {
             speedGc.setFill(Color.web("#935116"));
             speedGc.fillRect(0, 0, 308, 48);
             speedGc.setFill(Color.WHITE);
             speedGc.fillRect(4, 4, 300, 40);
-            if(readyToShoot) {
-                speedGc.setFill(Color.BLACK);
-                speedGc.setFont(Font.font("Poppins", 20));
-                speedGc.fillText("Hold", 85, 32);
-                speedGc.setFont(Font.font("Poppins", FontWeight.BOLD, 28));
-                speedGc.fillText("SPACE", 140, 34);   
-            }
+            speedGc.setFill(Color.BLACK);
+            speedGc.setFont(Font.font("Poppins", 20));
+            speedGc.fillText("Hold", 85, 32);
+            speedGc.setFont(Font.font("Poppins", FontWeight.BOLD, 28));
+            speedGc.fillText("SPACE", 140, 34);   
             speedGc.setLineWidth(4.0);
             speedGc.setStroke(Color.BLACK);
             speedGc.strokeRect(4, 4, 300, 40);
