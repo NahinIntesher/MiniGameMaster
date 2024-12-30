@@ -3,8 +3,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.*?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="700.0" prefWidth="1200.0"  styleClass="root-pane"  stylesheets="@styles.css" fx:controller="auth.SignupController">
-    <HBox spacing="0" alignment="CENTER" maxWidth="800" maxHeight="500" styleClass="form-pane">
+<StackPane xmlns:fx="http://javafx.com/fxml" prefHeight="700.0" prefWidth="1200.0"  styleClass="root-pane"  stylesheets="@authStyle.css" fx:controller="auth.SignupController">
+    <HBox spacing="0" alignment="CENTER" maxWidth="800" maxHeight="600" styleClass="form-pane">
         <!-- Left Section -->
         <VBox alignment="CENTER" prefWidth="300" styleClass="left-section">
             <Label text="MINI GAME" styleClass="title-mini" />
@@ -16,7 +16,7 @@
             <Label text="Signup" styleClass="title-login" />
             <VBox spacing="6" alignment="CENTER_LEFT" maxWidth="400">
                 
-                <Label fx:id="signupMessageLabel" text="" styleClass="signup-message" visible="false" managed="false"/>
+                <Label fx:id="signupMessageLabel" text="" styleClass="login-message" visible="false" managed="false"/>
                 
                 <Label text="Username" styleClass="label-text" />
                 <TextField fx:id="usernameField" promptText="Enter your username" styleClass="input-field" />
@@ -28,7 +28,12 @@
                 <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="input-field" />
             </VBox>
             <Button fx:id="signupButton" text="Signup" styleClass="login-button" onAction="#signupButtonOnAction"/>
-            <Button text="Login with your account" styleClass="create-account-button" onAction="#gotoLoginButtonAction" />
+            <Button text="Login With Existing Account" styleClass="create-account-button" onAction="#gotoLoginButtonAction" />
         </VBox>
     </HBox>
+   <StackPane managed="false" visible="false" fx:id="loadingScreen" styleClass="loading-screen">
+      <children>
+         <ProgressIndicator styleClass="loading-screen-progress-bar" />
+      </children>
+   </StackPane>
 </StackPane>

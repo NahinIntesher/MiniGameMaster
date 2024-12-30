@@ -63,8 +63,8 @@ public class MiniGolf extends LiveGame {
     private static final char WATER = 'W';
 
     // Added friction multiplier for sand
-    private static final double SAND_FRICTION = 0.80;
-    private static final double NORMAL_FRICTION = 0.95;
+    private static final double SAND_FRICTION = 0.75;
+    private static final double NORMAL_FRICTION = 0.90;
 
     // Previous variables remain the same, but friction is no longer final
     private double friction = NORMAL_FRICTION;
@@ -81,7 +81,7 @@ public class MiniGolf extends LiveGame {
     private double ballYDefault;
     private double ballX;
     private double ballY;
-    private double ballRadius = 8;
+    private double ballRadius = 9;
     private double directionAngle = -90;
     private double power = 0;
     private double powerIncrement = 2;

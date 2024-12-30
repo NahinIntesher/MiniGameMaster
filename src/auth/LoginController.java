@@ -1,5 +1,6 @@
 package auth;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 import javafx.scene.Node;
@@ -34,7 +36,10 @@ public class LoginController {
     private Label loginMessageLabel;
 
     @FXML
-    private void gotoSignupButtonAction(ActionEvent e){
+    private StackPane loadingScreen;
+
+    @FXML
+    private void gotoSignupButtonAction(ActionEvent e) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("./signup.fxml"));
             Parent root = loader.load();
@@ -49,7 +54,6 @@ public class LoginController {
         }
     }
 
-
     @FXML
     private void loginButtonOnAction(ActionEvent e) {
         if (usernameField.getText().isBlank()) {
@@ -61,62 +65,80 @@ public class LoginController {
             loginMessageLabel.setManaged(true);
             loginMessageLabel.setText("Please enter password!");
         } else {
-            DatabaseConnection databaseConnection = new DatabaseConnection();
-            Connection connection = null;
-            Statement statement = null;
-            ResultSet result = null;
+            loadingScreen.setManaged(true);
+            loadingScreen.setVisible(true);
 
-            try {
-                connection = databaseConnection.getConnection();
-                statement = connection.createStatement();
-                
-                String query = "SELECT * FROM users WHERE username = '" + usernameField.getText() + "'";
-                
-                result = statement.executeQuery(query);
+            new Thread(() -> {
+                DatabaseConnection databaseConnection = new DatabaseConnection();
+                Connection connection = null;
+                Statement statement = null;
+                ResultSet result = null;
 
-                if (result.next()) {
-                    String userid = result.getString("id");
-                    String password = result.getString("password");
+                try {
+                    connection = databaseConnection.getConnection();
+                    statement = connection.createStatement();
 
-                    if (password.equals(passwordField.getText())) {
-                        try {
-                            Preferences preferences = Preferences.userRoot().node("authData");
-                            preferences.put("userid", userid);
+                    String query = "SELECT * FROM users WHERE username = '" + usernameField.getText() + "'";
 
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
-                            Parent root = loader.load();
-                
-                            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                
-                            stage.setScene(new Scene(root));
-                            stage.setTitle("Dashboard");
-                            stage.show();
+                    result = statement.executeQuery(query);
 
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
+                    if (result.next()) {
+                        String userid = result.getString("id");
+                        String password = result.getString("password");
+
+                        if (password.equals(passwordField.getText())) {
+                            Platform.runLater(() -> {
+                                try {
+
+                                    Preferences preferences = Preferences.userRoot().node("authData");
+                                    preferences.put("userid", userid);
+
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
+                                    Parent root = loader.load();
+
+                                    Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+                                    stage.setScene(new Scene(root));
+                                    stage.setTitle("Dashboard");
+                                    stage.show();
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            });
+                        } else {
+                            Platform.runLater(() -> {
+                                loginMessageLabel.setVisible(true);
+                                loginMessageLabel.setManaged(true);
+                                loginMessageLabel.setText("Password does not found!");
+                            });
                         }
                     } else {
-                        loginMessageLabel.setVisible(true);
-                        loginMessageLabel.setManaged(true);
-                        loginMessageLabel.setText("Password does not found!");
+                        Platform.runLater(() -> {
+                            loginMessageLabel.setVisible(true);
+                            loginMessageLabel.setManaged(true);
+                            loginMessageLabel.setText("User not found!");
+                        });
                     }
-                } else {
-                    loginMessageLabel.setVisible(true);
-                    loginMessageLabel.setManaged(true);
-                    loginMessageLabel.setText("User not found!");
-                }
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            } finally {
-                try {
-                    if (result != null) result.close();
-                    if (statement != null) statement.close();
-                    if (connection != null) connection.close();
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                } finally {
+                    try {
+                        if (result != null)
+                            result.close();
+                        if (statement != null)
+                            statement.close();
+                        if (connection != null)
+                            connection.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    Platform.runLater(() -> {
+                        loadingScreen.setManaged(false);
+                        loadingScreen.setVisible(false);
+                    });
                 }
-            }
+            }).start();
         }
     }
 }

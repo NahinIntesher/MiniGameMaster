@@ -1,17 +1,18 @@
 {
   "java.project.sourcePaths": ["src"],
   "java.project.outputPath": "bin",
+  "java.debug.settings.vmArgs": "--module-path \"libraries/javafx-sdk-23.0.1/lib\" --add-modules javafx.controls,javafx.fxml",
   "java.project.referencedLibraries": [
     "lib/**/*.jar",
-    "c:\\Program Files\\javafx-sdk-23.0.1\\lib\\javafx.base.jar",
-    "c:\\Program Files\\javafx-sdk-23.0.1\\lib\\javafx.controls.jar",
-    "c:\\Program Files\\javafx-sdk-23.0.1\\lib\\javafx.fxml.jar",
-    "c:\\Program Files\\javafx-sdk-23.0.1\\lib\\javafx.graphics.jar",
-    "c:\\Program Files\\javafx-sdk-23.0.1\\lib\\javafx.media.jar",
-    "c:\\Program Files\\javafx-sdk-23.0.1\\lib\\javafx.swing.jar",
-    "c:\\Program Files\\javafx-sdk-23.0.1\\lib\\javafx.web.jar",
-    "c:\\Program Files\\javafx-sdk-23.0.1\\lib\\javafx-swt.jar",
-    "c:\\Program Files\\mysql-connector-j-9.1.0\\mysql-connector-j-9.1.0.jar",
-    "c:\\Program Files\\jars\\json-20240303.jar"
+    "libraries/javafx-sdk-23.0.1/lib/javafx.base.jar",
+    "libraries/javafx-sdk-23.0.1/lib/javafx.controls.jar",
+    "libraries/javafx-sdk-23.0.1/lib/javafx.fxml.jar",
+    "libraries/javafx-sdk-23.0.1/lib/javafx.graphics.jar",
+    "libraries/javafx-sdk-23.0.1/lib/javafx.media.jar",
+    "libraries/javafx-sdk-23.0.1/lib/javafx.swing.jar",
+    "libraries/javafx-sdk-23.0.1/lib/javafx.web.jar",
+    "libraries/javafx-sdk-23.0.1/lib/javafx-swt.jar",
+    "libraries/jars/json-20240303.jar",
+    "libraries/mysql-connector-j-9.1.0/mysql-connector-j-9.1.0.jar"
   ]
 }

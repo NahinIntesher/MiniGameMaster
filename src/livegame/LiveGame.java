@@ -142,8 +142,8 @@ class LiveGame extends StackPane {
                 int[] randomFoodY = new int[100]; 
                 
                 for (int i = 0; i < 100; i++) {
-                    randomFoodX[i] = random.nextInt(25);
-                    randomFoodY[i] = random.nextInt(20);
+                    randomFoodX[i] = random.nextInt(20);
+                    randomFoodY[i] = random.nextInt(16);
                 }    
                 gameInitializeInfo.put("randomFoodX", randomFoodX); 
                 gameInitializeInfo.put("randomFoodY", randomFoodY);

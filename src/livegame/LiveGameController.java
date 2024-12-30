@@ -57,10 +57,11 @@ public class LiveGameController {
     JSONObject messageObject;
 
     Preferences preferences = Preferences.userRoot().node("authData");
-    String userid = preferences.get("userid", "default");
+    
+    private String userid = preferences.get("userid", "default");
 
-    private String playerBlueNameData;
-    private String playerBlueTrophiesData;
+    private String playerBlueNameData = preferences.get("username", "default");
+    private String playerBlueTrophiesData = preferences.get("trophies", "default");;
     private String playerRedNameData;
     private String playerRedTrophiesData;
 
@@ -198,49 +199,6 @@ public class LiveGameController {
 
     @FXML
     public void initialize() {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet result = null;
-
-        try {
-            connection = databaseConnection.getConnection();
-            statement = connection.createStatement();
-
-            String query = "SELECT * FROM users WHERE id = " + userid;
-
-            result = statement.executeQuery(query);
-
-            if (result.next()) {
-                playerBlueNameData = result.getString("username");
-                playerBlueTrophiesData = result.getString("trophies");
-
-                Platform.runLater(() -> {
-                    playerBlueName.setText(playerBlueNameData);
-                    playerBlueTrophies.setText(playerBlueTrophiesData);
-                    startingInScreenPlayerBlueName.setText(playerBlueNameData);;
-                    startingInScreenPlayerBlueTrophy.setText(playerBlueTrophiesData);
-                });
-
-            } else {
-                System.out.println("Error while getting player data!");
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (result != null)
-                    result.close();
-                if (statement != null)
-                    statement.close();
-                if (connection != null)
-                    connection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-
         try {
             String serverAddress = DatabaseConnection.serverAddress;
             socket = new Socket(serverAddress, 12345); // Connect to the server
@@ -288,6 +246,11 @@ public class LiveGameController {
                                     playerRedTrophiesData = message.split(":")[3];
 
                                     Platform.runLater(() -> {
+                                        playerBlueName.setText(playerBlueNameData);
+                                        playerBlueTrophies.setText(playerBlueTrophiesData);
+                                        startingInScreenPlayerBlueName.setText(playerBlueNameData);
+                                        startingInScreenPlayerBlueTrophy.setText(playerBlueTrophiesData);
+
                                         playerRedName.setText(playerRedNameData);
                                         playerRedTrophies.setText(playerRedTrophiesData);
                                         startingInScreenPlayerRedName.setText(playerRedNameData);

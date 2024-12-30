@@ -195,7 +195,8 @@
 .player-detail-name {
     -fx-text-fill: #ffffff;
     -fx-font-size: 20px;
-    -fx-font-family: "Poppins Medium";
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
 }
 
 .player-detail-trophy {
@@ -309,4 +310,14 @@
 .logout-btn-text {
     -fx-font-family: "Poppins Medium";
     -fx-font-size: 15px;
+}
+
+.loading-screen {
+    -fx-background-color: #00000066;
+}
+
+.loading-screen-progress-bar {
+    -fx-progress-color: #fefe00;
+    -fx-min-width: 100px;
+    -fx-min-height: 100px;
 }

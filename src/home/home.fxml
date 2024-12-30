@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -12,162 +13,172 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@homeStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.HomeController">
-   <center>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@homeStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.HomeController">
+   <children>
+      <BorderPane fx:id="borderPane">
+         <center>
+            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-logo-cont">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-logo-sub-title" text="MINI GAME" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-logo-title" text="MASTER" />
-                     </children>
-                  </VBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                     <children>
-                        <VBox onMouseClicked="#liveGameButtonAction" prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn-cont">
+                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-logo-cont">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-semi-title" text="Live" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-title" text="Battle" />
-                                 </children>
-                              </VBox>
-                              <Label styleClass="game-mode-btn-bottom" text="Mode" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-logo-sub-title" text="MINI GAME" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-logo-title" text="MASTER" />
                            </children>
                         </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn-cont">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn">
+                              <VBox onMouseClicked="#liveGameButtonAction" prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn-cont">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-semi-title" text="High Score" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-title" text="Beating" />
+                                    <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-semi-title" text="Live" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-title" text="Battle" />
+                                       </children>
+                                    </VBox>
+                                    <Label styleClass="game-mode-btn-bottom" text="Mode" />
                                  </children>
                               </VBox>
-                              <Label styleClass="game-mode-btn-bottom" text="Mode" />
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn-cont">
-                           <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn">
+                              <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn-cont">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-semi-title" text="Adventure" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-title" text="Story" />
+                                    <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-semi-title" text="High Score" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-title" text="Beating" />
+                                       </children>
+                                    </VBox>
+                                    <Label styleClass="game-mode-btn-bottom" text="Mode" />
                                  </children>
                               </VBox>
-                              <Label styleClass="game-mode-btn-bottom" text="Mode" />
+                              <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn-cont">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-semi-title" text="Adventure" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="game-mode-btn-title" text="Story" />
+                                       </children>
+                                    </VBox>
+                                    <Label styleClass="game-mode-btn-bottom" text="Mode" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
-      </StackPane>
-   </center>
-   <bottom>
-      <StackPane maxHeight="80.0" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefWidth="200.0" spacing="24.0" styleClass="footer">
-               <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
-                     <children>
-                        <Label styleClass="footer-btn-icon" text="" />
-                        <Label styleClass="footer-btn-name" text="Friends" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
-                     <children>
-                        <Label styleClass="footer-btn-icon" text="" />
-                        <Label styleClass="footer-btn-name" text="Settings" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
-                     <children>
-                        <Label styleClass="footer-btn-icon" text="" />
-                        <Label styleClass="footer-btn-name" text="Leaderboard" />
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
-                     <children>
-                        <Label styleClass="footer-btn-icon" text="" />
-                        <Label styleClass="footer-btn-name" text="Shops" />
+                        </HBox>
                      </children>
                   </VBox>
                </children>
-            </HBox>
-         </children>
-      </StackPane>
-   </bottom>
-   <top>
-      <GridPane styleClass="top-cont" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <StackPane alignment="CENTER_LEFT" prefWidth="200.0">
+            </StackPane>
+         </center>
+         <bottom>
+            <StackPane maxHeight="80.0" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="16.0" styleClass="player-detail">
+                  <HBox prefWidth="200.0" spacing="24.0" styleClass="footer">
                      <children>
-                        <Pane prefHeight="200.0" prefWidth="200.0" styleClass="player-detail-pic" />
-                        <VBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="100.0" spacing="4.0">
+                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
                            <children>
-                              <Label fx:id="playerUsername" lineSpacing="12.0" styleClass="player-detail-name" text="" />
-                              <HBox styleClass="player-detail-trophy">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="player-detail-trophy-icon" text="" />
-                                    <Label fx:id="playerTrophies" styleClass="player-detail-trophy-text" text="" />
-                                 </children>
-                              </HBox>
+                              <Label styleClass="footer-btn-icon" text="" />
+                              <Label styleClass="footer-btn-name" text="Friends" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
+                           <children>
+                              <Label styleClass="footer-btn-icon" text="" />
+                              <Label styleClass="footer-btn-name" text="Settings" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
+                           <children>
+                              <Label styleClass="footer-btn-icon" text="" />
+                              <Label styleClass="footer-btn-name" text="Leaderboard" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn">
+                           <children>
+                              <Label styleClass="footer-btn-icon" text="" />
+                              <Label styleClass="footer-btn-name" text="Shops" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
                </children>
             </StackPane>
-            <StackPane alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1">
+         </bottom>
+         <top>
+            <GridPane styleClass="top-cont" BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" styleClass="gold-box">
+                  <StackPane alignment="CENTER_LEFT" prefWidth="200.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="gold-box-icon" text="" />
-                        <Label fx:id="playerGolds" styleClass="gold-box-text" text="" />
+                        <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="16.0" styleClass="player-detail">
+                           <children>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="player-detail-pic" />
+                              <VBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="100.0" spacing="4.0">
+                                 <children>
+                                    <Label fx:id="playerUsername" lineSpacing="12.0" styleClass="player-detail-name" text="" />
+                                    <HBox styleClass="player-detail-trophy">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="player-detail-trophy-icon" text="" />
+                                          <Label fx:id="playerTrophies" styleClass="player-detail-trophy-text" text="" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </StackPane>
+                  <StackPane alignment="CENTER_RIGHT" prefWidth="200.0" GridPane.columnIndex="1">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0" styleClass="gold-box">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="gold-box-icon" text="" />
+                              <Label fx:id="playerGolds" styleClass="gold-box-text" text="" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </GridPane>
+         </top>
+         <left>
+            <StackPane prefHeight="580.0" styleClass="left-cont" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logoutButtonAction" styleClass="logout-btn">
+                     <graphic>
+                        <VBox alignment="CENTER" spacing="8.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="logout-btn-icon" text="" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="logout-btn-text" text="Logout" />
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Button>
                </children>
             </StackPane>
-         </children>
-      </GridPane>
-   </top>
-   <left>
-      <StackPane prefHeight="580.0" styleClass="left-cont" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#logoutButtonAction" styleClass="logout-btn">
-               <graphic>
-                  <VBox alignment="CENTER" spacing="8.0">
+         </left>
+         <right>
+            <StackPane styleClass="right-cont" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="6.0" styleClass="clan-btn">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="logout-btn-icon" text="" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="logout-btn-text" text="Logout" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="clan-btn-icon" text="" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="clan-btn-text" text="Clan" />
                      </children>
                   </VBox>
-               </graphic>
-            </Button>
-         </children></StackPane>
-   </left>
-   <right>
-      <StackPane styleClass="right-cont" BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="6.0" styleClass="clan-btn">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="clan-btn-icon" text="" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="clan-btn-text" text="Clan" />
                </children>
-            </VBox>
+            </StackPane>
+         </right>
+      </BorderPane>
+      <StackPane fx:id="loadingScreen" prefHeight="150.0" prefWidth="200.0" styleClass="loading-screen">
+         <children>
+            <ProgressIndicator styleClass="loading-screen-progress-bar" />
          </children>
       </StackPane>
-   </right>
-</BorderPane>
+   </children>
+</StackPane>

@@ -1,5 +1,6 @@
 package auth;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 import javafx.scene.Node;
@@ -37,7 +39,10 @@ public class SignupController {
     private Label signupMessageLabel;
 
     @FXML
-    private void gotoLoginButtonAction(ActionEvent e){
+    private StackPane loadingScreen;
+
+    @FXML
+    private void gotoLoginButtonAction(ActionEvent e) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("./login.fxml"));
             Parent root = loader.load();
@@ -68,62 +73,81 @@ public class SignupController {
             signupMessageLabel.setManaged(true);
             signupMessageLabel.setText("Please enter a password!");
         } else {
-            DatabaseConnection databaseConnection = new DatabaseConnection();
-            Connection connection = null;
-            Statement statement = null;
-            ResultSet result = null;
+            loadingScreen.setManaged(true);
+            loadingScreen.setVisible(true);
 
-            try {
-                connection = databaseConnection.getConnection();
-                statement = connection.createStatement();
+            new Thread(() -> {
+                DatabaseConnection databaseConnection = new DatabaseConnection();
+                Connection connection = null;
+                Statement statement = null;
+                ResultSet result = null;
 
-                String query = "INSERT INTO users (email, username, password, trophies) " +
-                    "VALUES ('" + emailField.getText() + "', '" + usernameField.getText() + "', '" + passwordField.getText() + "', 0)";
-
-                int rowsAffected = statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-
-                if (rowsAffected > 0) {
-                    result = statement.getGeneratedKeys();
-                    if (result.next()) {
-                        String insertId = result.getString(1); // Retrieve the first generated key
-                        
-                        Preferences preferences = Preferences.userRoot().node("authData");
-                        preferences.put("userid", insertId);
-
-                        try {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
-                            Parent root = loader.load();
-    
-                            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-    
-                            stage.setScene(new Scene(root));
-                            stage.setTitle("Dashboard");
-                            stage.show();
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                } else {
-                    signupMessageLabel.setVisible(true);
-                    signupMessageLabel.setManaged(true);
-                    signupMessageLabel.setText("Failed to register user.");
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                signupMessageLabel.setVisible(true);
-                signupMessageLabel.setManaged(true);
-                signupMessageLabel.setText("An error occurred while registering.");
-            } finally {
                 try {
-                    if (result != null) result.close();
-                    if (statement != null) statement.close();
-                    if (connection != null) connection.close();
+                    connection = databaseConnection.getConnection();
+                    statement = connection.createStatement();
+
+                    String query = "INSERT INTO users (email, username, password, trophies) " +
+                            "VALUES ('" + emailField.getText() + "', '" + usernameField.getText() + "', '"
+                            + passwordField.getText() + "', 0)";
+
+                    int rowsAffected = statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+
+                    if (rowsAffected > 0) {
+                        result = statement.getGeneratedKeys();
+                        if (result.next()) {
+                            String insertId = result.getString(1); // Retrieve the first generated key
+
+                            Preferences preferences = Preferences.userRoot().node("authData");
+                            preferences.put("userid", insertId);
+
+                            Platform.runLater(() -> {
+                                try {
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
+                                    Parent root = loader.load();
+
+                                    Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+                                    stage.setScene(new Scene(root));
+                                    stage.setTitle("Dashboard");
+                                    stage.show();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            });
+                        }
+                    } else {
+                        Platform.runLater(() -> {
+                            signupMessageLabel.setVisible(true);
+                            signupMessageLabel.setManaged(true);
+                            signupMessageLabel.setText("Failed to register user.");
+                        });
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
+
+                    Platform.runLater(() -> {
+                        signupMessageLabel.setVisible(true);
+                        signupMessageLabel.setManaged(true);
+                        signupMessageLabel.setText("An error occurred while registering.");
+                    });
+                } finally {
+                    try {
+                        if (result != null)
+                            result.close();
+                        if (statement != null)
+                            statement.close();
+                        if (connection != null)
+                            connection.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    Platform.runLater(() -> {
+                        loadingScreen.setManaged(false);
+                        loadingScreen.setVisible(false);
+                    });
                 }
-            }
+            }).start();
         }
     }
 
-    
 }

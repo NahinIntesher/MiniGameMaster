@@ -43,7 +43,7 @@ public class Snake extends LiveGame {
 
     private static final int WIDTH = 500;
     private static final int HEIGHT = 400;
-    private static final int TILE_SIZE = 20;
+    private static final int TILE_SIZE = 25;
 
     int[] randomFoodX = new int[100];
     int[] randomFoodY = new int[100];
@@ -64,6 +64,7 @@ public class Snake extends LiveGame {
     private boolean running = true;
     private int score = 0; // Added score
     private int targetScore = 10; // Added score
+    private boolean directionChanged = false;
 
     private Timeline timeline;
 
@@ -250,6 +251,8 @@ public class Snake extends LiveGame {
         }
         snake.add(0, head);
 
+        directionChanged = false;
+
         // Check collisions with walls
         if (head[0] < 0 || head[1] < 0 || head[0] >= WIDTH / TILE_SIZE || head[1] >= HEIGHT / TILE_SIZE) {
             if (self) {
@@ -391,17 +394,23 @@ public class Snake extends LiveGame {
     }
 
     public void actionOnKeyPressed(String input) {
+        if(directionChanged) return;
+
         if (input.equals("UP")) {
             setDirection("UP");
+            directionChanged = true;
         }
         if (input.equals("DOWN")) {
             setDirection("DOWN");
+            directionChanged = true;
         }
         if (input.equals("LEFT")) {
             setDirection("LEFT");
+            directionChanged = true;
         }
         if (input.equals("RIGHT")) {
             setDirection("RIGHT");
+            directionChanged = true;
         }
 
         sendGameState();
