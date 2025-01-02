@@ -196,6 +196,7 @@ public class Snake extends LiveGame {
                     }
                     
                     if (messageType.equals("matchEnd")) {
+                        System.out.println("test end");
                         terminateGame();
                         break;
                     }

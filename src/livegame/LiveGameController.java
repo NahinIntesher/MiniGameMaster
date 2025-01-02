@@ -199,6 +199,17 @@ public class LiveGameController {
 
     @FXML
     public void initialize() {
+        Platform.runLater(()->{
+            Stage stage = (Stage) ((Node) playerRedPlayground).getScene().getWindow();
+
+            stage.setOnCloseRequest((event) -> {
+                if(socket != null) {
+                    out.println("matchEnd:"+playerToken);
+                    out.println("playerLeft:"+playerToken);
+                }
+            });
+        });
+
         try {
             String serverAddress = DatabaseConnection.serverAddress;
             socket = new Socket(serverAddress, 12345); // Connect to the server
@@ -215,7 +226,7 @@ public class LiveGameController {
                 try {
                     String message;
                     while ((message = in.readLine()) != null) {
-                        // System.out.println("Server says: " + message);
+                        System.out.println("Server says: " + message);
                         if (message.startsWith("{")) {
                             messageObject = new JSONObject(message);
 
@@ -275,6 +286,16 @@ public class LiveGameController {
                                     startNextGame("blue", completeTime);
                                 } else {
                                     startNextGame("red", completeTime);
+                                }
+                            } else if (messageType.equals("playerLeft")) {
+                                String getPlayerToken = message.split(":")[1];
+
+                                if (!getPlayerToken.equals(playerToken)) {
+                                    Platform.runLater(()->{
+                                        setVictoryScreenData();
+                                        victoryContainer.setManaged(true);
+                                        victoryContainer.setVisible(true);
+                                    });
                                 }
                             }
                         }
@@ -532,6 +553,9 @@ public class LiveGameController {
 
     @FXML
     private void backToHomeButtonOnAction(ActionEvent e){
+        if(socket != null) {
+            out.println("playerLeft:"+playerToken);
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
             Parent root = loader.load();

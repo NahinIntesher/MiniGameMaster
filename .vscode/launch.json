@@ -3,6 +3,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "BrickBreakerGame",
+      "request": "launch",
+      "mainClass": "livegame.BrickBreakerGame",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
+      "name": "CanvasBrickBreaker",
+      "request": "launch",
+      "mainClass": "livegame.CanvasBrickBreaker",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
+      "name": "BrickBreaker",
+      "request": "launch",
+      "mainClass": "livegame.BrickBreaker",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
+      "name": "GameServer",
+      "request": "launch",
+      "mainClass": "livegame.GameServer",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
       "name": "Main",
       "request": "launch",
       "mainClass": "Main",

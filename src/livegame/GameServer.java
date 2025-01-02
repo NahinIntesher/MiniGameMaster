@@ -79,11 +79,14 @@ public class GameServer {
                 // Handle player communication (game updates)
                 String message;
                 while ((message = in.readLine()) != null) {
-                    // Broadcast game updates (e.g., snake movements)
                     broadcastToRoom(roomId, message);
+                    if(message.split(":")[0].equals("playerLeft")) {
+                        killRoom();
+                    }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                System.out.println("Player left: "+socket.getInetAddress());
             } finally {
                 // Cleanup when player disconnects
                 cleanupPlayer();
@@ -132,12 +135,16 @@ public class GameServer {
         }
 
         private void broadcastToRoom(String roomId, String message) {
-            for (Socket player : rooms.get(roomId)) {
-                try {
-                    new PrintWriter(player.getOutputStream(), true).println(message);
-                    System.out.println(message);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            List<Socket> roomPlayers = rooms.get(roomId);
+
+            if (roomPlayers != null) {
+                for (Socket player : roomPlayers) {
+                    try {
+                        new PrintWriter(player.getOutputStream(), true).println(message);
+                        //System.out.println(message);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -157,12 +164,16 @@ public class GameServer {
             initializationInfo.put("games", games);
             initializationInfo.put("gamesInitInfo", gamesInitInfo);
 
-            for (Socket player : rooms.get(roomId)) {
-                try {
-                    new PrintWriter(player.getOutputStream(), true).println(initializationInfo);
-                    new PrintWriter(player.getOutputStream(), true).println("startGame:" + roomId);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            
+            List<Socket> roomPlayers = rooms.get(roomId);
+            if (roomPlayers != null) {
+                for (Socket player : roomPlayers) {
+                    try {
+                        new PrintWriter(player.getOutputStream(), true).println(initializationInfo);
+                        new PrintWriter(player.getOutputStream(), true).println("startGame:" + roomId);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -181,6 +192,33 @@ public class GameServer {
                     }
                 }
                 playerRooms.remove(socket);
+            }
+            
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void killRoom() {
+            String roomId = playerRooms.get(socket);
+            if (roomId != null) {
+                List<Socket> roomPlayers = rooms.get(roomId);
+                
+                if (roomPlayers != null) {
+                    for (Socket player : roomPlayers) {
+                        try {
+                            roomPlayers.remove(player);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                playerRooms.remove(socket);
+                rooms.remove(roomId);
+                System.out.println("Room " + roomId + " is removed due to player left.");
             }
             
             try {

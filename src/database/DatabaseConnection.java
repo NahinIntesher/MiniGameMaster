@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DatabaseConnection {  
-//    public static String serverAddress = "10.15.51.48";
+    // public static String serverAddress = "10.15.38.75";
     public static String serverAddress = "192.168.10.100";
 
 
