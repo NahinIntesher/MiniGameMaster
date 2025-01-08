@@ -1,1 +1,3 @@
 .vscode/launch.json
+src/database/DatabaseConnection.java
+bin/database/DatabaseConnection.class
