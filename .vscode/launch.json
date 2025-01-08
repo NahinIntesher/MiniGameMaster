@@ -3,6 +3,34 @@
   "configurations": [
     {
       "type": "java",
+      "name": "MemoryGame",
+      "request": "launch",
+      "mainClass": "livegame.MemoryGame",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
+      "name": "SimpleBallGame",
+      "request": "launch",
+      "mainClass": "livegame.SimpleBallGame",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
+      "name": "BouncingBallGame",
+      "request": "launch",
+      "mainClass": "livegame.BouncingBallGame",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
+      "name": "SlidingPuzzle",
+      "request": "launch",
+      "mainClass": "livegame.SlidingPuzzle",
+      "projectName": "DemoGame_1d4b881e"
+    },
+    {
+      "type": "java",
       "name": "BrickBreakerGame",
       "request": "launch",
       "mainClass": "livegame.BrickBreakerGame",

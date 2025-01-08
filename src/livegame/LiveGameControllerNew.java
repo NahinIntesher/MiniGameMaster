@@ -13,8 +13,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -190,7 +192,7 @@ public class LiveGameControllerNew {
             Scene primaryScene = runningGameContainer.getScene();
 
             // SnakeGame snakeGameBlue = new SnakeGame(roomId, playerId, true);
-            MiniGolf tetrisGameBlue = new MiniGolf(LiveGame.getGameInitializeInfo("MiniGolf"), roomId, playerId, true);
+            LiveGame tetrisGameBlue = new RapidRoll(new JSONObject(JSONObject.valueToString(LiveGame.getGameInitializeInfo("RapidRoll"))), roomId, playerId, true);
             
             playerBluePlayground.getChildren().add(tetrisGameBlue);
 
@@ -203,8 +205,27 @@ public class LiveGameControllerNew {
             });
 
             // SnakeGame snakeGameRed = new SnakeGame(roomId, playerId, false);
-            MiniGolf tetrisGameRed = new MiniGolf(LiveGame.getGameInitializeInfo("MiniGolf"), roomId, playerId, false);
+            LiveGame tetrisGameRed = new RapidRoll(new JSONObject(JSONObject.valueToString(LiveGame.getGameInitializeInfo("RapidRoll"))), roomId, playerId, false);
             playerRedPlayground.getChildren().add(tetrisGameRed);
         });
+    }
+
+    @FXML
+    private void backToHomeButtonOnAction(ActionEvent e){
+        if(socket != null) {
+            out.println("playerLeft:"+playerId);
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

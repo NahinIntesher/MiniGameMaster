@@ -388,6 +388,12 @@
                         </GridPane>
                      </children>
                   </GridPane>
+                                    <HBox styleClass="victory-screen-added-trophy">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-added-trophy-icon" text="" />
+                        <Label fx:id="victoryAddedTrophy" styleClass="victory-screen-added-trophy-text" text="+30" />
+                     </children>
+                  </HBox>
                   <Button onAction="#backToHomeButtonOnAction" styleClass="back-to-home" text="Back To Home" />
                </children>
             </VBox>

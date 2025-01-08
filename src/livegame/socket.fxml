@@ -214,7 +214,7 @@
             </StackPane>
          </children>
       </StackPane>
-      <StackPane fx:id="startingInContainer" managed="true" styleClass="starting-in-screen" visible="true">
+      <StackPane fx:id="startingInContainer" styleClass="starting-in-screen" visible="false">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                <children>
@@ -266,7 +266,7 @@
             </VBox>
          </children>
       </StackPane>
-      <StackPane fx:id="victoryContainer" styleClass="victory-screen" visible="false">
+      <StackPane fx:id="victoryContainer" styleClass="victory-screen" visible="true">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
                <children>
@@ -387,6 +387,12 @@
                         </GridPane>
                      </children>
                   </GridPane>
+                  <HBox styleClass="victory-screen-added-trophy">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-added-trophy-icon" text="" />
+                        <Label fx:id="victoryScreenAddedTrophy" styleClass="victory-screen-added-trophy-text" text="-5" />
+                     </children>
+                  </HBox>
                   <Button mnemonicParsing="false" styleClass="back-to-home" text="Back To Home" />
                </children>
             </VBox>

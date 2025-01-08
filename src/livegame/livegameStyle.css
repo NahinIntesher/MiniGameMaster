@@ -315,3 +315,35 @@
     -fx-alignment: CENTER;
 }
 
+
+
+.victory-screen-added-trophy {
+    -fx-background-color: #00000066;
+    -fx-alignment: CENTER-LEFT;
+    -fx-translate-x: 8;
+    -fx-max-width: 100px;
+    -fx-max-height: 50px;
+    -fx-padding: 2px 0;
+}
+.victory-screen-added-trophy-icon {
+    -fx-font-family: "MGMIcon";
+    -fx-fill: #fefe00;
+    -fx-text-fill: #fefe00;
+    -fx-font-size: 26px;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+    -fx-translate-x: -10;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 1px;
+}
+
+.victory-screen-added-trophy-text {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-padding: 1px 4px;
+    -fx-stroke-width: 4px;
+    -fx-pref-width: 60;
+    -fx-alignment: CENTER;
+}
+

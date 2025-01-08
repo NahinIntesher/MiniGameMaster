@@ -91,6 +91,8 @@ public class LiveGameController {
 
     @FXML
     private Label victoryLabel;
+    @FXML
+    private Label victoryAddedTrophy;
 
     @FXML
     private Label playerBlueName;
@@ -542,6 +544,7 @@ public class LiveGameController {
                             new Background(new BackgroundFill(Color.web("#cc0000"), new CornerRadii(15), null)));
 
                     victoryLabel.setText("Defeat");
+                    victoryAddedTrophy.setText("-5");
                     setVictoryScreenData();
                     out.println("matchEnd:"+playerToken);
                     victoryContainer.setManaged(true);
