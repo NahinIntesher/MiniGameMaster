@@ -1,0 +1,171 @@
+.root {
+  -fx-background-color: #f0f0f0;
+  -fx-font-family: "Arial";
+}
+
+.main-container {
+  -fx-background-color: white;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+}
+
+/* Header Styles */
+.header {
+  -fx-background-color: #ffeb3b;
+  -fx-padding: 10;
+  -fx-spacing: 10;
+  -fx-alignment: center-left;
+  -fx-min-height: 60;
+}
+
+.back-button {
+  -fx-background-color: transparent;
+  -fx-font-size: 18;
+  -fx-min-width: 40;
+  -fx-min-height: 40;
+}
+
+.header-text {
+  -fx-font-size: 16;
+  -fx-font-weight: bold;
+}
+
+/* Left Panel Styles */
+.left-panel {
+  -fx-padding: 20;
+  -fx-spacing: 10;
+  -fx-alignment: center;
+}
+
+/* Game Grid Styles */
+.game-grid {
+  -fx-padding: 10;
+  -fx-alignment: center;
+}
+
+.game-item {
+  -fx-background-color: white;
+  -fx-padding: 10;
+  -fx-alignment: center;
+  -fx-spacing: 5;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+  -fx-background-radius: 5;
+  -fx-min-width: 100;
+  -fx-min-height: 100;
+}
+
+.game-icon {
+  -fx-fit-width: 80;
+  -fx-fit-height: 80;
+}
+
+.game-label {
+  -fx-font-size: 14;
+  -fx-text-alignment: center;
+}
+
+/* Game Details Styles */
+.game-details {
+  -fx-spacing: 15;
+  -fx-padding: 20;
+  -fx-min-width: 400;
+}
+
+.tetris-preview {
+  -fx-background-color: #e0e0e0;
+  -fx-min-height: 100;
+  -fx-background-radius: 5;
+  -fx-alignment: center;
+}
+
+.game-title {
+  -fx-font-size: 24;
+  -fx-font-weight: bold;
+}
+
+.player-count {
+  -fx-font-size: 14;
+  -fx-text-fill: #666666;
+}
+
+.play-button {
+  -fx-background-color: #ffeb3b;
+  -fx-text-fill: black;
+  -fx-font-size: 16;
+  -fx-padding: 10 20;
+  -fx-background-radius: 5;
+  -fx-min-width: 100;
+}
+
+/* High Scores Section */
+.high-scores {
+  -fx-spacing: 10;
+  -fx-padding: 10 0;
+}
+
+.section-title {
+  -fx-font-size: 20;
+  -fx-font-weight: bold;
+}
+
+.score-tabs {
+  -fx-spacing: 10;
+  -fx-alignment: center-left;
+}
+
+.tab, .tab-selected {
+  -fx-padding: 5 15;
+  -fx-background-radius: 15;
+}
+
+.tab {
+  -fx-background-color: #e0e0e0;
+}
+
+.tab-selected {
+  -fx-background-color: #ffeb3b;
+}
+
+.reset-text {
+  -fx-font-size: 12;
+  -fx-text-fill: #666666;
+}
+
+.timer {
+  -fx-font-size: 14;
+  -fx-font-weight: bold;
+}
+
+/* Leaderboard Styles */
+.leaderboard {
+  -fx-spacing: 5;
+  -fx-padding: 10 0;
+}
+
+.score-entry {
+  -fx-padding: 5;
+  -fx-spacing: 10;
+  -fx-alignment: center-left;
+}
+
+.rank {
+  -fx-font-weight: bold;
+  -fx-min-width: 20;
+}
+
+.player-name {
+  -fx-font-size: 14;
+}
+
+.trophy-icon {
+  -fx-fit-width: 20;
+  -fx-fit-height: 20;
+}
+
+.score {
+  -fx-font-weight: bold;
+}
+
+.all-time-score {
+  -fx-text-fill: #666666;
+  -fx-font-weight: bold;
+}

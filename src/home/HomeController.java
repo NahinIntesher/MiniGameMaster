@@ -69,6 +69,20 @@ public class HomeController {
             ex.printStackTrace();
         }
     }
+    @FXML
+    private void highScoreButtonAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../highscore/HighScore.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) borderPane.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     @FXML
     public void initialize() {
