@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "BubbleShooterCanvas",
+      "request": "launch",
+      "mainClass": "livegame.BubbleShooterCanvas",
+      "projectName": "MiniGameMaster_f9a03594"
+    },
+    {
+      "type": "java",
+      "name": "BubbleShooter",
+      "request": "launch",
+      "mainClass": "livegame.BubbleShooter",
+      "projectName": "MiniGameMaster_f9a03594"
+    },
+    {
+      "type": "java",
+      "name": "MemoryGame",
+      "request": "launch",
+      "mainClass": "livegame.MemoryGame",
+      "projectName": "MiniGameMaster_f9a03594"
+    },
+    {
+      "type": "java",
+      "name": "HighScoreHome",
+      "request": "launch",
+      "mainClass": "highscore.HighScoreHome",
+      "projectName": "MiniGameMaster_f9a03594"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "MiniGameMaster_f9a03594"
+    }
+  ]
+}
