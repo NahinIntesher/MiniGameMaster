@@ -12,8 +12,11 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.geometry.Pos;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,38 +25,77 @@ public class MemoryGame extends Application {
     private List<MemoryCard> cards = new ArrayList<>();
     private MemoryCard firstCard = null;
     private boolean canClick = true;
+    private static final double SHAPE_SIZE = 45; // Increased shape size
 
     @Override
     public void start(Stage primaryStage) {
         GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10));
-        grid.setHgap(10);
-        grid.setVgap(10);
+        grid.setPadding(new Insets(20));
+        grid.setHgap(15);
+        grid.setVgap(15);
+        grid.setAlignment(Pos.CENTER);
+        grid.setBackground(new Background(new BackgroundFill(
+            Color.rgb(40, 44, 52), CornerRadii.EMPTY, Insets.EMPTY)));
 
-        // Create pairs of shapes
         List<Shape> shapes = new ArrayList<>();
-        // Circle
+        
+        // Circle (Purple)
         for (int i = 0; i < 2; i++) {
-            Circle circle = new Circle(20, Color.YELLOW);
+            Circle circle = new Circle(SHAPE_SIZE/2, Color.PURPLE);
+            circle.setStroke(Color.BLACK);
+            circle.setStrokeWidth(2);
             shapes.add(circle);
         }
-        // Square
+        
+        // Square (Red)
         for (int i = 0; i < 2; i++) {
-            Rectangle square = new Rectangle(40, 40, Color.RED);
+            Rectangle square = new Rectangle(SHAPE_SIZE-4, SHAPE_SIZE-4, Color.RED);
+            square.setStroke(Color.BLACK);
+            square.setStrokeWidth(2);
             shapes.add(square);
         }
-        // Triangle
+        
+        // Triangle (Blue)
         for (int i = 0; i < 2; i++) {
-            Polygon triangle = createTriangle(40, Color.BLUE);
+            Polygon triangle = createRegularPolygon(3, SHAPE_SIZE/2, Color.BLUE);
             shapes.add(triangle);
         }
+        
+        // Star (Gold)
+        for (int i = 0; i < 2; i++) {
+            Polygon star = createStar(SHAPE_SIZE/2, Color.GOLD);
+            shapes.add(star);
+        }
+        
+        // Pentagon (Green)
+        for (int i = 0; i < 2; i++) {
+            Polygon pentagon = createRegularPolygon(5, SHAPE_SIZE/2, Color.GREEN);
+            shapes.add(pentagon);
+        }
+        
+        // Hexagon (Orange)
+        for (int i = 0; i < 2; i++) {
+            Polygon hexagon = createRegularPolygon(6, SHAPE_SIZE/2, Color.ORANGE);
+            shapes.add(hexagon);
+        }
+        
+        // Upside-down Triangle (Cyan)
+        for (int i = 0; i < 2; i++) {
+            Polygon invertedTriangle = createRegularPolygon(3, SHAPE_SIZE/2, Color.CYAN);
+            invertedTriangle.setRotate(180);
+            shapes.add(invertedTriangle);
+        }
+        
+        // Diamond (Pink)
+        for (int i = 0; i < 2; i++) {
+            Polygon diamond = createDiamond(SHAPE_SIZE, Color.PINK);
+            shapes.add(diamond);
+        }
 
-        // Shuffle the shapes
         Collections.shuffle(shapes);
 
-        // Create memory cards
         int index = 0;
-        for (int row = 0; row < 3; row++) {
+        for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
                 if (index < shapes.size()) {
                     MemoryCard card = new MemoryCard(shapes.get(index));
@@ -61,28 +103,67 @@ public class MemoryGame extends Application {
                     grid.add(card, col, row);
                     
                     final int cardIndex = index;
-                    // Add event handler to the button inside MemoryCard
                     card.getButton().setOnAction(e -> handleCardClick(cardIndex));
                     index++;
                 }
             }
         }
 
-        Scene scene = new Scene(grid, 400, 300);
+        Scene scene = new Scene(grid, 550, 550);
         primaryStage.setTitle("Memory Game");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private Polygon createTriangle(double size, Color color) {
-        Polygon triangle = new Polygon();
-        triangle.getPoints().addAll(
-            0.0, size,    // Point 1: bottom-left
-            size/2, 0.0,  // Point 2: top-middle
-            size, size    // Point 3: bottom-right
+    private Polygon createDiamond(double size, Color color) {
+        Polygon diamond = new Polygon();
+        diamond.getPoints().addAll(
+            size/2, 0.0,    // Top
+            size, size/2,   // Right
+            size/2, size,   // Bottom
+            0.0, size/2     // Left
         );
-        triangle.setFill(color);
-        return triangle;
+        diamond.setFill(color);
+        diamond.setStroke(Color.BLACK);
+        diamond.setStrokeWidth(2);
+        return diamond;
+    }
+
+    private Polygon createRegularPolygon(int sides, double radius, Color color) {
+        Polygon polygon = new Polygon();
+        polygon.setFill(color);
+        polygon.setStroke(Color.BLACK);
+        polygon.setStrokeWidth(2);
+        
+        double angleStep = 2 * Math.PI / sides;
+        for (int i = 0; i < sides; i++) {
+            polygon.getPoints().addAll(
+                radius * Math.cos(i * angleStep),
+                radius * Math.sin(i * angleStep)
+            );
+        }
+        return polygon;
+    }
+
+    private Polygon createStar(double radius, Color color) {
+        Polygon star = new Polygon();
+        star.setFill(color);
+        star.setStroke(Color.BLACK);
+        star.setStrokeWidth(2);
+        
+        int points = 5;
+        double innerRadius = radius * 0.5;
+        
+        for (int i = 0; i < points * 2; i++) {
+            double r = (i % 2 == 0) ? radius : innerRadius;
+            double angle = Math.PI * i / points;
+            star.getPoints().addAll(
+                r * Math.cos(angle),
+                r * Math.sin(angle)
+            );
+        }
+        
+        return star;
     }
 
     private void handleCardClick(int index) {
@@ -104,7 +185,6 @@ public class MemoryGame extends Application {
                 firstCard = null;
                 canClick = true;
             } else {
-                // Hide cards after delay
                 new Thread(() -> {
                     try {
                         Thread.sleep(1000);
@@ -123,7 +203,6 @@ public class MemoryGame extends Application {
     }
 
     private boolean shapesMatch(Shape shape1, Shape shape2) {
-        // Compare shape types and properties
         return shape1.getClass().equals(shape2.getClass()) &&
                shape1.getFill().equals(shape2.getFill());
     }
@@ -136,6 +215,7 @@ public class MemoryGame extends Application {
 class MemoryCard extends StackPane {
     private Shape cardShape;
     private Button cover;
+    private Rectangle background;
     private boolean matched = false;
     private boolean revealed = false;
 
@@ -143,12 +223,43 @@ class MemoryCard extends StackPane {
         this.cardShape = shape;
         this.cardShape.setVisible(false);
         
-        cover = new Button("?");  // Add text to make it more visible
-        cover.setPrefSize(60, 60);
-        cover.setStyle("-fx-background-color: lightgreen; -fx-border-color: darkgreen; -fx-font-size: 20px;");
-        cover.setFocusTraversable(true);  // Enable focus for keyboard navigation
+        // Add white background rectangle for revealed state
+        background = new Rectangle(80, 80, Color.WHITE);
+        background.setArcHeight(20);
+        background.setArcWidth(20);
+        background.setStroke(Color.LIGHTGRAY);
+        background.setStrokeWidth(2);
+        background.setVisible(false);
+        
+        // Center the shape in the card
+        StackPane shapeContainer = new StackPane(background, cardShape);
+        shapeContainer.setAlignment(Pos.CENTER);
+        
+        // Add drop shadow effect
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        dropShadow.setColor(Color.color(0, 0, 0, 0.3));
+        cardShape.setEffect(dropShadow);
+        
+        cover = new Button("?");
+        cover.setPrefSize(80, 80); // Increased card size
+        cover.setStyle(
+            "-fx-background-color: #3498db;" +
+            "-fx-background-radius: 10;" +
+            "-fx-border-radius: 10;" +
+            "-fx-border-color: #2980b9;" +
+            "-fx-border-width: 2;" +
+            "-fx-text-fill: white;" +
+            "-fx-font-size: 24px;" +
+            "-fx-font-weight: bold;"
+        );
+        cover.setEffect(dropShadow);
+        cover.setFocusTraversable(true);
 
-        getChildren().addAll(cardShape, cover);
+        setAlignment(Pos.CENTER);
+        getChildren().addAll(shapeContainer, cover);
     }
 
     public Button getButton() {
@@ -157,6 +268,7 @@ class MemoryCard extends StackPane {
 
     public void reveal() {
         cover.setVisible(false);
+        background.setVisible(true);
         cardShape.setVisible(true);
         revealed = true;
     }
@@ -164,6 +276,7 @@ class MemoryCard extends StackPane {
     public void hide() {
         if (!matched) {
             cover.setVisible(true);
+            background.setVisible(false);
             cardShape.setVisible(false);
             revealed = false;
         }
