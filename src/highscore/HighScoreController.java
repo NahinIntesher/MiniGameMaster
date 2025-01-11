@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.prefs.Preferences;
 
 import database.DatabaseConnection;
 import javafx.application.Platform;
@@ -41,6 +42,8 @@ public class HighScoreController {
     @FXML private Label singleGameName;
     @FXML private Label singleGamePlayedBy;
     @FXML private Label singleGameScore;
+
+    private int currentGameId = 1;
     
     @FXML
     public void initialize() {
@@ -51,7 +54,7 @@ public class HighScoreController {
         viewGameDetail(1);
     }
     
-     @FXML
+    @FXML
     private void gotoHome() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
@@ -66,7 +69,25 @@ public class HighScoreController {
         }
     }
 
+    @FXML
+    private void playGame() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("HighScoreGame.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) backbutton.getScene().getWindow();
+            
+            HighScoreGameController highScoreGameController = loader.getController(); 
+            highScoreGameController.setGameId(currentGameId);
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public void viewGameDetail(int game_id) {
+        currentGameId = game_id;
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Connection connection = null;
         Statement statement = null;

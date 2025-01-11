@@ -64,7 +64,7 @@
                     <Label styleClass="player-count" fx:id="singleGamePlayedBy"/>
                     
                     <!-- Play Button -->
-                    <Button text="Play" styleClass="play-button" />
+                    <Button onAction="#playGame" text="Play" styleClass="play-button" />
                     
                     <!-- High Scores Section -->
                     <VBox styleClass="high-scores">
