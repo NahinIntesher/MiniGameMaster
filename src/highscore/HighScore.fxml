@@ -14,8 +14,8 @@
     <BorderPane styleClass="main-container" maxWidth="900" maxHeight="600">
         <!-- Header Section -->
         <top>
-            <HBox styleClass="header" onMouseClicked="#gotoHome">
-                <Button styleClass="back-button" text="&lt;"/>
+            <HBox styleClass="header" fx:id='backbutton'>
+                <Button onAction="#gotoHome" styleClass="back-button" text="&lt;"/> 
                 <Label styleClass="header-text" text="High Score&#10;Beating Mode"/>
             </HBox>
         </top>
@@ -24,8 +24,8 @@
             <HBox spacing="20" alignment="CENTER">
                 <!-- Left Side - Game Selection -->
                 <VBox styleClass="left-panel">
-                    <GridPane styleClass="game-grid" hgap="10" vgap="10">
-                        <VBox styleClass="game-item" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <GridPane styleClass="game-grid" hgap="10" vgap="10" fx:id="gameGrid">
+                        <!-- <VBox styleClass="game-item" GridPane.columnIndex="0" GridPane.rowIndex="0">
                             <ImageView fitWidth="80" fitHeight="80" styleClass="game-icon"/>
                             <Label text="Tetris" styleClass="game-label"/>
                         </VBox>
@@ -48,7 +48,7 @@
                         <VBox styleClass="game-item" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <ImageView fitWidth="80" fitHeight="80" styleClass="game-icon"/>
                             <Label text="Shooting Star" styleClass="game-label"/>
-                        </VBox>
+                        </VBox> -->
                     </GridPane>
                 </VBox>
                 
@@ -56,12 +56,12 @@
                 <VBox styleClass="game-details">
                     <!-- Tetris Preview -->
                     <HBox styleClass="tetris-preview">
-                        <ImageView styleClass="tetris-pieces"/>
+                        <ImageView styleClass="tetris-pieces" fx:id="singleGameCoverPicture"/>
                     </HBox>
                     
                     <!-- Game Title and Stats -->
-                    <Label text="Tetris" styleClass="game-title"/>
-                    <Label text="Played by 1,410" styleClass="player-count"/>
+                    <Label styleClass="game-title" fx:id="singleGameName"/>
+                    <Label styleClass="player-count" fx:id="singleGamePlayedBy"/>
                     
                     <!-- Play Button -->
                     <Button text="Play" styleClass="play-button" />
