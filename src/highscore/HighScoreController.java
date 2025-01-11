@@ -11,10 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.prefs.Preferences;
@@ -42,16 +44,17 @@ public class HighScoreController {
     @FXML private Label singleGameName;
     @FXML private Label singleGamePlayedBy;
     @FXML private Label singleGameScore;
-
+    
     private int currentGameId = 1;
     
     @FXML
     public void initialize() {
-        setupButtonListeners();
-        startCountdownTimer();
-        loadInitialData();
+        // setupButtonListeners();
+        // startCountdownTimer();
+        // loadInitialData();
         fetchGames();
         viewGameDetail(1);
+        // showMonthlyScores();
     }
     
     @FXML
@@ -200,38 +203,85 @@ public class HighScoreController {
 
     }
 
-    private void setupButtonListeners() {
-        if (playButton != null) {
-            playButton.setOnAction(e -> handlePlayButton());
-        }
-        if (monthlyButton != null) {
-            monthlyButton.setOnAction(e -> handleMonthlyButton());
-        }
-        if (allTimeButton != null) {
-            allTimeButton.setOnAction(e -> handleAllTimeButton());
-        }
+
+    @FXML
+    private void showAllTimeScore() {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                DatabaseConnection databaseConnection = new DatabaseConnection();
+                try (Connection connection = databaseConnection.getConnection()) {
+                    String query = "SELECT gs.score, u.username " +
+                                   "FROM game_scores gs " +
+                                   "JOIN users u ON gs.player_id = u.id " +
+                                   "WHERE gs.game_id = ? " +
+                                   "ORDER BY gs.score DESC";
+
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        statement.setInt(1, currentGameId); // Use parameterized query to prevent SQL injection
+                        try (ResultSet result = statement.executeQuery()) {
+                            // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear previous data
+                            while (result.next()) {
+                                String score = result.getString("score");
+                                String username = result.getString("username");
+
+                                Platform.runLater(() -> {
+                                    Label scoreLabel = new Label(score);
+                                    Label usernameLabel = new Label(username);
+                                    scoreLabel.getStyleClass().add("score-label");
+                                    usernameLabel.getStyleClass().add("username-label");
+                                    // leaderboardContainer.getChildren().addAll(scoreLabel, usernameLabel);
+                                });
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+        };
+
+        new Thread(task).start();
     }
-    
-    private void handlePlayButton() {
-       FXMLLoader loader = new FXMLLoader(getClass().getResource("/highscore/HighScore.fxml"));
+
+    @FXML
+    private void showMonthlyScore() {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                DatabaseConnection databaseConnection = new DatabaseConnection();
+                try (Connection connection = databaseConnection.getConnection()) {
+                    String query = "SELECT gs.score, u.username " +
+                                   "FROM game_scores gs " +
+                                   "JOIN users u ON gs.player_id = u.id " +
+                                   "WHERE gs.game_id = ? " +
+                                   "AND gs.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH) " +
+                                   "ORDER BY gs.score DESC";
+
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        statement.setInt(1, currentGameId); // Use parameterized query to prevent SQL injection
+                        try (ResultSet result = statement.executeQuery()) {
+                            // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear previous data
+                            while (result.next()) {
+                                String score = result.getString("score");
+                                String username = result.getString("username");
+
+                                Platform.runLater(() -> {
+                                    Label scoreLabel = new Label(score);
+                                    Label usernameLabel = new Label(username);
+                                    scoreLabel.getStyleClass().add("score-label");
+                                    usernameLabel.getStyleClass().add("username-label");
+                                    // leaderboardContainer.getChildren().addAll(scoreLabel, usernameLabel);
+                                });
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+        };
+
+        new Thread(task).start();
     }
-    
-    private void handleMonthlyButton() {
-        System.out.println("Monthly scores selected");
-    }
-    
-    private void handleAllTimeButton() {
-        System.out.println("All time scores selected");
-    }
-    
-    private void startCountdownTimer() {
-        if (timerLabel != null) {
-            timerLabel.setText("28d 11h 32m");
-        }
-    }
-    
-    private void loadInitialData() {
-        // Initialize with sample data
-        System.out.println("Loading initial data");
-    }
+
+
 }

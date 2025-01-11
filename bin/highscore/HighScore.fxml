@@ -72,26 +72,37 @@
                         
                         <!-- Score Tabs -->
                         <HBox styleClass="score-tabs">
-                            <Button text="Monthly" styleClass="tab-selected"/>
-                            <Button text="All Time" styleClass="tab"/>
+                            <Button text="Monthly" styleClass="play-button" onAction="#showMonthlyScore"/>
+                            <Button text="All Time" styleClass="play-button" onAction="#showAllTimeScore"/>
                         </HBox>
+
                         
                         <!-- Monthly Timer -->
                         <Label text="Monthly high score will reset in" styleClass="reset-text"/>
-                        <Label text="28d 11h 32m" styleClass="timer"/>
+                        <Label text="28d 11h 32m" styleClass="timer" />
                         
                         <!-- Leaderboard -->
-                        <VBox styleClass="leaderboard">
-                            <HBox styleClass="score-entry">
-                                <Label text="1" styleClass="rank"/>
-                                <Label text="Jayed" styleClass="player-name"/>
-                                <ImageView styleClass="trophy-icon"/>
-                                <Label text="1250" styleClass="score"/>
-                                <Label text="203" styleClass="all-time-score"/>
-                            </HBox>
-                            <!-- Add more score entries similarly -->
-                        </VBox>
+                        <ScrollPane styleClass="scroll-pane" fitToWidth="true" prefHeight="300">
+                            <VBox styleClass="leaderboard" fx:id="leaderboard">
+                                <HBox styleClass="score-entry">
+                                    <Label text="1" styleClass="rank"/>
+                                    <Label text="Jayed" styleClass="player-name"/>
+                                    <ImageView styleClass="trophy-icon"/>
+                                    <Label text="1250" styleClass="score"/>
+                                    <Label text="203" styleClass="all-time-score"/>
+                                </HBox>
+                                <HBox styleClass="score-entry">
+                                    <Label text="2" styleClass="rank"/>
+                                    <Label text="Ananta" styleClass="player-name"/>
+                                    <ImageView styleClass="trophy-icon"/>
+                                    <Label text="1200" styleClass="score"/>
+                                    <Label text="195" styleClass="all-time-score"/>
+                                </HBox>
+                                <!-- Add more score entries as needed -->
+                            </VBox>
+                        </ScrollPane>
                     </VBox>
+
                 </VBox>
             </HBox>
         </center>

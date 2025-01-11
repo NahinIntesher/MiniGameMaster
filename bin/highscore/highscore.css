@@ -120,7 +120,23 @@
 }
 
 .play-button:hover {
-  -fx-background-color: #ffb300;
+  -fx-background-color: #ffd981;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+  -fx-scale-x: 1.02;
+  -fx-scale-y: 1.02;
+}
+.play-button {
+  -fx-background-color: #ffc107;
+  -fx-text-fill: #333333;
+  -fx-font-size: 14;
+  -fx-font-weight: bold;
+  -fx-padding: 10 24;
+  -fx-background-radius: 20;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2);
+}
+
+.play-button:hover {
+  -fx-background-color: #ffd981;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
   -fx-scale-x: 1.02;
   -fx-scale-y: 1.02;
