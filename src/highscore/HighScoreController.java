@@ -37,7 +37,7 @@ public class HighScoreController {
     @FXML private Button monthlyButton;
     @FXML private Button allTimeButton;
     @FXML private Label timerLabel;
-    @FXML private VBox leaderboardContainer;
+    @FXML private VBox leaderboard;
     @FXML private HBox backbutton;
     @FXML private GridPane gameGrid;
     @FXML private ImageView singleGameCoverPicture;
@@ -127,7 +127,7 @@ public class HighScoreController {
             ex.printStackTrace();
         } finally {
         }
-
+        showAllTimeScore();
     }
 
     private int rowI = 0;
@@ -211,27 +211,41 @@ public class HighScoreController {
             protected Void call() throws Exception {
                 DatabaseConnection databaseConnection = new DatabaseConnection();
                 try (Connection connection = databaseConnection.getConnection()) {
-                    String query = "SELECT gs.score, u.username " +
+                    String query = "SELECT gs.score, u.username, u.trophies " +
                                    "FROM game_scores gs " +
                                    "JOIN users u ON gs.player_id = u.id " +
                                    "WHERE gs.game_id = ? " +
+                                   "GROUP BY u.username " +
                                    "ORDER BY gs.score DESC";
 
                     try (PreparedStatement statement = connection.prepareStatement(query)) {
                         statement.setInt(1, currentGameId); // Use parameterized query to prevent SQL injection
                         try (ResultSet result = statement.executeQuery()) {
                             // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear previous data
+                            int rank = 1;
+                            Platform.runLater(()->{
+                                leaderboard.getChildren().clear();
+                            });
                             while (result.next()) {
                                 String score = result.getString("score");
                                 String username = result.getString("username");
+                                String trophies = result.getString("trophies");
+                                HBox scoreBox = new HBox();
+                                scoreBox.getStyleClass().add("score-entry");
+                                Label rankLabel = new Label(String.valueOf(rank));
+                                rankLabel.getStyleClass().add("rank");
+                                Label usernameLabel = new Label(username);
+                                usernameLabel.getStyleClass().add("player-name");
+                                Label trophyLabel = new Label(trophies);
+                                Label scoreLabel = new Label(score);
+                                scoreLabel.getStyleClass().add("score");
+                                scoreBox.getChildren().addAll(rankLabel, usernameLabel, trophyLabel, scoreLabel);
 
                                 Platform.runLater(() -> {
-                                    Label scoreLabel = new Label(score);
-                                    Label usernameLabel = new Label(username);
-                                    scoreLabel.getStyleClass().add("score-label");
-                                    usernameLabel.getStyleClass().add("username-label");
-                                    // leaderboardContainer.getChildren().addAll(scoreLabel, usernameLabel);
+                                    leaderboard.getChildren().add(scoreBox);
                                 });
+
+                                rank++;
                             }
                         }
                     }
@@ -242,46 +256,58 @@ public class HighScoreController {
 
         new Thread(task).start();
     }
+
 
     @FXML
     private void showMonthlyScore() {
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                DatabaseConnection databaseConnection = new DatabaseConnection();
-                try (Connection connection = databaseConnection.getConnection()) {
-                    String query = "SELECT gs.score, u.username " +
-                                   "FROM game_scores gs " +
-                                   "JOIN users u ON gs.player_id = u.id " +
-                                   "WHERE gs.game_id = ? " +
-                                   "AND gs.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH) " +
-                                   "ORDER BY gs.score DESC";
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try (Connection connection = databaseConnection.getConnection()) {
+            String query = "SELECT gs.score, u.username, u.trophies " +
+                           "FROM game_scores gs " +
+                           "JOIN users u ON gs.player_id = u.id " +
+                           "WHERE gs.game_id = ? " +
+                           "AND gs.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH) " +
+                           "GROUP BY u.username " +
+                           "ORDER BY gs.score DESC";
 
-                    try (PreparedStatement statement = connection.prepareStatement(query)) {
-                        statement.setInt(1, currentGameId); // Use parameterized query to prevent SQL injection
-                        try (ResultSet result = statement.executeQuery()) {
-                            // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear previous data
-                            while (result.next()) {
-                                String score = result.getString("score");
-                                String username = result.getString("username");
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, currentGameId); // Use parameterized query to prevent SQL injection
+                try (ResultSet result = statement.executeQuery()) {
+                    // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear previous data
+                    int rank = 1;
+                    Platform.runLater(()->{
+                        leaderboard.getChildren().clear();
+                    });
+                    
+                System.out.println("outer game id: " + currentGameId);
+                    while (result.next()) {
+                        String score = result.getString("score");
+                        String username = result.getString("username");
+                        String trophies = result.getString("trophies");
+                        
+                        System.out.println("inner game id: " + trophies);
 
-                                Platform.runLater(() -> {
-                                    Label scoreLabel = new Label(score);
-                                    Label usernameLabel = new Label(username);
-                                    scoreLabel.getStyleClass().add("score-label");
-                                    usernameLabel.getStyleClass().add("username-label");
-                                    // leaderboardContainer.getChildren().addAll(scoreLabel, usernameLabel);
-                                });
-                            }
-                        }
+                        HBox scoreBox = new HBox();
+                        scoreBox.getStyleClass().add("score-entry");
+                        Label rankLabel = new Label(String.valueOf(rank));
+                        rankLabel.getStyleClass().add("rank");
+                        Label usernameLabel = new Label(username);
+                        usernameLabel.getStyleClass().add("player-name");
+                        Label trophyLabel = new Label(trophies);
+                        Label scoreLabel = new Label(score);
+                        scoreLabel.getStyleClass().add("score");
+                        scoreBox.getChildren().addAll(rankLabel, usernameLabel, trophyLabel, scoreLabel);
+
+                        Platform.runLater(() -> {
+                            leaderboard.getChildren().add(scoreBox);
+                        });
+
+                        rank++;
                     }
                 }
-                return null;
             }
-        };
-
-        new Thread(task).start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
-
-
 }

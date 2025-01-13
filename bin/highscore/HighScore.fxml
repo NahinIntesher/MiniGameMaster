@@ -7,16 +7,16 @@
 <?import javafx.scene.text.*?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" 
-            stylesheets="@highscore.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="highscore.HighScoreController">
+            stylesheets="@highscoreStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="highscore.HighScoreController">
 
     
     <!-- Main Content Container -->
-    <BorderPane styleClass="main-container" maxWidth="900" maxHeight="600">
+    <BorderPane styleClass="main-container">
         <!-- Header Section -->
         <top>
             <HBox styleClass="header" fx:id='backbutton'>
-                <Button onAction="#gotoHome" styleClass="back-button" text="&lt;"/> 
-                <Label styleClass="header-text" text="High Score&#10;Beating Mode"/>
+                <Button onAction="#gotoHome" styleClass="back-button" text=""/> 
+                <Label styleClass="header-text" text="High Score Beating Mode"/>
             </HBox>
         </top>
         
@@ -25,30 +25,7 @@
                 <!-- Left Side - Game Selection -->
                 <VBox styleClass="left-panel">
                     <GridPane styleClass="game-grid" hgap="10" vgap="10" fx:id="gameGrid">
-                        <!-- <VBox styleClass="game-item" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <ImageView fitWidth="80" fitHeight="80" styleClass="game-icon"/>
-                            <Label text="Tetris" styleClass="game-label"/>
-                        </VBox>
-                        <VBox styleClass="game-item" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <ImageView fitWidth="80" fitHeight="80" styleClass="game-icon"/>
-                            <Label text="Mini Golf" styleClass="game-label"/>
-                        </VBox>
-                        <VBox styleClass="game-item" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <ImageView fitWidth="80" fitHeight="80" styleClass="game-icon"/>
-                            <Label text="Four Queen" styleClass="game-label"/>
-                        </VBox>
-                        <VBox styleClass="game-item" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <ImageView fitWidth="80" fitHeight="80" styleClass="game-icon"/>
-                            <Label text="Mini Cricket" styleClass="game-label"/>
-                        </VBox>
-                        <VBox styleClass="game-item" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                            <ImageView fitWidth="80" fitHeight="80" styleClass="game-icon"/>
-                            <Label text="Brick Breaker" styleClass="game-label"/>
-                        </VBox>
-                        <VBox styleClass="game-item" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                            <ImageView fitWidth="80" fitHeight="80" styleClass="game-icon"/>
-                            <Label text="Shooting Star" styleClass="game-label"/>
-                        </VBox> -->
+                        
                     </GridPane>
                 </VBox>
                 
@@ -84,20 +61,13 @@
                         <!-- Leaderboard -->
                         <ScrollPane styleClass="scroll-pane" fitToWidth="true" prefHeight="300">
                             <VBox styleClass="leaderboard" fx:id="leaderboard">
-                                <HBox styleClass="score-entry">
+                                <!-- <HBox styleClass="score-entry">
                                     <Label text="1" styleClass="rank"/>
                                     <Label text="Jayed" styleClass="player-name"/>
                                     <ImageView styleClass="trophy-icon"/>
                                     <Label text="1250" styleClass="score"/>
                                     <Label text="203" styleClass="all-time-score"/>
-                                </HBox>
-                                <HBox styleClass="score-entry">
-                                    <Label text="2" styleClass="rank"/>
-                                    <Label text="Ananta" styleClass="player-name"/>
-                                    <ImageView styleClass="trophy-icon"/>
-                                    <Label text="1200" styleClass="score"/>
-                                    <Label text="195" styleClass="all-time-score"/>
-                                </HBox>
+                                </HBox> -->
                                 <!-- Add more score entries as needed -->
                             </VBox>
                         </ScrollPane>

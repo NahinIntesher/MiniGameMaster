@@ -1,6 +1,7 @@
 package livegame;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -11,12 +12,14 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +29,9 @@ public class MemoryGame extends Application {
     private MemoryCard firstCard = null;
     private boolean canClick = true;
     private static final double SHAPE_SIZE = 45; // Increased shape size
+    private int count = 0;
+
+    private Label countLabel;
 
     @Override
     public void start(Stage primaryStage) {
@@ -109,7 +115,12 @@ public class MemoryGame extends Application {
             }
         }
 
-        Scene scene = new Scene(grid, 550, 550);
+        VBox root = new VBox();
+        countLabel = new Label("Moves: " + count);
+        root.getChildren().add(countLabel);
+        root.getChildren().add(grid);
+
+        Scene scene = new Scene(root);
         primaryStage.setTitle("Memory Game");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -173,6 +184,11 @@ public class MemoryGame extends Application {
         if (card.isMatched() || card.isRevealed()) return;
 
         card.reveal();
+        count++;
+        
+        Platform.runLater(()->{
+            countLabel.setText("Moves: " + count);
+        });
 
         if (firstCard == null) {
             firstCard = card;

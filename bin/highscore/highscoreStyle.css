@@ -1,38 +1,60 @@
+@font-face {
+  font-family: "Poppins";
+  src: url("../../resources/fonts/Poppins-Regular.ttf");
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("../../resources/fonts/Poppins-Bold.ttf");
+}
+@font-face {
+  font-family: "Poppins Medium";
+  src: url("../../resources/fonts/Poppins-Medium.ttf");
+}
+@font-face {
+  font-family: "Poppins SemiBold";
+  src: url("../../resources/fonts/Poppins-SemiBold.ttf");
+}
+@font-face {
+  font-family: "Ador Orjoma Unicode";
+  src: url("../../resources/fonts/Ador-Orjoma.ttf");
+}
+
+
+@font-face {
+  font-family: "MGMIcon";
+  src: url("../../resources/fonts/MGMIcon.ttf");
+}
+
+
 /* Root Styles */
 .root {
   -fx-background-color: #f0f2f5;
-  -fx-font-family: "Segoe UI", Arial, sans-serif;
+  -fx-font-family: "Poppins";
 }
 
 /* Main Container */
 .main-container {
   -fx-background-color: rgb(224, 211, 29);
-  -fx-background-radius: 12;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 2);
   -fx-padding: 0;
 }
 
 /* Header Styles */
 .header {
-  -fx-background-color: linear-gradient(to right, #ffd700, #ffc107);
-  -fx-padding: 12 16;
-  -fx-spacing: 12;
-  -fx-background-radius: 12 12 0 0;
+  -fx-background-color: #fefe00;
+  -fx-padding: 10;
+  -fx-spacing: 10;
+  -fx-alignment: CENTER-LEFT;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2);
-}
-
-.header:hover {
-  -fx-background-color: linear-gradient(to right, #ffc107, #ffb300);
+  -fx-border-color: #000000;
+  -fx-border-width: 0 0 2px 0;
 }
 
 .back-button {
-  -fx-background-color: rgb(255, 247, 0);
-  -fx-text-fill: #333333;
-  -fx-font-size: 16;
-  -fx-min-width: 32;
-  -fx-min-height: 32;
+  -fx-font-family: "MGMIcon";
+  -fx-font-size: 28;
   -fx-background-radius: 16;
-  -fx-padding: 0 0 2 0;
+  -fx-background-color: transparent;
 }
 
 .back-button:hover {
@@ -40,7 +62,7 @@
 }
 
 .header-text {
-  -fx-font-size: 18;
+  -fx-font-size: 24;
   -fx-font-weight: bold;
   -fx-text-fill: #333333;
 }

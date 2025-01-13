@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "SimpleBallGame",
+      "request": "launch",
+      "mainClass": "livegame.SimpleBallGame",
+      "projectName": "MiniGameMaster_f9a03594"
+    },
+    {
+      "type": "java",
       "name": "BubbleShooterCanvas",
       "request": "launch",
       "mainClass": "livegame.BubbleShooterCanvas",
