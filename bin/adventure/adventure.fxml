@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+
+<StackPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@adventureStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="adventure.AdventureController">
+
+    
+    <!-- Main Content Container -->
+    <BorderPane style="-fx-background-color: BLACK;" styleClass="main-container">
+        <!-- Header Section -->
+        <top>
+            <HBox fx:id="backbutton" styleClass="header">
+                <Button onAction="#gotoHome" styleClass="back-button" text="" /> 
+                <Label styleClass="header-text" text="Adventure Mode" />
+            </HBox>
+        </top>
+      <center>
+         <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+               <ImageView fitHeight="500.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@levelMapBackground.jpg" />
+                  </image>
+                  <effect>
+                     <InnerShadow choke="0.5" height="255.0" radius="127.0" width="255.0" />
+                  </effect>
+               </ImageView>
+               <AnchorPane fx:id="levelMapAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0" />
+            </children>
+         </StackPane>
+      </center>
+      <left>
+         <Button fx:id="prevLevelButton" mnemonicParsing="false" onAction="#prevLevel" styleClass="side-button" text="" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+               <Insets left="20.0" />
+            </BorderPane.margin>
+         </Button>
+      </left>
+      <right>
+         <Button fx:id="nextLevelButton" mnemonicParsing="false" onAction="#nextLevel" styleClass="side-button" text="" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+               <Insets right="20.0" />
+            </BorderPane.margin>
+         </Button>
+      </right>
+      <bottom>
+         <GridPane BorderPane.alignment="TOP_CENTER">
+           <columnConstraints>
+             <ColumnConstraints hgrow="SOMETIMES" />
+             <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints minHeight="100.0" valignment="TOP" vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+               <Button mnemonicParsing="false" styleClass="play-button" text="Play" GridPane.columnIndex="1">
+                  <GridPane.margin>
+                     <Insets right="100.0" />
+                  </GridPane.margin>
+               </Button>
+               <VBox>
+                  <children>
+                     <Label fx:id="levelCount" styleClass="level-title" />
+                     <Label fx:id="levelName" styleClass="level-semi-title" />
+                  </children>
+                  <GridPane.margin>
+                     <Insets left="100.0" />
+                  </GridPane.margin>
+               </VBox>
+            </children>
+         </GridPane>
+      </bottom>
+      <effect>
+         <InnerShadow height="255.0" radius="127.0" width="255.0">
+            <color>
+               <Color red="0.9882352948188782" green="0.9882352948188782" opacity="0.4" />
+            </color>
+         </InnerShadow>
+      </effect>
+    </BorderPane>
+</StackPane>

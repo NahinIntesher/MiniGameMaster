@@ -1,80 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" 
-            stylesheets="@highscoreStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="highscore.HighScoreController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@highscoreStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="highscore.HighScoreController">
 
     
     <!-- Main Content Container -->
     <BorderPane styleClass="main-container">
         <!-- Header Section -->
         <top>
-            <HBox styleClass="header" fx:id='backbutton'>
-                <Button onAction="#gotoHome" styleClass="back-button" text=""/> 
-                <Label styleClass="header-text" text="High Score Beating Mode"/>
+            <HBox fx:id="backbutton" styleClass="header">
+                <Button onAction="#gotoHome" styleClass="back-button" text="" /> 
+                <Label styleClass="header-text" text="High Score Beating Mode" />
             </HBox>
         </top>
-        
-        <center>
-            <HBox spacing="20" alignment="CENTER">
-                <!-- Left Side - Game Selection -->
-                <VBox styleClass="left-panel">
-                    <GridPane styleClass="game-grid" hgap="10" vgap="10" fx:id="gameGrid">
+      <center>
+         <GridPane BorderPane.alignment="TOP_CENTER">
+           <columnConstraints>
+             <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
+             <ColumnConstraints hgrow="SOMETIMES" percentWidth="70.0" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+                    <GridPane fx:id="gameGrid" alignment="TOP_CENTER" hgap="10" maxWidth="350.0" styleClass="game-grid" vgap="10" GridPane.halignment="CENTER">
                         
+    
+                  <columnConstraints>
+                     <ColumnConstraints percentWidth="50.0" />
+                     <ColumnConstraints percentWidth="50.0" />
+                  </columnConstraints>
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
                     </GridPane>
-                </VBox>
-                
-                <!-- Right Side - Game Details -->
-                <VBox styleClass="game-details">
-                    <!-- Tetris Preview -->
-                    <HBox styleClass="tetris-preview">
-                        <ImageView styleClass="tetris-pieces" fx:id="singleGameCoverPicture"/>
-                    </HBox>
-                    
-                    <!-- Game Title and Stats -->
-                    <Label styleClass="game-title" fx:id="singleGameName"/>
-                    <Label styleClass="player-count" fx:id="singleGamePlayedBy"/>
-                    
-                    <!-- Play Button -->
-                    <Button onAction="#playGame" text="Play" styleClass="play-button" />
-                    
-                    <!-- High Scores Section -->
-                    <VBox styleClass="high-scores">
-                        <Label text="High Scores" styleClass="section-title"/>
-                        
-                        <!-- Score Tabs -->
-                        <HBox styleClass="score-tabs">
-                            <Button text="Monthly" styleClass="play-button" onAction="#showMonthlyScore"/>
-                            <Button text="All Time" styleClass="play-button" onAction="#showAllTimeScore"/>
-                        </HBox>
+                   
+                   <!-- Right Side - Game Details -->
+                   <VBox styleClass="game-details-container" GridPane.columnIndex="1" GridPane.rowSpan="2147483647">
 
-                        
-                        <!-- Monthly Timer -->
-                        <Label text="Monthly high score will reset in" styleClass="reset-text"/>
-                        <Label text="28d 11h 32m" styleClass="timer" />
-                        
-                        <!-- Leaderboard -->
-                        <ScrollPane styleClass="scroll-pane" fitToWidth="true" prefHeight="300">
-                            <VBox styleClass="leaderboard" fx:id="leaderboard">
-                                <!-- <HBox styleClass="score-entry">
-                                    <Label text="1" styleClass="rank"/>
-                                    <Label text="Jayed" styleClass="player-name"/>
-                                    <ImageView styleClass="trophy-icon"/>
-                                    <Label text="1250" styleClass="score"/>
-                                    <Label text="203" styleClass="all-time-score"/>
-                                </HBox> -->
-                                <!-- Add more score entries as needed -->
-                            </VBox>
-                        </ScrollPane>
-                    </VBox>
-
-                </VBox>
-            </HBox>
-        </center>
+                  <StackPane fx:id="singleGameCoverPictureContainer" minHeight="160.0" prefHeight="160.0">
+                     <children>
+                              <ImageView fx:id="singleGameCoverPicture" />
+                     </children>
+                  </StackPane>
+                  <GridPane minHeight="-Infinity" prefHeight="110.0" styleClass="game-details">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <VBox alignment="CENTER_LEFT">
+                           <children>
+                                   
+                                   <!-- Game Title and Stats -->
+                                   <Label fx:id="singleGameName" styleClass="game-detail-title" text="" />
+                                   <Label fx:id="singleGamePlayedBy" styleClass="game-detail-player-count" text="Played by" />
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="25.0" right="25.0" top="15.0" />
+                           </padding>
+                        </VBox>
+                        <StackPane alignment="CENTER_RIGHT" GridPane.columnIndex="1">
+                           <children>
+                                   
+                                   <!-- Play Button -->
+                                   <Button onAction="#playGame" styleClass="play-button" text="Play" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" />
+                           </padding>
+                        </StackPane>
+                     </children>
+                  </GridPane>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="35.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="65.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <GridPane styleClass="high-scores-intro">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints percentHeight="70.0" />
+                            <RowConstraints percentHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label styleClass="high-scores-intro-title" text="High" />
+                                          <Label styleClass="high-scores-intro-semi-title" text="Scores" />
+                                 </children>
+                              </VBox>
+                              <StackPane prefHeight="150.0" prefWidth="200.0" />
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
+                                 <children>
+                  
+                                          
+                                          <!-- Monthly Timer -->
+                                          <Label styleClass="reset-text" text="Monthly High Scores Will Reset In" />
+                                          <Label fx:id="timerLabel" styleClass="timer" text="" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </GridPane>
+                             
+                                <!-- High Scores Section -->
+                             <VBox styleClass="high-scores" GridPane.columnIndex="1">
+                           <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                              <children>
+                                        <Button fx:id="allTimeButton" onAction="#showAllTimeScore" styleClass="tab-button" text="All Time" />
+                                        <Button fx:id="monthlyButton" onAction="#showMonthlyScore" styleClass="tab-button" text="Monthly" />
+                              </children>
+                              <padding>
+                                 <Insets top="10.0" />
+                              </padding>
+                           </HBox>
+                                 
+                                    <!-- Leaderboard -->
+                                 <ScrollPane fitToWidth="true" prefHeight="400.0" styleClass="leaderboard-container">
+                                     <VBox fx:id="leaderboard" styleClass="leaderboard">
+                                 <GridPane styleClass="score-entry">
+                                   <columnConstraints>
+                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" />
+                                       <ColumnConstraints />
+                                   </columnConstraints>
+                                   <rowConstraints>
+                                     <RowConstraints maxHeight="60.0" vgrow="SOMETIMES" />
+                                   </rowConstraints>
+                                    <children>
+                                       <HBox styleClass="score-entry-hbox">
+                                          <children>
+                                                      <Label styleClass="score-entry-rank" text="1" />
+                                             <HBox>
+                                                <children>
+                                                            <Label styleClass="score-entry-player-name" text="Jaya" />
+                                                   <HBox styleClass="score-entry-player-trophy">
+                                                      <children>
+                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="score-entry-player-trophy-icon" text="" />
+                                                         <Label fx:id="playerTrophies" styleClass="score-entry-player-trophy-text" text="1411" />
+                                                      </children>
+                                                   </HBox>
+                                                </children>
+                                             </HBox>
+                                          </children>
+                                       </HBox>
+                                       <HBox styleClass="score-entry-scores-container" GridPane.columnIndex="1">
+                                          <children>
+                                                      <Label alignment="CENTER" styleClass="score-entry-scores" text="203" />
+                                          </children>
+                                       </HBox>
+                                    </children>
+                                 </GridPane>
+                                         <!-- Add more score entries as needed -->
+                                     </VBox>
+                                 </ScrollPane>
+                             </VBox>
+                     </children>
+                  </GridPane>
+   
+                   </VBox>
+            </children>
+         </GridPane>
+      </center>
     </BorderPane>
 </StackPane>

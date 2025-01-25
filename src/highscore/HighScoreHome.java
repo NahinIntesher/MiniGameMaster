@@ -17,8 +17,9 @@ public class HighScoreHome extends Application {
             
             Scene scene = new Scene(root);
             
-            primaryStage.setTitle("Game High Scores");
+            primaryStage.setTitle("Mini Game Master");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();
             
         } catch (Exception e) {

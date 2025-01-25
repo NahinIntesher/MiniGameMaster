@@ -11,6 +11,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class HomeController {
@@ -46,9 +48,17 @@ public class HomeController {
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
             stage.setScene(new Scene(root));
             root.requestFocus();
-            stage.setTitle("Login");
+            stage.setTitle("Mini Game Master");
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -61,6 +71,14 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../livegame/livegame.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) borderPane.getScene().getWindow();
+
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
 
             stage.setScene(new Scene(root));
             stage.setTitle("Mini Game Master");
@@ -76,9 +94,38 @@ public class HomeController {
             Parent root = loader.load();
             Stage stage = (Stage) borderPane.getScene().getWindow();
 
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
             stage.setScene(new Scene(root));
             stage.setTitle("Mini Game Master");
-            stage.show();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void adventureButtonAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../adventure/adventure.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) borderPane.getScene().getWindow();
+
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -146,11 +193,18 @@ public class HomeController {
                     Parent root = loader.load();
     
                     Stage stage = (Stage) borderPane.getScene().getWindow();
+
+                    Screen screen = Screen.getPrimary();
+                    Rectangle2D bounds = screen.getVisualBounds();
+                    stage.setX(bounds.getMinX());
+                    stage.setY(bounds.getMinY());
+                    stage.setWidth(bounds.getWidth());
+                    stage.setHeight(bounds.getHeight());
+                    stage.setMaximized(true);
     
                     stage.setScene(new Scene(root));
                     root.requestFocus();
-                    stage.setTitle("Login");
-                    stage.show();
+                    stage.setTitle("Mini Game Master");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

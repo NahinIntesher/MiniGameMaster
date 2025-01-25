@@ -22,6 +22,7 @@ public class Main extends Application{
     
                 primaryStage.setScene(scene);
                 primaryStage.setTitle("Mini Game Master"); 
+                primaryStage.setMaximized(true);
                 primaryStage.show(); 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -36,6 +37,7 @@ public class Main extends Application{
     
                 primaryStage.setScene(scene);
                 primaryStage.setTitle("Mini Game Master"); 
+                primaryStage.setMaximized(true);
                 primaryStage.show(); 
             } catch (Exception e) {
                 e.printStackTrace();

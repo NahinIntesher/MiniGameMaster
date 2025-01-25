@@ -51,7 +51,7 @@
                                     <Label styleClass="game-mode-btn-bottom" text="Mode" />
                                  </children>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn-cont">
+                              <VBox onMouseClicked="#adventureButtonAction" prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn-cont">
                                  <children>
                                     <VBox prefHeight="200.0" prefWidth="100.0" styleClass="game-mode-btn">
                                        <children>

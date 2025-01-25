@@ -4,12 +4,14 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.PasswordField;
 import javafx.scene.Node;
@@ -49,10 +51,17 @@ public class SignupController {
 
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
             stage.setScene(new Scene(root));
             root.requestFocus();
-            stage.setTitle("Login");
-            stage.show();
+            stage.setTitle("Mini Game Master");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -107,9 +116,16 @@ public class SignupController {
 
                                     Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 
+                                    Screen screen = Screen.getPrimary();
+                                    Rectangle2D bounds = screen.getVisualBounds();
+                                    stage.setX(bounds.getMinX());
+                                    stage.setY(bounds.getMinY());
+                                    stage.setWidth(bounds.getWidth());
+                                    stage.setHeight(bounds.getHeight());
+                                    stage.setMaximized(true);
+
                                     stage.setScene(new Scene(root));
-                                    stage.setTitle("Dashboard");
-                                    stage.show();
+                                    stage.setTitle("Mini Game Master");
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }

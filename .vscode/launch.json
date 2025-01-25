@@ -3,6 +3,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "MarioStyleGame",
+      "request": "launch",
+      "mainClass": "adventure.MarioStyleGame",
+      "projectName": "MiniGameMaster_f9a03594"
+    },
+    {
+      "type": "java",
+      "name": "Adventure",
+      "request": "launch",
+      "mainClass": "adventure.Adventure",
+      "projectName": "MiniGameMaster_f9a03594"
+    },
+    {
+      "type": "java",
+      "name": "GameServer",
+      "request": "launch",
+      "mainClass": "livegame.GameServer",
+      "projectName": "MiniGameMaster_f9a03594"
+    },
+    {
+      "type": "java",
       "name": "SimpleBallGame",
       "request": "launch",
       "mainClass": "livegame.SimpleBallGame",
