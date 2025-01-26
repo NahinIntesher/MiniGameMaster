@@ -1,14 +1,22 @@
-package livegame;
+package highscore.games;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -18,17 +26,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class BubbleShooter extends Application {
+import highscore.HighScoreGameController;
+
+public class BubbleShooter extends HighScoreGame {
+    HighScoreGameController highScoreGameController;
 
     private static final int WIDTH = 420;
-    private static final int HEIGHT = 550;
+    private static final int HEIGHT = 500;
     private static final int BUBBLE_RADIUS = 20;
     private static final int HEX_ROW_OFFSET = (int) (BUBBLE_RADIUS * Math.sqrt(3));
     private static final int NUM_ROWS = 6;
     private static final int NUM_COLS = 10;
     private static final int SHOOTER_Y = HEIGHT - 30;
     private static final double SNAP_DISTANCE = BUBBLE_RADIUS * 2.1; // Slightly larger than diameter
-    private static final double GAME_OVER_THRESHOLD = SHOOTER_Y - HEX_ROW_OFFSET*2;
+    private static final double GAME_OVER_THRESHOLD = SHOOTER_Y - HEX_ROW_OFFSET * 2;
 
     private List<Bubble> bubbles = new ArrayList<>();
     private Bubble shooterBubble;
@@ -40,39 +51,69 @@ public class BubbleShooter extends Application {
     private boolean spacePressed = false;
     private boolean isShooting = false;
     private boolean gameOver = false;
+    private GraphicsContext gc;
+
+    
+    private Label currentScoreValue;
 
     private int score = 0;
 
-    @Override
-    public void start(Stage stage) {
+    public BubbleShooter(HighScoreGameController highScoreGameController) {
+        this.highScoreGameController = highScoreGameController;
+
+        this.setBackground(new Background(new BackgroundFill(Color.web("#333333"), null, null)));
+        this.setAlignment(Pos.CENTER);
+
+        HBox root = new HBox();
+        root.setAlignment(javafx.geometry.Pos.CENTER);
+        root.setSpacing(20);
+
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc = canvas.getGraphicsContext2D();
 
-        Pane root = new Pane(canvas);
-        Scene scene = new Scene(root);
+        StackPane canvasContainer = new StackPane();
 
+        canvasContainer.setPrefWidth(WIDTH + 10);
+        canvasContainer.setPrefHeight(HEIGHT + 10);
+        canvasContainer.setMaxWidth(USE_PREF_SIZE);
+        canvasContainer.setMaxHeight(USE_PREF_SIZE);
+        canvasContainer.setAlignment(Pos.CENTER);
+        canvasContainer.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+
+        currentScoreValue = new Label("0");
+        VBox sidePanel = new VBox(20);
+        sidePanel.setAlignment(javafx.geometry.Pos.CENTER);
+
+        canvasContainer.getChildren().add(canvas);
+
+        VBox currentScoreBox = new VBox();
+        currentScoreBox.setAlignment(javafx.geometry.Pos.CENTER);
+        currentScoreBox.setPrefSize(160, 100);
+        currentScoreBox.setStyle("-fx-background-color: #555555; -fx-border-color: white; -fx-border-width: 2;");
+
+        Label currentScoreLabel = new Label("Current Score");
+        currentScoreLabel.setFont(Font.font("Poppins Medium", 16));
+        currentScoreLabel.setTextFill(Color.WHITE);
+
+        currentScoreValue.setFont(Font.font("Poppins Bold", 32));
+        currentScoreValue.setTextFill(Color.WHITE);
+
+
+        currentScoreBox.getChildren().addAll(currentScoreLabel, currentScoreValue);
+
+        sidePanel.getChildren().add(currentScoreBox);
+
+        root.getChildren().add(canvasContainer);
+        root.getChildren().add(sidePanel);
+
+        this.getChildren().add(root);
+
+        startGame();
+    }
+
+    public void startGame() {
         initBubbles();
         shooterBubble = new Bubble(WIDTH / 2.0, SHOOTER_Y, randomColor());
-
-        scene.setOnKeyPressed(event -> {
-            if (gameOver) return;
-            if (event.getCode() == KeyCode.LEFT)
-                leftPressed = true;
-            if (event.getCode() == KeyCode.RIGHT)
-                rightPressed = true;
-            if (event.getCode() == KeyCode.SPACE)
-                spacePressed = true;
-        });
-
-        scene.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.LEFT)
-                leftPressed = false;
-            if (event.getCode() == KeyCode.RIGHT)
-                rightPressed = false;
-            if (event.getCode() == KeyCode.SPACE)
-                spacePressed = false;
-        });
-
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -82,10 +123,27 @@ public class BubbleShooter extends Application {
         };
 
         timer.start();
+    }
 
-        stage.setScene(scene);
-        stage.setTitle("Bubble Shooter Game");
-        stage.show();
+    public void actionOnKeyPressed(String input) {
+        if (gameOver)
+            return;
+
+        if (input.equals("LEFT") || input.equals("A"))
+            leftPressed = true;
+        if (input.equals("RIGHT") || input.equals("D"))
+            rightPressed = true;
+        if (input.equals("SPACE") || input.equals("ENTER"))
+            spacePressed = true;
+    }
+
+    public void actionOnKeyReleased(String input) {
+        if (input.equals("LEFT") || input.equals("A"))
+            leftPressed = false;
+        if (input.equals("RIGHT") || input.equals("D"))
+            rightPressed = false;
+        if (input.equals("SPACE") || input.equals("ENTER"))
+            spacePressed = false;
     }
 
     private void initBubbles() {
@@ -137,7 +195,9 @@ public class BubbleShooter extends Application {
     }
 
     private void render(GraphicsContext gc) {
-        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        if (gameOver) return;
+        gc.setFill(Color.web("#666666"));
+        gc.fillRect(0, 0, WIDTH, HEIGHT);
 
         // Draw bubbles
         for (Bubble bubble : bubbles) {
@@ -147,6 +207,7 @@ public class BubbleShooter extends Application {
         // Check for game over condition
         if (checkGameOver()) {
             gameOver = true;
+            highScoreGameController.gameOver(score);
         }
 
         // Draw shooter bubble
@@ -155,26 +216,13 @@ public class BubbleShooter extends Application {
         }
 
         // Draw shooter guide
-        gc.setStroke(Color.GRAY);
+        gc.setStroke(Color.WHITE);
         gc.setLineWidth(2);
         double radian = Math.toRadians(shooterAngle);
         double endX = shooterX + Math.cos(radian) * 100;
         double endY = SHOOTER_Y - Math.sin(radian) * 100;
         gc.strokeLine(shooterX, SHOOTER_Y, endX, endY);
 
-        // Draw score
-        gc.setFill(Color.BLACK);
-        gc.setFont(Font.font(20));
-        gc.fillText("Score: " + score, 10, 30);
-
-        // Draw game over screen
-        if (gameOver) {
-            gc.setFill(Color.RED);
-            gc.setFont(Font.font(40));
-            gc.fillText("GAME OVER", WIDTH/2 - 100, HEIGHT/2);
-            gc.setFont(Font.font(20));
-            gc.fillText("Final Score: " + score, WIDTH/2 - 70, HEIGHT/2 + 50);
-        }
     }
 
     private boolean checkGameOver() {
@@ -184,8 +232,8 @@ public class BubbleShooter extends Application {
             }
         }
         return false;
-    }    
-    
+    }
+
     private void checkWallCollision(Bubble bubble) {
         if (bubble.x - BUBBLE_RADIUS < 0 || bubble.x + BUBBLE_RADIUS > WIDTH) {
             bubble.vx = -bubble.vx; // Reflect horizontally
@@ -244,10 +292,6 @@ public class BubbleShooter extends Application {
             }
         }
         return neighbors;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     private static class Bubble {
@@ -420,7 +464,11 @@ public class BubbleShooter extends Application {
 
         if (cluster.size() >= 3) {
             // Increment score based on cluster size
-            score += cluster.size() * 10;
+            score += cluster.size() * 5;
+            
+            Platform.runLater(()->{
+                currentScoreValue.setText(String.valueOf(score));
+            });
 
             // Remove matched cluster
             bubbles.removeAll(cluster);
@@ -428,12 +476,12 @@ public class BubbleShooter extends Application {
             // Immediately after removing the cluster, check and remove floating bubbles
             Set<Bubble> floatingBubbles = findFloatingBubbles();
             bubbles.removeAll(floatingBubbles);
-            
+
             // Add additional points for removing floating bubbles
             score += floatingBubbles.size() * 5;
         }
     }
-    
+
     private Set<Bubble> findFloatingBubbles() {
         Set<Bubble> connectedToCeiling = new HashSet<>();
         Set<Bubble> visited = new HashSet<>();
@@ -451,5 +499,16 @@ public class BubbleShooter extends Application {
         floatingBubbles.removeAll(connectedToCeiling);
 
         return floatingBubbles;
+    }
+
+    public void restartGame() {
+        score = 0;
+        Platform.runLater(()->{
+            currentScoreValue.setText("0");
+        });
+        gameOver = false;
+        bubbles = new ArrayList<>();
+        shooterAngle = 90; 
+        startGame();
     }
 }

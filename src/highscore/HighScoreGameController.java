@@ -37,6 +37,9 @@ import javafx.scene.image.ImageView;
 import highscore.games.HighScoreGame;
 
 public class HighScoreGameController {
+    Preferences preferences = Preferences.userRoot().node("authData");
+    String userid = preferences.get("userid", "default");
+
     @FXML
     private Text scoreText;
     @FXML
@@ -63,8 +66,8 @@ public class HighScoreGameController {
     private VBox leaderboard;
     @FXML
     private Label headerText;
-    
-    private HighScoreGame gameInstance ;
+
+    private HighScoreGame gameInstance;
 
     public int gameId = 1;
 
@@ -105,9 +108,10 @@ public class HighScoreGameController {
 
     @FXML
     private void playAgain() {
+        System.out.println("choling");
         victoryScreen.setManaged(false);
         victoryScreen.setVisible(false);
-        Platform.runLater(()->{        
+        Platform.runLater(() -> {
             gameInstance.restartGame();
         });
     }
@@ -116,6 +120,26 @@ public class HighScoreGameController {
         scoreText.setText(String.valueOf(score));
         victoryScreen.setManaged(true);
         victoryScreen.setVisible(true);
+
+        new Thread(()->{
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            try (Connection connection = databaseConnection.getConnection()) {
+                String query = "INSERT INTO game_scores(game_id, player_id, score) VALUES (?,?,?)";
+    
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, gameId);                    
+                    statement.setInt(2, Integer.parseInt(userid));
+                    statement.setInt(3, score); // Use parameterized query to prevent SQL injection
+                    try {
+                        statement.executeUpdate();
+                    } catch (Exception ex) {
+                        //ex.printStackTrace();
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }).start();
     }
 
     public void gameOver(String time) {
@@ -124,6 +148,27 @@ public class HighScoreGameController {
         victoryScreenSemiTitle.setText("Taken Time");
         victoryScreen.setManaged(true);
         victoryScreen.setVisible(true);
+        new Thread(()->{
+            int score = 1000-convertToSeconds(time);
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            try (Connection connection = databaseConnection.getConnection()) {
+                String query = "INSERT INTO game_scores(game_id, player_id, score, time) VALUES (?,?,?,?)";
+    
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, gameId);                    
+                    statement.setInt(2, Integer.parseInt(userid));
+                    statement.setInt(3, score); 
+                    statement.setString(4, time);// Use parameterized query to prevent SQL injection
+                    try {
+                        statement.executeUpdate();
+                    } catch (Exception ex) {
+                        //ex.printStackTrace();
+                    }
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }).start();
     }
 
     @FXML
@@ -148,10 +193,20 @@ public class HighScoreGameController {
         }
     }
 
+    public int convertToSeconds(String time) {
+        // Split the input string into minutes and seconds
+        String[] parts = time.split(":");
+        int minutes = Integer.parseInt(parts[0]);
+        int seconds = Integer.parseInt(parts[1]);
+
+        // Convert the time to total seconds
+        return (minutes * 60) + seconds;
+    }
+
     @FXML
     private void gotoHome() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../highscore/HighScore.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) backbutton.getScene().getWindow();
 
@@ -170,94 +225,102 @@ public class HighScoreGameController {
         }
     }
 
-
     @FXML
     private void showAllTimeScore() {
         monthlyButton.getStyleClass().remove("tab-active");
         allTimeButton.getStyleClass().remove("tab-active");
         allTimeButton.getStyleClass().add("tab-active");
 
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection()) {
-            String query = "SELECT gs.score, u.username, u.trophies " +
-                    "FROM game_scores gs " +
-                    "JOIN users u ON gs.player_id = u.id " +
-                    "WHERE gs.game_id = ? " +
-                    "GROUP BY u.username " +
-                    "ORDER BY gs.score DESC";
+        new Thread(() -> {
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            try (Connection connection = databaseConnection.getConnection()) {
+                String query = "SELECT gs.score, gs.time, u.username, u.trophies " +
+                        "FROM game_scores gs " +
+                        "JOIN users u ON gs.player_id = u.id " +
+                        "WHERE gs.game_id = ? " +
+                        "GROUP BY u.username " +
+                        "ORDER BY gs.score DESC";
 
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, gameId); // Use parameterized query to prevent SQL injection
-                try (ResultSet result = statement.executeQuery()) {
-                    // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear
-                    // previous data
-                    int rank = 1;
-                    Platform.runLater(() -> {
-                        leaderboard.getChildren().clear();
-                    });
-
-                    System.out.println("outer game id: " + gameId);
-
-                    while (result.next()) {
-                        String score = result.getString("score");
-                        String username = result.getString("username");
-                        String trophies = result.getString("trophies");
-
-                        GridPane scoreBox = new GridPane();
-                        scoreBox.getStyleClass().add("score-entry");
-
-                        HBox scoreHBox = new HBox();
-
-                        scoreHBox.getStyleClass().add("score-entry-hbox");
-
-                        Label rankLabel = new Label(String.valueOf(rank));
-                        rankLabel.getStyleClass().add("score-entry-rank");
-
-                        HBox scoreVbox = new HBox();
-                        scoreVbox.getStyleClass().add("score-entry-player-container");
-
-                        Label usernameLabel = new Label(username);
-                        usernameLabel.getStyleClass().add("score-entry-player-name");
-
-                        HBox trophyHBox = new HBox();
-                        trophyHBox.getStyleClass().add("score-entry-player-trophy");
-                        Text trophyText = new Text("");
-                        trophyText.getStyleClass().add("score-entry-player-trophy-icon");
-                        Label trophyLabel = new Label(trophies);
-                        trophyLabel.getStyleClass().add("score-entry-player-trophy-text");
-                        trophyHBox.getChildren().addAll(trophyText, trophyLabel);
-                        scoreVbox.getChildren().addAll(usernameLabel, trophyHBox);
-
-                        scoreHBox.getChildren().addAll(rankLabel, scoreVbox);
-
-                        HBox scoreLabelContainer = new HBox();
-                        scoreLabelContainer.getStyleClass().add("score-entry-scores-container");
-
-                        Label scoreLabel = new Label(score);
-                        scoreLabel.getStyleClass().add("score-entry-scores");
-                        scoreLabelContainer.getChildren().addAll(scoreLabel);
-
-                        GridPane.setColumnIndex(scoreHBox, 0);
-                        GridPane.setColumnIndex(scoreLabelContainer, 1);
-
-                        ColumnConstraints colCons = new ColumnConstraints();
-                        colCons.setHgrow(Priority.SOMETIMES);
-                        colCons.setMinWidth(Double.NEGATIVE_INFINITY);
-
-                        scoreBox.getColumnConstraints().add(colCons);
-                        scoreBox.getChildren().addAll(scoreHBox, scoreLabelContainer);
-
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, gameId); // Use parameterized query to prevent SQL injection
+                    try (ResultSet result = statement.executeQuery()) {
+                        // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear
+                        // previous data
+                        int rank = 1;
                         Platform.runLater(() -> {
-                            leaderboard.getChildren().add(scoreBox);
+                            leaderboard.getChildren().clear();
                         });
 
-                        rank++;
+                        System.out.println("outer game id: " + gameId);
+
+                        while (result.next()) {
+                            String score = result.getString("score");
+                            String time = result.getString("time");
+                            String username = result.getString("username");
+                            String trophies = result.getString("trophies");
+
+                            GridPane scoreBox = new GridPane();
+                            scoreBox.getStyleClass().add("score-entry");
+
+                            HBox scoreHBox = new HBox();
+
+                            scoreHBox.getStyleClass().add("score-entry-hbox");
+
+                            Label rankLabel = new Label(String.valueOf(rank));
+                            rankLabel.getStyleClass().add("score-entry-rank");
+
+                            HBox scoreVbox = new HBox();
+                            scoreVbox.getStyleClass().add("score-entry-player-container");
+
+                            Label usernameLabel = new Label(username);
+                            usernameLabel.getStyleClass().add("score-entry-player-name");
+
+                            HBox trophyHBox = new HBox();
+                            trophyHBox.getStyleClass().add("score-entry-player-trophy");
+                            Text trophyText = new Text("");
+                            trophyText.getStyleClass().add("score-entry-player-trophy-icon");
+                            Label trophyLabel = new Label(trophies);
+                            trophyLabel.getStyleClass().add("score-entry-player-trophy-text");
+                            trophyHBox.getChildren().addAll(trophyText, trophyLabel);
+                            scoreVbox.getChildren().addAll(usernameLabel, trophyHBox);
+
+                            scoreHBox.getChildren().addAll(rankLabel, scoreVbox);
+
+                            HBox scoreLabelContainer = new HBox();
+                            scoreLabelContainer.getStyleClass().add("score-entry-scores-container");
+
+                            Label scoreLabel = new Label();
+                            if (time != null) {
+                                scoreLabel.setText(time);
+                            } else {
+                                scoreLabel.setText(score);
+                            }
+
+                            scoreLabel.getStyleClass().add("score-entry-scores");
+                            scoreLabelContainer.getChildren().addAll(scoreLabel);
+
+                            GridPane.setColumnIndex(scoreHBox, 0);
+                            GridPane.setColumnIndex(scoreLabelContainer, 1);
+
+                            ColumnConstraints colCons = new ColumnConstraints();
+                            colCons.setHgrow(Priority.SOMETIMES);
+                            colCons.setMinWidth(Double.NEGATIVE_INFINITY);
+
+                            scoreBox.getColumnConstraints().add(colCons);
+                            scoreBox.getChildren().addAll(scoreHBox, scoreLabelContainer);
+
+                            Platform.runLater(() -> {
+                                leaderboard.getChildren().add(scoreBox);
+                            });
+
+                            rank++;
+                        }
                     }
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        }).start();
     }
 
     @FXML
@@ -266,87 +329,95 @@ public class HighScoreGameController {
         allTimeButton.getStyleClass().remove("tab-active");
         monthlyButton.getStyleClass().add("tab-active");
 
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        try (Connection connection = databaseConnection.getConnection()) {
-            String query = "SELECT gs.score, u.username, u.trophies " +
-                    "FROM game_scores gs " +
-                    "JOIN users u ON gs.player_id = u.id " +
-                    "WHERE gs.game_id = ? " +
-                    "AND gs.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH) " +
-                    "GROUP BY u.username " +
-                    "ORDER BY gs.score DESC";
+        new Thread(() -> {
+            DatabaseConnection databaseConnection = new DatabaseConnection();
+            try (Connection connection = databaseConnection.getConnection()) {
+                String query = "SELECT gs.score, gs.time, u.username, u.trophies " +
+                        "FROM game_scores gs " +
+                        "JOIN users u ON gs.player_id = u.id " +
+                        "WHERE gs.game_id = ? " +
+                        "AND gs.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH) " +
+                        "GROUP BY u.username " +
+                        "ORDER BY gs.score DESC";
 
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, gameId); // Use parameterized query to prevent SQL injection
-                try (ResultSet result = statement.executeQuery()) {
-                    // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear
-                    // previous data
-                    int rank = 1;
-                    Platform.runLater(() -> {
-                        leaderboard.getChildren().clear();
-                    });
-
-                    System.out.println("outer game id: " + gameId);
-
-                    while (result.next()) {
-                        String score = result.getString("score");
-                        String username = result.getString("username");
-                        String trophies = result.getString("trophies");
-
-                        GridPane scoreBox = new GridPane();
-                        scoreBox.getStyleClass().add("score-entry");
-
-                        HBox scoreHBox = new HBox();
-
-                        scoreHBox.getStyleClass().add("score-entry-hbox");
-
-                        Label rankLabel = new Label(String.valueOf(rank));
-                        rankLabel.getStyleClass().add("score-entry-rank");
-
-                        HBox scoreVbox = new HBox();
-                        scoreVbox.getStyleClass().add("score-entry-player-container");
-
-                        Label usernameLabel = new Label(username);
-                        usernameLabel.getStyleClass().add("score-entry-player-name");
-
-                        HBox trophyHBox = new HBox();
-                        trophyHBox.getStyleClass().add("score-entry-player-trophy");
-                        Text trophyText = new Text("");
-                        trophyText.getStyleClass().add("score-entry-player-trophy-icon");
-                        Label trophyLabel = new Label(trophies);
-                        trophyLabel.getStyleClass().add("score-entry-player-trophy-text");
-                        trophyHBox.getChildren().addAll(trophyText, trophyLabel);
-                        scoreVbox.getChildren().addAll(usernameLabel, trophyHBox);
-
-                        scoreHBox.getChildren().addAll(rankLabel, scoreVbox);
-
-                        HBox scoreLabelContainer = new HBox();
-                        scoreLabelContainer.getStyleClass().add("score-entry-scores-container");
-
-                        Label scoreLabel = new Label(score);
-                        scoreLabel.getStyleClass().add("score-entry-scores");
-                        scoreLabelContainer.getChildren().addAll(scoreLabel);
-
-                        GridPane.setColumnIndex(scoreHBox, 0);
-                        GridPane.setColumnIndex(scoreLabelContainer, 1);
-
-                        ColumnConstraints colCons = new ColumnConstraints();
-                        colCons.setHgrow(Priority.SOMETIMES);
-                        colCons.setMinWidth(Double.NEGATIVE_INFINITY);
-
-                        scoreBox.getColumnConstraints().add(colCons);
-                        scoreBox.getChildren().addAll(scoreHBox, scoreLabelContainer);
-
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    statement.setInt(1, gameId); // Use parameterized query to prevent SQL injection
+                    try (ResultSet result = statement.executeQuery()) {
+                        // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear
+                        // previous data
+                        int rank = 1;
                         Platform.runLater(() -> {
-                            leaderboard.getChildren().add(scoreBox);
+                            leaderboard.getChildren().clear();
                         });
 
-                        rank++;
+                        System.out.println("outer game id: " + gameId);
+
+                        while (result.next()) {
+                            String score = result.getString("score");
+                            String time = result.getString("time");
+                            String username = result.getString("username");
+                            String trophies = result.getString("trophies");
+
+                            GridPane scoreBox = new GridPane();
+                            scoreBox.getStyleClass().add("score-entry");
+
+                            HBox scoreHBox = new HBox();
+
+                            scoreHBox.getStyleClass().add("score-entry-hbox");
+
+                            Label rankLabel = new Label(String.valueOf(rank));
+                            rankLabel.getStyleClass().add("score-entry-rank");
+
+                            HBox scoreVbox = new HBox();
+                            scoreVbox.getStyleClass().add("score-entry-player-container");
+
+                            Label usernameLabel = new Label(username);
+                            usernameLabel.getStyleClass().add("score-entry-player-name");
+
+                            HBox trophyHBox = new HBox();
+                            trophyHBox.getStyleClass().add("score-entry-player-trophy");
+                            Text trophyText = new Text("");
+                            trophyText.getStyleClass().add("score-entry-player-trophy-icon");
+                            Label trophyLabel = new Label(trophies);
+                            trophyLabel.getStyleClass().add("score-entry-player-trophy-text");
+                            trophyHBox.getChildren().addAll(trophyText, trophyLabel);
+                            scoreVbox.getChildren().addAll(usernameLabel, trophyHBox);
+
+                            scoreHBox.getChildren().addAll(rankLabel, scoreVbox);
+
+                            HBox scoreLabelContainer = new HBox();
+                            scoreLabelContainer.getStyleClass().add("score-entry-scores-container");
+                            Label scoreLabel = new Label();
+                            if (time != null) {
+                                scoreLabel.setText(time);
+                            } else {
+                                scoreLabel.setText(score);
+                            }
+
+                            scoreLabel.getStyleClass().add("score-entry-scores");
+                            scoreLabelContainer.getChildren().addAll(scoreLabel);
+
+                            GridPane.setColumnIndex(scoreHBox, 0);
+                            GridPane.setColumnIndex(scoreLabelContainer, 1);
+
+                            ColumnConstraints colCons = new ColumnConstraints();
+                            colCons.setHgrow(Priority.SOMETIMES);
+                            colCons.setMinWidth(Double.NEGATIVE_INFINITY);
+
+                            scoreBox.getColumnConstraints().add(colCons);
+                            scoreBox.getChildren().addAll(scoreHBox, scoreLabelContainer);
+
+                            Platform.runLater(() -> {
+                                leaderboard.getChildren().add(scoreBox);
+                            });
+
+                            rank++;
+                        }
                     }
                 }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        }).start();
     }
 }

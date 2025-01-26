@@ -154,7 +154,9 @@ public class MemoryGame extends HighScoreGame {
 
         Collections.shuffle(shapes);
 
-        grid.getChildren().removeAll();
+        cards = new ArrayList<>();
+
+        grid.getChildren().clear();
         
         int index = 0;
         for (int row = 0; row < 4; row++) {
@@ -263,7 +265,7 @@ public class MemoryGame extends HighScoreGame {
                 canClick = true;
                 totalMatched++;
 
-                if(totalMatched <= 8) {
+                if(totalMatched >= 8) {
                     running = false;
                     highScoreGameController.gameOver(String.format("%02d:%02d", minutes, seconds));
                 }

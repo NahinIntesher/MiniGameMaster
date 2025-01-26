@@ -12,12 +12,26 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ProgressIndicator?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@livegameStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="livegame.LiveGameController">
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+   prefHeight="700.0" prefWidth="1200.0" stylesheets="@livegameStyle.css"
+   xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+   fx:controller="livegame.LiveGameController">
    <children>
-      <StackPane fx:id="findingPlayerContainer">
+      <StackPane style="-fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c); -fx-font-family: 'Poppins';" fx:id="runningGameContainer">
          <children>
-            <Label text="Waiting for player ..." />
+            <VBox alignment="CENTER" spacing="10">
+               <ProgressIndicator style="-fx-progress-color: #000000;" prefWidth="100"
+                  prefHeight="100" maxWidth="100" maxHeight="100" />
+
+               <Label text="Waiting for player ..."
+                  style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #000000;" />
+
+               <Label text="Please wait while we find a match!"
+                  style="-fx-font-size: 20px; -fx-text-fill: #000000; -fx-font-style: italic;" />
+            </VBox>
          </children>
       </StackPane>
       <StackPane fx:id="runningGameContainer" managed="false" visible="false">
@@ -33,13 +47,16 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <StackPane fx:id="playerBluePlayground" prefHeight="150.0" prefWidth="200.0" styleClass="playground-blue" />
-                        <StackPane fx:id="playerRedPlayground" prefHeight="150.0" prefWidth="200.0" styleClass="playground-red" GridPane.columnIndex="1" />
+                        <StackPane fx:id="playerBluePlayground" prefHeight="150.0" prefWidth="200.0"
+                           styleClass="playground-blue" />
+                        <StackPane fx:id="playerRedPlayground" prefHeight="150.0" prefWidth="200.0"
+                           styleClass="playground-red" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </center>
                <top>
-                  <GridPane prefHeight="70.0" styleClass="child-container" BorderPane.alignment="CENTER">
+                  <GridPane prefHeight="70.0" styleClass="child-container"
+                     BorderPane.alignment="CENTER">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -48,29 +65,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="player-blue-detail">
-                           <children>
-                              <GridPane>
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" />
-                                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <Label fx:id="playerBlueName" styleClass="player-blue-detail-name" text="" />
-                                    <HBox styleClass="player-detail-trophy" GridPane.columnIndex="1">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="player-detail-trophy-icon" text="" />
-                                          <Label fx:id="playerBlueTrophies" styleClass="player-detail-trophy-text" text="" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </GridPane>
-                           </children>
-                        </StackPane>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="player-red-detail" GridPane.columnIndex="1">
+                        <StackPane prefHeight="150.0" prefWidth="200.0"
+                           styleClass="player-blue-detail">
                            <children>
                               <GridPane>
                                  <columnConstraints>
@@ -78,14 +74,47 @@
                                     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                       vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label fx:id="playerRedName" styleClass="player-blue-detail-name" text="" GridPane.columnIndex="1" />
-                                    <HBox nodeOrientation="RIGHT_TO_LEFT" styleClass="player-detail-trophy">
+                                    <Label fx:id="playerBlueName"
+                                       styleClass="player-blue-detail-name" text="" />
+                                    <HBox styleClass="player-detail-trophy" GridPane.columnIndex="1">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="player-detail-trophy-icon" text="" />
-                                          <Label fx:id="playerRedTrophies" styleClass="player-detail-trophy-text" text="" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                             styleClass="player-detail-trophy-icon" text="" />
+                                          <Label fx:id="playerBlueTrophies"
+                                             styleClass="player-detail-trophy-text" text="" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </StackPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0"
+                           styleClass="player-red-detail" GridPane.columnIndex="1">
+                           <children>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" />
+                                    <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                       vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label fx:id="playerRedName"
+                                       styleClass="player-blue-detail-name" text=""
+                                       GridPane.columnIndex="1" />
+                                    <HBox nodeOrientation="RIGHT_TO_LEFT"
+                                       styleClass="player-detail-trophy">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                             styleClass="player-detail-trophy-icon" text="" />
+                                          <Label fx:id="playerRedTrophies"
+                                             styleClass="player-detail-trophy-text" text="" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -100,7 +129,8 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" styleClass="time-box">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="time-box-title" text="Battle Running" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="time-box-title"
+                           text="Battle Running" />
                         <Label fx:id="battleTimer" styleClass="time-box-time" text="00:00" />
                      </children>
                   </VBox>
@@ -117,94 +147,160 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <StackPane alignment="TOP_CENTER" styleClass="progress-bar-cont" GridPane.valignment="BOTTOM">
+                        <StackPane alignment="TOP_CENTER" styleClass="progress-bar-cont"
+                           GridPane.valignment="BOTTOM">
                            <children>
-                              <GridPane maxHeight="20.0" prefHeight="20.0" style="-fx-translate-y: -8;">
+                              <GridPane maxHeight="20.0" prefHeight="20.0"
+                                 style="-fx-translate-y: -8;">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="12.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" percentWidth="25.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity"
+                                       percentWidth="25.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="26.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="12.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                       vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <StackPane.margin>
                                     <Insets />
                                  </StackPane.margin>
                                  <children>
-                                    <Pane fx:id="playerBlueProgressStick1" styleClass="progress-bar-stick" GridPane.columnIndex="1" />
-                                    <Pane fx:id="playerBlueProgressStick2" styleClass="progress-bar-stick" GridPane.columnIndex="2" />
-                                    <Pane fx:id="playerBlueProgressStick3" styleClass="progress-bar-stick" GridPane.columnIndex="3" />
+                                    <Pane fx:id="playerBlueProgressStick1"
+                                       styleClass="progress-bar-stick" GridPane.columnIndex="1" />
+                                    <Pane fx:id="playerBlueProgressStick2"
+                                       styleClass="progress-bar-stick" GridPane.columnIndex="2" />
+                                    <Pane fx:id="playerBlueProgressStick3"
+                                       styleClass="progress-bar-stick" GridPane.columnIndex="3" />
                                  </children>
                               </GridPane>
-                              <GridPane alignment="CENTER" cacheShape="false" style="-fx-translate-y: -14;">
+                              <GridPane alignment="CENTER" cacheShape="false"
+                                 style="-fx-translate-y: -14;">
                                  <columnConstraints>
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                       percentWidth="25.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                       percentWidth="25.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                       percentWidth="25.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                       percentWidth="25.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                       vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                       vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Pane fx:id="playerBlueProgressPoint1" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerBlueProgressPoint2" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerBlueProgressPoint3" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerBlueProgressPoint4" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Label fx:id="playerBlueProgressLabel1" styleClass="progress-bar-text" text="Running" GridPane.rowIndex="1" />
-                                    <Label fx:id="playerBlueProgressLabel2" styleClass="progress-bar-text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label fx:id="playerBlueProgressLabel3" styleClass="progress-bar-text" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Label fx:id="playerBlueProgressLabel4" styleClass="progress-bar-text" text="Winner" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <Pane fx:id="playerBlueProgressPoint1" prefHeight="200.0"
+                                       prefWidth="200.0" styleClass="progress-bar-point"
+                                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerBlueProgressPoint2" prefHeight="200.0"
+                                       prefWidth="200.0" styleClass="progress-bar-point"
+                                       GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                                       GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerBlueProgressPoint3" prefHeight="200.0"
+                                       prefWidth="200.0" styleClass="progress-bar-point"
+                                       GridPane.columnIndex="2" GridPane.halignment="CENTER"
+                                       GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerBlueProgressPoint4" prefHeight="200.0"
+                                       prefWidth="200.0" styleClass="progress-bar-point"
+                                       GridPane.columnIndex="3" GridPane.halignment="CENTER"
+                                       GridPane.valignment="CENTER" />
+                                    <Label fx:id="playerBlueProgressLabel1"
+                                       styleClass="progress-bar-text" text="Running"
+                                       GridPane.rowIndex="1" />
+                                    <Label fx:id="playerBlueProgressLabel2"
+                                       styleClass="progress-bar-text" GridPane.columnIndex="1"
+                                       GridPane.rowIndex="1" />
+                                    <Label fx:id="playerBlueProgressLabel3"
+                                       styleClass="progress-bar-text" GridPane.columnIndex="2"
+                                       GridPane.rowIndex="1" />
+                                    <Label fx:id="playerBlueProgressLabel4"
+                                       styleClass="progress-bar-text" text="Winner"
+                                       GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                            </children>
                         </StackPane>
-                        <StackPane alignment="TOP_CENTER" styleClass="progress-bar-cont" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+                        <StackPane alignment="TOP_CENTER" styleClass="progress-bar-cont"
+                           GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
                            <children>
-                              <GridPane maxHeight="20.0" prefHeight="20.0" style="-fx-translate-y: -8;">
+                              <GridPane maxHeight="20.0" prefHeight="20.0"
+                                 style="-fx-translate-y: -8;">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="12.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" percentWidth="25.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity"
+                                       percentWidth="25.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="26.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" percentWidth="12.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                       vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <StackPane.margin>
                                     <Insets />
                                  </StackPane.margin>
                                  <children>
-                                    <Pane fx:id="playerRedProgressStick1" styleClass="progress-bar-stick" GridPane.columnIndex="1" />
-                                    <Pane fx:id="playerRedProgressStick2" styleClass="progress-bar-stick" GridPane.columnIndex="2" />
-                                    <Pane fx:id="playerRedProgressStick3" styleClass="progress-bar-stick" GridPane.columnIndex="3" />
+                                    <Pane fx:id="playerRedProgressStick1"
+                                       styleClass="progress-bar-stick" GridPane.columnIndex="1" />
+                                    <Pane fx:id="playerRedProgressStick2"
+                                       styleClass="progress-bar-stick" GridPane.columnIndex="2" />
+                                    <Pane fx:id="playerRedProgressStick3"
+                                       styleClass="progress-bar-stick" GridPane.columnIndex="3" />
                                  </children>
                               </GridPane>
-                              <GridPane alignment="CENTER" cacheShape="false" style="-fx-translate-y: -14;">
+                              <GridPane alignment="CENTER" cacheShape="false"
+                                 style="-fx-translate-y: -14;">
                                  <columnConstraints>
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
-                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" percentWidth="25.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                       percentWidth="25.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                       percentWidth="25.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                       percentWidth="25.0" />
+                                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES"
+                                       percentWidth="25.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                       vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0"
+                                       vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Pane fx:id="playerRedProgressPoint1" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerRedProgressPoint2" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerRedProgressPoint3" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Pane fx:id="playerRedProgressPoint4" prefHeight="200.0" prefWidth="200.0" styleClass="progress-bar-point" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                    <Label fx:id="playerRedProgressLabel1" styleClass="progress-bar-text" text="Running" GridPane.rowIndex="1" />
-                                    <Label fx:id="playerRedProgressLabel2" styleClass="progress-bar-text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label fx:id="playerRedProgressLabel3" styleClass="progress-bar-text" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Label fx:id="playerRedProgressLabel4" styleClass="progress-bar-text" text="Winner" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <Pane fx:id="playerRedProgressPoint1" prefHeight="200.0"
+                                       prefWidth="200.0" styleClass="progress-bar-point"
+                                       GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerRedProgressPoint2" prefHeight="200.0"
+                                       prefWidth="200.0" styleClass="progress-bar-point"
+                                       GridPane.columnIndex="1" GridPane.halignment="CENTER"
+                                       GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerRedProgressPoint3" prefHeight="200.0"
+                                       prefWidth="200.0" styleClass="progress-bar-point"
+                                       GridPane.columnIndex="2" GridPane.halignment="CENTER"
+                                       GridPane.valignment="CENTER" />
+                                    <Pane fx:id="playerRedProgressPoint4" prefHeight="200.0"
+                                       prefWidth="200.0" styleClass="progress-bar-point"
+                                       GridPane.columnIndex="3" GridPane.halignment="CENTER"
+                                       GridPane.valignment="CENTER" />
+                                    <Label fx:id="playerRedProgressLabel1"
+                                       styleClass="progress-bar-text" text="Running"
+                                       GridPane.rowIndex="1" />
+                                    <Label fx:id="playerRedProgressLabel2"
+                                       styleClass="progress-bar-text" GridPane.columnIndex="1"
+                                       GridPane.rowIndex="1" />
+                                    <Label fx:id="playerRedProgressLabel3"
+                                       styleClass="progress-bar-text" GridPane.columnIndex="2"
+                                       GridPane.rowIndex="1" />
+                                    <Label fx:id="playerRedProgressLabel4"
+                                       styleClass="progress-bar-text" text="Winner"
+                                       GridPane.columnIndex="3" GridPane.rowIndex="1" />
                                  </children>
                               </GridPane>
                            </children>
@@ -215,46 +311,59 @@
             </StackPane>
          </children>
       </StackPane>
-      <StackPane fx:id="startingInContainer" managed="false" styleClass="starting-in-screen" visible="false">
+      <StackPane fx:id="startingInContainer" managed="false" styleClass="starting-in-screen"
+         visible="false">
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                <children>
                   <Label styleClass="starting-in-screen-title" text="Battle Starting In" />
                   <GridPane prefHeight="200.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
                         <ColumnConstraints hgrow="SOMETIMES" percentWidth="20.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <Text fx:id="startingInCount" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="starting-in-screen-count" text="5" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                        <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="starting-in-blue-details">
+                        <Text fx:id="startingInCount" strokeType="OUTSIDE" strokeWidth="0.0"
+                           styleClass="starting-in-screen-count" text="5" GridPane.columnIndex="1"
+                           GridPane.halignment="CENTER" />
+                        <StackPane prefHeight="150.0" prefWidth="200.0"
+                           styleClass="starting-in-blue-details">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                                 spacing="10.0">
                                  <children>
-                                    <Label fx:id="startingInScreenPlayerBlueName" styleClass="victory-screen-player-name" text="" />
+                                    <Label fx:id="startingInScreenPlayerBlueName"
+                                       styleClass="victory-screen-player-name" text="" />
                                     <HBox styleClass="victory-screen-player-trophy">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-player-trophy-icon" text="" />
-                                          <Label fx:id="startingInScreenPlayerBlueTrophy" styleClass="victory-screen-player-trophy-text" text="" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                             styleClass="victory-screen-player-trophy-icon" text="" />
+                                          <Label fx:id="startingInScreenPlayerBlueTrophy"
+                                             styleClass="victory-screen-player-trophy-text" text="" />
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
                            </children>
                         </StackPane>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="starting-in-red-details" GridPane.columnIndex="2">
+                        <StackPane prefHeight="150.0" prefWidth="200.0"
+                           styleClass="starting-in-red-details" GridPane.columnIndex="2">
                            <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                                 spacing="10.0">
                                  <children>
-                                    <Label fx:id="startingInScreenPlayerRedName" styleClass="victory-screen-player-name" text="" />
+                                    <Label fx:id="startingInScreenPlayerRedName"
+                                       styleClass="victory-screen-player-name" text="" />
                                     <HBox styleClass="victory-screen-player-trophy">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-player-trophy-icon" text="" />
-                                          <Label fx:id="startingInScreenPlayerRedTrophy" styleClass="victory-screen-player-trophy-text" text="" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                             styleClass="victory-screen-player-trophy-icon" text="" />
+                                          <Label fx:id="startingInScreenPlayerRedTrophy"
+                                             styleClass="victory-screen-player-trophy-text" text="" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -267,52 +376,75 @@
             </VBox>
          </children>
       </StackPane>
-      <StackPane managed="false" visible="false" styleClass="victory-screen" fx:id="victoryContainer">
-                  <children>
+      <StackPane managed="false" visible="false" styleClass="victory-screen"
+         fx:id="victoryContainer">
+         <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
                <children>
                   <Label fx:id="victoryLabel" styleClass="victory-screen-title" text="Victory" />
                   <GridPane prefHeight="214.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0"
+                           prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0"
+                           prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0"
+                           prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
                         <GridPane styleClass="victory-screen-blue-details">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                 percentWidth="70.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                 percentWidth="30.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
-                              <GridPane styleClass="victory-screen-games-complete-time-container" GridPane.columnIndex="1">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
-                                  <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                              <GridPane styleClass="victory-screen-games-complete-time-container"
+                                 GridPane.columnIndex="1">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                       prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                       prefHeight="60.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                       prefHeight="60.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                       prefHeight="60.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
                                  <children>
-                                    <Label fx:id="victoryScreenPlayerBlueGame1Time" styleClass="victory-screen-games-not-complete" text="Incomplete" GridPane.halignment="CENTER" />
-                                    <Label fx:id="victoryScreenPlayerBlueGame2Time" styleClass="victory-screen-games-not-complete" text="Incomplete" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <Label fx:id="victoryScreenPlayerBlueGame3Time" styleClass="victory-screen-games-not-complete" text="Incomplete" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                    <Label fx:id="victoryScreenPlayerBlueGame1Time"
+                                       styleClass="victory-screen-games-not-complete"
+                                       text="Incomplete" GridPane.halignment="CENTER" />
+                                    <Label fx:id="victoryScreenPlayerBlueGame2Time"
+                                       styleClass="victory-screen-games-not-complete"
+                                       text="Incomplete" GridPane.halignment="CENTER"
+                                       GridPane.rowIndex="1" />
+                                    <Label fx:id="victoryScreenPlayerBlueGame3Time"
+                                       styleClass="victory-screen-games-not-complete"
+                                       text="Incomplete" GridPane.halignment="CENTER"
+                                       GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                                 spacing="10.0">
                                  <children>
-                                    <Label fx:id="victoryScreenPlayerBlueName" styleClass="victory-screen-player-name" text="" />
+                                    <Label fx:id="victoryScreenPlayerBlueName"
+                                       styleClass="victory-screen-player-name" text="" />
                                     <HBox styleClass="victory-screen-player-trophy">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-player-trophy-icon" text="" />
-                                          <Label fx:id="victoryScreenPlayerBlueTrophy" styleClass="victory-screen-player-trophy-text" text="" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                             styleClass="victory-screen-player-trophy-icon" text="" />
+                                          <Label fx:id="victoryScreenPlayerBlueTrophy"
+                                             styleClass="victory-screen-player-trophy-text" text="" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -321,8 +453,10 @@
                         </GridPane>
                         <GridPane styleClass="victory-screen-red-details" GridPane.columnIndex="2">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                 percentWidth="30.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                 percentWidth="70.0" prefWidth="100.0" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -330,26 +464,42 @@
                            <children>
                               <GridPane styleClass="victory-screen-games-complete-time-container">
                                  <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
+                                       prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                       prefHeight="60.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                       prefHeight="60.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                       prefHeight="60.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Label fx:id="victoryScreenPlayerRedGame1Time" styleClass="victory-screen-games-not-complete" text="Incomplete" GridPane.halignment="CENTER" />
-                                    <Label fx:id="victoryScreenPlayerRedGame2Time" styleClass="victory-screen-games-not-complete" text="Incomplete" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                                    <Label fx:id="victoryScreenPlayerRedGame3Time" styleClass="victory-screen-games-not-complete" text="Incomplete" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                                    <Label fx:id="victoryScreenPlayerRedGame1Time"
+                                       styleClass="victory-screen-games-not-complete"
+                                       text="Incomplete" GridPane.halignment="CENTER" />
+                                    <Label fx:id="victoryScreenPlayerRedGame2Time"
+                                       styleClass="victory-screen-games-not-complete"
+                                       text="Incomplete" GridPane.halignment="CENTER"
+                                       GridPane.rowIndex="1" />
+                                    <Label fx:id="victoryScreenPlayerRedGame3Time"
+                                       styleClass="victory-screen-games-not-complete"
+                                       text="Incomplete" GridPane.halignment="CENTER"
+                                       GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                                 spacing="10.0" GridPane.columnIndex="1">
                                  <children>
-                                    <Label fx:id="victoryScreenPlayerRedName" styleClass="victory-screen-player-name" text="" />
+                                    <Label fx:id="victoryScreenPlayerRedName"
+                                       styleClass="victory-screen-player-name" text="" />
                                     <HBox styleClass="victory-screen-player-trophy">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-player-trophy-icon" text="" />
-                                          <Label fx:id="victoryScreenPlayerRedTrophy" styleClass="victory-screen-player-trophy-text" text="" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                             styleClass="victory-screen-player-trophy-icon" text="" />
+                                          <Label fx:id="victoryScreenPlayerRedTrophy"
+                                             styleClass="victory-screen-player-trophy-text" text="" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -357,44 +507,58 @@
                            </children>
                         </GridPane>
                         <GridPane styleClass="victory-screen-games-list" GridPane.columnIndex="1">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                 prefHeight="60.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                 prefHeight="60.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="-Infinity" minHeight="-Infinity"
+                                 prefHeight="60.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
                            <children>
                               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <Label styleClass="victory-screen-games-list-label" text="Game 1" />
-                                    <Label fx:id="victoryScreenGameName1" styleClass="victory-screen-games-list-name" text="" />
+                                    <Label styleClass="victory-screen-games-list-label"
+                                       text="Game 1" />
+                                    <Label fx:id="victoryScreenGameName1"
+                                       styleClass="victory-screen-games-list-name" text="" />
                                  </children>
                               </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                                 GridPane.rowIndex="1">
                                  <children>
-                                    <Label styleClass="victory-screen-games-list-label" text="Game 2" />
-                                    <Label fx:id="victoryScreenGameName2" styleClass="victory-screen-games-list-name" text="" />
+                                    <Label styleClass="victory-screen-games-list-label"
+                                       text="Game 2" />
+                                    <Label fx:id="victoryScreenGameName2"
+                                       styleClass="victory-screen-games-list-name" text="" />
                                  </children>
                               </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0"
+                                 GridPane.rowIndex="2">
                                  <children>
-                                    <Label styleClass="victory-screen-games-list-label" text="Game 3" />
-                                    <Label fx:id="victoryScreenGameName3" styleClass="victory-screen-games-list-name" text="" />
+                                    <Label styleClass="victory-screen-games-list-label"
+                                       text="Game 3" />
+                                    <Label fx:id="victoryScreenGameName3"
+                                       styleClass="victory-screen-games-list-name" text="" />
                                  </children>
                               </VBox>
                            </children>
                         </GridPane>
                      </children>
                   </GridPane>
-                                    <HBox styleClass="victory-screen-added-trophy">
+                  <HBox styleClass="victory-screen-added-trophy">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-added-trophy-icon" text="" />
-                        <Label fx:id="victoryAddedTrophy" styleClass="victory-screen-added-trophy-text" text="+30" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                           styleClass="victory-screen-added-trophy-icon" text="" />
+                        <Label fx:id="victoryAddedTrophy"
+                           styleClass="victory-screen-added-trophy-text" text="+30" />
                      </children>
                   </HBox>
-                  <Button onAction="#backToHomeButtonOnAction" styleClass="back-to-home" text="Back To Home" />
+                  <Button onAction="#backToHomeButtonOnAction" styleClass="back-to-home"
+                     text="Back To Home" />
                </children>
             </VBox>
          </children>

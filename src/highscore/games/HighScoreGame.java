@@ -235,6 +235,8 @@ public class HighScoreGame extends StackPane {
                 return new MemoryGame(highScoreGameController);
             case 6:
                 return new BrickBreaker(highScoreGameController);
+            case 7:
+                return new BubbleShooter(highScoreGameController);
             default:
                 return new Tetris(highScoreGameController);
         }
@@ -254,6 +256,8 @@ public class HighScoreGame extends StackPane {
                 return "Memory Game";
             case 6:
                 return "Brick Breaker";
+            case 7:
+                return "Bubble Shooter";
             default:
                 return "";
         }

@@ -360,6 +360,8 @@ public class RapidRoll extends HighScoreGame {
     }
 
     public void restartGame() {
+        score = 0;
+        Platform.runLater(() -> currentScoreValue.setText(String.valueOf(score)));
         initializeGame();
         isGameOver = false;
     }
@@ -385,45 +387,4 @@ public class RapidRoll extends HighScoreGame {
         activeKeys.remove(input);
     }
 
-    private void sendGameState() {
-        JSONObject gameState = new JSONObject();
-        gameState.put("type", "gameState");
-        gameState.put("game", "RapidRoll");
-        gameState.put("ballX", ballX);
-        gameState.put("ballY", ballY);
-        gameState.put("ballVelocityX", ballVelocityX);
-        gameState.put("ballVelocityY", ballVelocityY);
-        gameState.put("randomPlatformsXI", randomPlatformsXI);
-        gameState.put("platformsX", platformsX);
-        gameState.put("platformsY", platformsY);
-
-    }
-
-    public void updateGameState(JSONObject gameState) {
-        // if(gameState.getString("game").equals("Snake")){
-        //     snakeArray = gameState.getJSONArray("snake");   
-        //     foodArray = gameState.getJSONArray("food");
-    
-        //     newSnake = new ArrayList<>();
-        //     newFood = new int[foodArray.length()];
-    
-        //     for (int i = 0; i < snakeArray.length(); i++) {
-        //         JSONArray segment = snakeArray.getJSONArray(i);
-        //         int[] coords = new int[2];
-        //         coords[0] = segment.getInt(0);
-        //         coords[1] = segment.getInt(1);
-        //         newSnake.add(coords);
-        //     }
-    
-        //     for (int i = 0; i < foodArray.length(); i++) {
-        //         newFood[i] = foodArray.getInt(i);
-        //     }
-    
-        //     this.snake = newSnake;
-        //     this.food = newFood;
-        //     this.score = gameState.getInt("score");
-        //     this.direction = gameState.getString("direction");
-        //     this.running = gameState.getBoolean("running");
-        // }
-    }
 }
