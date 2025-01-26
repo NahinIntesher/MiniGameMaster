@@ -28,15 +28,31 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import adventure.games.AdventureMiniGame;
+
+
 public class AdventureGameController {
     Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+    int currentLevel = 1;
+
+    @FXML
+    private StackPane ArcadeMachinePane;
 
     @FXML
     private Button backButton;
 
+    @FXML
+    private Button openGameButton;
+
+    @FXML
+    private StackPane victoryScreen;
+
+    @FXML 
+    private StackPane miniGamePlayground;
+
 
     private  final int WIDTH = (int)screenBounds.getWidth();
-    private  final int HEIGHT = 700;
+    private  final int HEIGHT = (int)screenBounds.getHeight()-50;
     private static final int TILE_SIZE = 50;
 
     private double playerX = 100;
@@ -81,6 +97,8 @@ public class AdventureGameController {
 
         onGround = true;
     }
+
+    private int currentArcadeIndex = 0;
 
     @FXML
     public void initialize() {
@@ -127,19 +145,42 @@ public class AdventureGameController {
     }
 
     private void initializeGameObjects() {
-        keys.add(new Key(400, 400));
-        keys.add(new Key(800, 300));
-        keys.add(new Key(1200, 200));
-        door = new Door(1700, 250);
+        if(currentLevel == 1) {
+            door = new Door(1700, 250);
 
-        platforms.add(new Platform(0, 550, 400, 1));
-        platforms.add(new Platform(400, 450, 200, 0));
-        platforms.add(new Platform(650, 400, 250, 1));
-        platforms.add(new Platform(1000, 350, 300, 0));
-        platforms.add(new Platform(1400, 300, 400, 1));
+            platforms.add(new Platform(0, 550, 400, 1));
+            platforms.add(new Platform(400, 450, 250, 0));
+            platforms.add(new Platform(750, 400, 150, 1));
+            platforms.add(new Platform(1000, 350, 300, 0));
+            platforms.add(new Platform(1400, 300, 400, 1));
+    
+            arcadeMachines.add(new ArcadeMachine(500, 400, 3, 5));
+            arcadeMachines.add(new ArcadeMachine(1100, 300, 1, 10));
+        }
+        else if(currentLevel == 2) {
+            door = new Door(1700, 250);
 
-        arcadeMachines.add(new ArcadeMachine(500, 400));
-        arcadeMachines.add(new ArcadeMachine(700, 350));
+            platforms.add(new Platform(0, 550, 400, 1));
+            platforms.add(new Platform(400, 450, 250, 0));
+            platforms.add(new Platform(750, 400, 150, 1));
+            platforms.add(new Platform(1000, 350, 300, 0));
+            platforms.add(new Platform(1400, 300, 400, 1));
+    
+            arcadeMachines.add(new ArcadeMachine(500, 400, 3, 5));
+            arcadeMachines.add(new ArcadeMachine(1100, 300, 1, 10));
+        }
+        else {
+            door = new Door(1700, 250);
+
+            platforms.add(new Platform(0, 550, 400, 1));
+            platforms.add(new Platform(400, 450, 250, 0));
+            platforms.add(new Platform(750, 400, 150, 1));
+            platforms.add(new Platform(1000, 350, 300, 0));
+            platforms.add(new Platform(1400, 300, 400, 1));
+    
+            arcadeMachines.add(new ArcadeMachine(500, 400, 3, 5));
+            arcadeMachines.add(new ArcadeMachine(1100, 300, 1, 10));
+        }
     }
 
     private void update() {
@@ -188,19 +229,36 @@ public class AdventureGameController {
             }
         }
 
+        if(!openGameButton.getStyleClass().contains("inactive-button")) {
+            openGameButton.getStyleClass().add("inactive-button");
+            openGameButton.setDisable(true);
+        }
+        for (int i=0; i < arcadeMachines.size() ;i++) {
+            if (arcadeMachines.get(i).isTouched(playerX, playerY) && !arcadeMachines.get(i).completed) {
+                openGameButton.getStyleClass().remove("inactive-button");
+                openGameButton.setDisable(false);
+                currentArcadeIndex = i;
+            }
+        }
+
         // Check if player fell below the platforms
         if (playerY > MAP_HEIGHT) {
             resetGame();
             // gameOver = true;
         }
 
-        // Key collection
-        keys.removeIf(key -> key.isCollected(playerX, playerY));
-        keysCollected = 3 - keys.size();
+        keys.removeIf(key -> {
+            if (key.isCollectable(playerX, playerY)) {
+                keysCollected++;
+                return true; // Remove this key
+            }
+            return false; // Keep this key
+        });
 
         // Door interaction
-        if (keysCollected >= 3 && door.isTouched(playerX, playerY)) {
+        if (keysCollected >= arcadeMachines.size() && door.isTouched(playerX, playerY)) {
             gameWon = true;
+            victoryScreen.setVisible(true);
         }
 
         // Prevent player from leaving map bounds
@@ -257,22 +315,18 @@ public class AdventureGameController {
             key.render(gc);
         }
 
-        door.render(gc, (keysCollected >= 3));
+        door.render(gc, (keysCollected >= arcadeMachines.size()));
 
         // Reset translation
         gc.translate(cameraX, cameraY);
 
         // Draw UI
         gc.setFill(Color.WHITE);
-        gc.setFont(new Font(20));
-        gc.fillText("Keys Collected: " + keysCollected + "/3", 100, 20);
+        gc.setFont(new Font("Poppins", 18));
+        gc.fillText("Keys Collected", 100, 58);
 
-        // Game won message
-        if (gameWon) {
-            gc.setFill(Color.YELLOW);
-            gc.setFont(new Font(40));
-            gc.fillText("You Win!", WIDTH / 2 - 80, HEIGHT / 2);
-        }
+        gc.setFont(new Font("Poppins Bold", 22));
+        gc.fillText(keysCollected+"/"+arcadeMachines.size(), 245, 60);
 
         // Game over message
         if (gameOver) {
@@ -294,7 +348,7 @@ public class AdventureGameController {
             this.y = y;
         }
 
-        public boolean isCollected(double playerX, double playerY) {
+        public boolean isCollectable(double playerX, double playerY) {
             return playerX < x + TILE_SIZE && playerX + TILE_SIZE > x && playerY < y + TILE_SIZE
                     && playerY + TILE_SIZE > y;
         }
@@ -338,13 +392,17 @@ public class AdventureGameController {
         private Image arcadeMachineDone;
         private final double x;
         private final double y;
+        private int gameId;
+        private int targetScore;
         boolean completed;
 
-        public ArcadeMachine(double x, double y) {
+        public ArcadeMachine(double x, double y, int gameId, int targetScore) {
             arcadeMachineRun = new Image(getClass().getResource("/adventure/arcadeMachineRun.png").toExternalForm());
             arcadeMachineDone = new Image(getClass().getResource("/adventure/arcadeMachineDone.png").toExternalForm());
             this.x = x;
             this.y = y;
+            this.gameId = gameId;
+            this.targetScore = targetScore;
             completed = false;
         }
 
@@ -354,7 +412,12 @@ public class AdventureGameController {
         }
 
         public void render(GraphicsContext gc) {
-            gc.drawImage(arcadeMachineRun, x, y, TILE_SIZE, TILE_SIZE);
+            if(completed) {
+                gc.drawImage(arcadeMachineDone, x, y, TILE_SIZE, TILE_SIZE);
+            }
+            else {
+                gc.drawImage(arcadeMachineRun, x, y, TILE_SIZE, TILE_SIZE);
+            }
         }
     }
 
@@ -396,9 +459,84 @@ public class AdventureGameController {
     }
 
     @FXML
+    private void openArcadeMachinePane() {
+        ArcadeMachinePane.setVisible(true);
+        ArcadeMachinePane.setManaged(true);
+        AdventureMiniGame miniGame = AdventureMiniGame.getGameInstance(arcadeMachines.get(currentArcadeIndex).gameId, arcadeMachines.get(currentArcadeIndex).targetScore, this);
+        miniGamePlayground.getChildren().clear();
+        miniGamePlayground.getChildren().add(miniGame);
+        miniGamePlayground.requestFocus();
+        miniGamePlayground.setOnKeyPressed(event -> {
+            miniGame.actionOnKeyPressed(event.getCode().toString());
+            event.consume();
+        });
+
+        miniGamePlayground.setOnKeyReleased(event -> {
+            miniGame.actionOnKeyReleased(event.getCode().toString());
+            event.consume();
+        });
+    }
+
+    @FXML
+    private void closeArcadeMachinePane() {
+        ArcadeMachinePane.setVisible(false);
+        ArcadeMachinePane.setManaged(false);
+    }
+
+    public void gameCompleted() {
+        keys.add(new Key(arcadeMachines.get(currentArcadeIndex).x+100, arcadeMachines.get(currentArcadeIndex).y));
+        arcadeMachines.get(currentArcadeIndex).completed = true;
+        closeArcadeMachinePane();
+    }
+
+    @FXML
     private void gotoHome() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../adventure/adventure.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) playground.getScene().getWindow();
+
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void nextLevel() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../adventure/adventureGame.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) playground.getScene().getWindow();
+
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void playAgain() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../adventure/adventureGame.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) playground.getScene().getWindow();
 

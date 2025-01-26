@@ -114,14 +114,14 @@
 }
 
 .level-dot {
-    -fx-background-color: #fefe00; 
+    -fx-background-color: #fefe00;
     -fx-fill: #fefe00;
     -fx-stroke-width: 2px;
     -fx-stroke: #000000;
 }
 
 .level-dot-active {
-    -fx-background-color: transparent; 
+    -fx-background-color: transparent;
     -fx-fill: transparent;
     -fx-stroke-width: 4px;
     -fx-stroke: #ffffff;
@@ -145,11 +145,109 @@
     -fx-background-color: #fefe00;
     -fx-border-color: #000000;
     -fx-border-width: 2;
-    -fx-padding: 15px 15px;
+    -fx-alignment: center;
     -fx-background-radius: 30px;
-    -fx-min-height: 50px;
-    -fx-min-width: 50px;
+    -fx-min-height: 60px;
+    -fx-min-width: 60px;
+    -fx-pref-height: 60px;
+    -fx-pref-width: 60px;
     -fx-border-radius: 30px;
-    -fx-font-size: 26px;
-    -fx-opacity: 0.6;
+    -fx-font-size: 22px;
+    -fx-cursor: hand;
+}
+
+.back-button-ingame:hover {
+    -fx-background-color: #ffff99;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.open-game-button {
+    -fx-background-color: #fefe00;
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 12px 24px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-cursor: hand;
+}
+
+.open-game-button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.inactive-button {
+    -fx-opacity: 0.2;
+    -fx-cursor: default;
+}
+
+.inactive-button:hover {
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+.image-view {
+    fitHeight: 100%;
+    fitWidth: 100%;
+    preserveRatio: true; /* Optional, maintains aspect ratio */
+}
+
+
+
+.victory-screen {
+    -fx-background-color: #00000066;
+    -fx-alignment: CENTER;
   }
+  
+  
+  .victory-screen-title {
+    -fx-shape: "M 10 0 L 90 0 L 100 50 L 90 100 L 10 100 L 0 50 Z";
+    -fx-background-color: #fefe00;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+    -fx-font-size: 28px;
+    -fx-padding: 12px 60px;
+  }
+  
+  .victory-screen-score-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 1.5px;
+    -fx-translate-y: 10px;
+  }
+  
+  .victory-screen-score {
+    -fx-font-size: 70px;
+    -fx-font-weight: bold;
+    -fx-fill: #fefe00;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 2px;
+    -fx-translate-y: -10px;
+  }
+  
+  .back-to-home {
+    -fx-background-color: #fefe00;
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-padding: 18px 32px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-cursor: hand;
+  }
+  
+  .back-to-home:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+  }
+  

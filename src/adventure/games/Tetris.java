@@ -1,4 +1,4 @@
-package highscore.games;
+package adventure.games;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -35,9 +35,10 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import adventure.AdventureGameController;
 import highscore.HighScoreGameController;
 
-public class Tetris extends HighScoreGame {
+public class Tetris extends AdventureMiniGame {
     private static final int BOARD_WIDTH = 10;
     private static final int BOARD_HEIGHT = 16;
     private static final int CELL_SIZE = 30;
@@ -54,8 +55,9 @@ public class Tetris extends HighScoreGame {
     private Label currentScoreValue;
     private Boolean running = true;
     private int score = 0;
+    private int targetScore;
 
-    HighScoreGameController highScoreGameController;
+    AdventureGameController adventureGameController;
 
     Random random = new Random();
 
@@ -105,11 +107,12 @@ public class Tetris extends HighScoreGame {
         currentTetromino = rotated;
     }
 
-    public Tetris(HighScoreGameController highScoreGameController) {
+    public Tetris(AdventureGameController adventureGameController, int target) {
         this.setBackground(new Background(new BackgroundFill(Color.web("#B3B3B3"), null, null)));
         this.setAlignment(Pos.CENTER);
         // this.setPadding(new Insets(0, 0, 60, 0));
-        this.highScoreGameController = highScoreGameController;
+        this.adventureGameController = adventureGameController;
+        this.targetScore = target;
 
         HBox root = new HBox();
         root.setAlignment(javafx.geometry.Pos.CENTER);
@@ -151,6 +154,22 @@ public class Tetris extends HighScoreGame {
 
         currentScoreBox.getChildren().addAll(currentScoreLabel, currentScoreValue);
 
+        // VBox for "Target Score"
+        VBox targetScoreBox = new VBox();
+        targetScoreBox.setAlignment(javafx.geometry.Pos.CENTER);
+        targetScoreBox.setPrefSize(160, 100);
+        targetScoreBox.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
+
+        Label targetScoreLabel = new Label("Target Score");
+        targetScoreLabel.setFont(Font.font("Poppins Medium", 16));
+        targetScoreLabel.setTextFill(Color.BLACK);
+
+        Label targetScoreValue = new Label(String.valueOf(targetScore));
+        targetScoreValue.setFont(Font.font("Poppins Bold", 32));
+        targetScoreValue.setTextFill(Color.BLACK);
+
+        targetScoreBox.getChildren().addAll(targetScoreLabel, targetScoreValue);
+
         // VBox for "Next Block"
         VBox nextBlockBox = new VBox();
         nextBlockBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -165,6 +184,7 @@ public class Tetris extends HighScoreGame {
         nextBlockBox.getChildren().addAll(nextBlockLabel, nextBlockCanvas);
 
         sidePanel.getChildren().add(currentScoreBox);
+        sidePanel.getChildren().add(targetScoreBox);
         sidePanel.getChildren().add(nextBlockBox);
 
         root.getChildren().add(canvasContainer);
@@ -181,7 +201,7 @@ public class Tetris extends HighScoreGame {
                 try {
                     Thread.sleep(500); // Drop speed
                     Platform.runLater(() -> {
-                        if(running) {
+                        if (running) {
                             if (currentTetromino == null) {
                                 spawnTetromino();
                             }
@@ -200,7 +220,7 @@ public class Tetris extends HighScoreGame {
         if (currentTetromino == null)
             return;
 
-        if(!running) 
+        if (!running)
             return;
 
         switch (key) {
@@ -231,8 +251,7 @@ public class Tetris extends HighScoreGame {
 
         // Game over check
         if (checkCollision()) {
-            running = false;
-            highScoreGameController.gameOver(score);
+            resetGame();
         }
     }
 
@@ -242,7 +261,7 @@ public class Tetris extends HighScoreGame {
             currentY--;
             placeTetromino();
             clearLines();
-        
+
             currentTetromino = null;
         }
     }
@@ -362,31 +381,30 @@ public class Tetris extends HighScoreGame {
             newRow--;
         }
 
-        
         // Bonus for multiple line clear
 
         int linesCleared = linesToClear.size();
         score += linesCleared * 10;
-        
+
+        if(targetScore<= score) {
+            terminateGame();
+            adventureGameController.gameCompleted();
+        }
+
         // Update score label
         Platform.runLater(() -> currentScoreValue.setText(String.valueOf(score)));
     }
 
-    public void restartGame() {
-        System.out.println("restarted");
-        running = true;
-
+    private void resetGame() {
         for (int row = 0; row < BOARD_HEIGHT; row++) {
             for (int col = 0; col < BOARD_WIDTH; col++) {
                 board[row][col] = 0;
             }
         }
         score = 0;
-        
         Platform.runLater(() -> currentScoreValue.setText("0"));
-
-        setupGameLoop(gc);
     }
+
 
     private void drawBoard(GraphicsContext gc) {
         // Clear canvas
