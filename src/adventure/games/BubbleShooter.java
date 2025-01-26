@@ -1,4 +1,4 @@
-package highscore.games;
+package adventure.games;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -26,10 +26,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import adventure.AdventureGameController;
 import highscore.HighScoreGameController;
 
-public class BubbleShooter extends HighScoreGame {
-    HighScoreGameController highScoreGameController;
+public class BubbleShooter extends AdventureMiniGame {
+    AdventureGameController adventureGameController;
 
     private static final int WIDTH = 420;
     private static final int HEIGHT = 500;
@@ -55,10 +56,13 @@ public class BubbleShooter extends HighScoreGame {
 
     private Label currentScoreValue;
 
+    private int target;
+
     private int score = 0;
 
-    public BubbleShooter(HighScoreGameController highScoreGameController) {
-        this.highScoreGameController = highScoreGameController;
+    public BubbleShooter(AdventureGameController adventureGameController, int target) {
+        this.adventureGameController = adventureGameController;
+        this.target = target;
 
         this.setBackground(new Background(new BackgroundFill(Color.web("#333333"), null, null)));
         this.setAlignment(Pos.CENTER);
@@ -206,7 +210,7 @@ public class BubbleShooter extends HighScoreGame {
         // Check for game over condition
         if (checkGameOver()) {
             gameOver = true;
-            highScoreGameController.gameOver(score);
+            restartGame();
         }
 
         // Draw shooter bubble
@@ -468,6 +472,10 @@ public class BubbleShooter extends HighScoreGame {
             Platform.runLater(() -> {
                 currentScoreValue.setText(String.valueOf(score));
             });
+
+            if(score>=target) {
+                adventureGameController.gameCompleted();
+            }
 
             // Remove matched cluster
             bubbles.removeAll(cluster);

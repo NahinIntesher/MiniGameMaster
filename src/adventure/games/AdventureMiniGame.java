@@ -225,18 +225,18 @@ public class AdventureMiniGame extends StackPane {
         switch (gameId) {
             case 1:
                 return new Tetris(adventureGameController, target);
-            // case 2:
-            //     return new MiniGolf(highScoreGameController);
+            case 2:
+                return new MiniGolf(adventureGameController, target);
             case 3:
                 return new Snake(adventureGameController, target);
-            // case 4:
-            //     return new RapidRoll(highScoreGameController);
+            case 4:
+                return new RapidRoll(adventureGameController, target);
             // case 5:
             //     return new MemoryGame(highScoreGameController);
             // case 6:
             //     return new BrickBreaker(highScoreGameController);
-            // case 7:
-            //     return new BubbleShooter(highScoreGameController);
+            case 7:
+                return new BubbleShooter(adventureGameController, target);
             default:
                 return new Snake(adventureGameController, target);
         }

@@ -33,7 +33,7 @@ import adventure.games.AdventureMiniGame;
 
 public class AdventureGameController {
     Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-    int currentLevel = 1;
+    int currentLevel = 2;
 
     @FXML
     private StackPane ArcadeMachinePane;
@@ -55,8 +55,10 @@ public class AdventureGameController {
     private  final int HEIGHT = (int)screenBounds.getHeight()-50;
     private static final int TILE_SIZE = 50;
 
-    private double playerX = 100;
-    private double playerY = 500;
+    private double playerX;
+    private double playerY;
+    private double playerXInit;
+    private double playerYInit;
     private double playerVelocityX = 0;
     private double playerVelocityY = 0;
 
@@ -90,8 +92,8 @@ public class AdventureGameController {
     private int animationFrame = 0;
 
     void resetGame() {
-        playerX = 100;
-        playerY = 500;
+        playerX = playerXInit;
+        playerY = playerYInit;
         playerVelocityX = 0;
         playerVelocityY = 0;
 
@@ -146,6 +148,9 @@ public class AdventureGameController {
 
     private void initializeGameObjects() {
         if(currentLevel == 1) {
+            playerX = playerXInit = 100;
+            playerY = playerYInit = 500;
+
             door = new Door(1700, 250);
 
             platforms.add(new Platform(0, 550, 400, 1));
@@ -158,16 +163,21 @@ public class AdventureGameController {
             arcadeMachines.add(new ArcadeMachine(1100, 300, 1, 10));
         }
         else if(currentLevel == 2) {
-            door = new Door(1700, 250);
+            playerX = playerXInit = 100;
+            playerY = playerYInit = 350;
 
-            platforms.add(new Platform(0, 550, 400, 1));
-            platforms.add(new Platform(400, 450, 250, 0));
-            platforms.add(new Platform(750, 400, 150, 1));
-            platforms.add(new Platform(1000, 350, 300, 0));
-            platforms.add(new Platform(1400, 300, 400, 1));
+            door = new Door(1050, 500);
+
+            platforms.add(new Platform(0, 400, 350, 1));
+            platforms.add(new Platform(300, 550, 250, 0));
+            platforms.add(new Platform(650, 450, 200, 1));
+            platforms.add(new Platform(950, 350, 200, 0));
+            platforms.add(new Platform(1000, 550, 200, 1));
+            platforms.add(new Platform(1250, 450, 250, 1));
     
-            arcadeMachines.add(new ArcadeMachine(500, 400, 3, 5));
-            arcadeMachines.add(new ArcadeMachine(1100, 300, 1, 10));
+            arcadeMachines.add(new ArcadeMachine(50, 350, 4, 50));
+            arcadeMachines.add(new ArcadeMachine(300, 500, 7, 50));
+            arcadeMachines.add(new ArcadeMachine(1350, 400, 2, 0));
         }
         else {
             door = new Door(1700, 250);
