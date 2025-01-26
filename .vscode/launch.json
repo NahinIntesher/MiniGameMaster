@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "MiniGameMaster_83aae798"
+    },
+    {
+      "type": "java",
       "name": "AdventureGame",
       "request": "launch",
       "mainClass": "adventure.AdventureGame",

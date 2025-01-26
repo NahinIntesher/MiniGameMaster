@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane style="-fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c); -fx-font-family: 'Poppins';" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.LeaderboardController">
+    <children>
+        <BorderPane prefWidth="600.0" prefHeight="400.0">
+            <center>
+                <TableView fx:id="leaderboardTable" prefWidth="600.0" prefHeight="400.0">
+                    <columns>
+                        <TableColumn fx:id="rankColumn" text="Rank" prefWidth="75.0" />
+                        <TableColumn fx:id="usernameColumn" text="Username" prefWidth="250.0" />
+                        <TableColumn fx:id="trophiesColumn" text="Trophies" prefWidth="150.0" />
+                        <TableColumn fx:id="goldsColumn" text="Gold" prefWidth="125.0" />
+                    </columns>
+                </TableView>
+            </center>
+            <top>
+                <Label text="Leaderboard" style="-fx-font-size: 24px; -fx-padding: 10px; -fx-text-fill: white;" />
+            </top>
+        </BorderPane>
+    </children>
+</StackPane>
