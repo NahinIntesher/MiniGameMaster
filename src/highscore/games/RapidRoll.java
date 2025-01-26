@@ -1,4 +1,4 @@
-package livegame;
+package highscore.games;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -26,13 +26,24 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import highscore.HighScoreGameController;
 import java.util.HashSet;
 
-public class SimpleBallGame extends Application {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 560;
+public class RapidRoll extends HighScoreGame {
+
+    private static final int WIDTH = 370;
+    private static final int HEIGHT = 510;
     private static final double GRAVITY = 0.4;
     private static final double JUMP_FORCE = -9;
     private static final double MOVE_SPEED = 5;
@@ -50,8 +61,8 @@ public class SimpleBallGame extends Application {
     private ArrayList<Double> platformsX;
     private ArrayList<Double> platformsY;
     private ArrayList<Boolean> platformsVisited;
-
-    
+    private double[] randomPlatformsX = new double[500];
+    private int randomPlatformsXI = 0;
     private Timeline timeline;
     private Canvas canvas;
     private GraphicsContext gc;
@@ -60,18 +71,24 @@ public class SimpleBallGame extends Application {
     private boolean isGameOver = false;
     private int score = 0;
     private int targetScore = 100;
-    private HashSet<KeyCode> activeKeys;
+    private HashSet<String> activeKeys;
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    private String message;
+    private String messageType;
+    HighScoreGameController highScoreGameController;
 
-    @Override
-    public void start(Stage stage) {
-        StackPane thisomo = new StackPane();
-        thisomo.setBackground(new Background(new BackgroundFill(Color.web("#1976d2"), null, null)));
-        thisomo.setAlignment(Pos.CENTER);
-        thisomo.setPadding(new Insets(0, 0, 60, 0));
+    Random random = new Random();
+
+    public RapidRoll(HighScoreGameController highScoreGameController) {
+        this.highScoreGameController = highScoreGameController;
+        
+        for (int i = 0; i < 500; i++) {
+            randomPlatformsX[i] = random.nextInt(290);
+        }
+
+        this.setBackground(new Background(new BackgroundFill(Color.web("#1976d2"), null, null)));
+        this.setAlignment(Pos.CENTER);
+
 
         HBox root = new HBox();
         root.setAlignment(javafx.geometry.Pos.CENTER);
@@ -91,7 +108,7 @@ public class SimpleBallGame extends Application {
 
         VBox currentScoreBox = new VBox();
         currentScoreBox.setAlignment(javafx.geometry.Pos.CENTER);
-        currentScoreBox.setPrefSize(160, 100);
+        currentScoreBox.setPrefSize(150, 100);
         currentScoreBox.setStyle("-fx-background-color: #2196f3; -fx-border-color: white; -fx-border-width: 3;");
 
         Label currentScoreLabel = new Label("Current Score");
@@ -103,23 +120,8 @@ public class SimpleBallGame extends Application {
 
         currentScoreBox.getChildren().addAll(currentScoreLabel, currentScoreValue);
 
-        // VBox for "Target Score"
-        VBox targetScoreBox = new VBox();
-        targetScoreBox.setAlignment(javafx.geometry.Pos.CENTER);
-        targetScoreBox.setPrefSize(160, 100);
-        targetScoreBox.setStyle("-fx-background-color: #2196f3; -fx-border-color: white; -fx-border-width: 3;");
-
-        Label targetScoreLabel = new Label("Target Score");
-        targetScoreLabel.setFont(Font.font("Poppins Medium", 16));
-        targetScoreLabel.setTextFill(Color.WHITE);
-
-        Label targetScoreValue = new Label(String.valueOf(targetScore));
-        targetScoreValue.setFont(Font.font("Poppins", FontWeight.BOLD, 36));
-        targetScoreValue.setTextFill(Color.WHITE);
-
-        targetScoreBox.getChildren().addAll(targetScoreLabel, targetScoreValue);
-
-        sidePanel.getChildren().addAll(currentScoreBox, targetScoreBox);
+        
+        sidePanel.getChildren().addAll(currentScoreBox);
 
         canvasContainer.getChildren().add(canvas);
         root.getChildren().addAll(canvasContainer, sidePanel);
@@ -131,51 +133,38 @@ public class SimpleBallGame extends Application {
         gameOverText.setFont(Font.font("Poppins", FontWeight.BOLD , 100));
         gameOverText.setVisible(false);
 
-        thisomo.getChildren().addAll(root, gameOverText);
+        this.getChildren().addAll(root, gameOverText);
 
         gc = canvas.getGraphicsContext2D();
         activeKeys = new HashSet<>();
         initializeGame();
 
-        Scene scene = new Scene(new StackPane(thisomo));
-
-        scene.setOnKeyPressed(e -> {
-            activeKeys.add(e.getCode());
-
-            if (e.getCode() == KeyCode.SPACE && canJump && !isGameOver) {
-                jump();
-            }
-        });
-
-        scene.setOnKeyReleased(e -> {
-            activeKeys.remove(e.getCode());
-        });
-
         timeline = new Timeline(new KeyFrame(Duration.millis(16), e -> {
+            handleInput();
             updateGame();
             renderGame();
         }));
         timeline.setCycleCount(Timeline.INDEFINITE);
 
+        startGame();
+    }
 
-        stage.setTitle("Simple Ball Jump");
-        stage.setScene(scene);
-        stage.show();
+    private void handleInput() {
+        if (isGameOver)
+            return;
 
-        timeline.play();
+        if (activeKeys.contains("LEFT") || activeKeys.contains("A")) {
+            ballVelocityX = -MOVE_SPEED;
+        } else if (activeKeys.contains("RIGHT") || activeKeys.contains("D")) {
+            ballVelocityX = MOVE_SPEED;
+        } else {
+            ballVelocityX = 0;
+        }
     }
 
     private void updateGame() {
         if (isGameOver)
             return;
-
-        if (activeKeys.contains(KeyCode.LEFT)) {
-            ballVelocityX = -MOVE_SPEED;
-        } else if (activeKeys.contains(KeyCode.RIGHT)) {
-            ballVelocityX = MOVE_SPEED;
-        } else {
-            ballVelocityX = 0;
-        }
     
         // Store previous position for collision check
         double previousX = ballX;
@@ -231,7 +220,7 @@ public class SimpleBallGame extends Application {
     
                 // Determine collision side based on previous position and overlap
                 if (minOverlap == overlapTop && previousY + BALL_RADIUS <= platformY) {
-                    // Top collision  
+                    // Top collision
                     nextY = platformY - BALL_RADIUS;
                     ballVelocityY = 0;
                     canJump = true;
@@ -272,10 +261,15 @@ public class SimpleBallGame extends Application {
         }
     
         // Add new platforms at top
-        Random rand = new Random();
         while (platformsY.size() < 10) {
             double lastPlatformY = platformsY.isEmpty() ? 0 : platformsY.get(platformsY.size() - 1);
-            platformsX.add((double) rand.nextInt(WIDTH - PLATFORM_WIDTH));
+            platformsX.add(randomPlatformsX[randomPlatformsXI]);
+            if(randomPlatformsXI<499) {
+                randomPlatformsXI++;
+            }
+            else {
+                randomPlatformsXI = 0;
+            }
             platformsY.add(lastPlatformY - 100);
             platformsVisited.add(false);
         }
@@ -335,10 +329,15 @@ public class SimpleBallGame extends Application {
         platformsX = new ArrayList<>();
         platformsY = new ArrayList<>();
         platformsVisited = new ArrayList<>();
-        Random rand = new Random();
 
         for (int i = 0; i < 10; i++) {
-            platformsX.add((double) rand.nextInt(WIDTH - PLATFORM_WIDTH));
+            platformsX.add(randomPlatformsX[randomPlatformsXI]);
+            if(randomPlatformsXI<499) {
+                randomPlatformsXI++;
+            }
+            else {
+                randomPlatformsXI = 0;
+            }
             platformsY.add(HEIGHT - 100 - i * 100.0);
             if(i != 0) {
                 platformsVisited.add(false);
@@ -356,33 +355,75 @@ public class SimpleBallGame extends Application {
     }
 
     private void gameOver() {
+        highScoreGameController.gameOver(score);
         isGameOver = true;
-        Platform.runLater(() -> {
-            if(score-10 >= 0) {
-                gameOverText.setText("-10");
-                score -= 10;
-            }
-            else if(score>0) {
-                gameOverText.setText("-"+score);
-                score = 0;                        
-            }
-            else {
-                gameOverText.setText("0");
-                score = 0;                      
-            }
-            currentScoreValue.setText(Integer.toString(score));
-            gameOverText.setVisible(true);
-        });
+    }
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(1.5)); // 2-second pause
-        pause.setOnFinished(e -> {
-            initializeGame();
-            isGameOver = false;
+    public void restartGame() {
+        initializeGame();
+        isGameOver = false;
+    }
 
-            Platform.runLater(() -> {
-                gameOverText.setVisible(false);
-            });
-        });
-        pause.play();
+    public void startGame() {
+        timeline.play();
+    }
+
+    public void terminateGame() {
+        timeline.stop();
+        isGameOver = true;
+    }
+
+    public void actionOnKeyPressed(String input) {
+        activeKeys.add(input);
+
+        if (input.equals("SPACE") && canJump && !isGameOver) {
+            jump();
+        }
+    }
+
+    public void actionOnKeyReleased(String input) {
+        activeKeys.remove(input);
+    }
+
+    private void sendGameState() {
+        JSONObject gameState = new JSONObject();
+        gameState.put("type", "gameState");
+        gameState.put("game", "RapidRoll");
+        gameState.put("ballX", ballX);
+        gameState.put("ballY", ballY);
+        gameState.put("ballVelocityX", ballVelocityX);
+        gameState.put("ballVelocityY", ballVelocityY);
+        gameState.put("randomPlatformsXI", randomPlatformsXI);
+        gameState.put("platformsX", platformsX);
+        gameState.put("platformsY", platformsY);
+
+    }
+
+    public void updateGameState(JSONObject gameState) {
+        // if(gameState.getString("game").equals("Snake")){
+        //     snakeArray = gameState.getJSONArray("snake");   
+        //     foodArray = gameState.getJSONArray("food");
+    
+        //     newSnake = new ArrayList<>();
+        //     newFood = new int[foodArray.length()];
+    
+        //     for (int i = 0; i < snakeArray.length(); i++) {
+        //         JSONArray segment = snakeArray.getJSONArray(i);
+        //         int[] coords = new int[2];
+        //         coords[0] = segment.getInt(0);
+        //         coords[1] = segment.getInt(1);
+        //         newSnake.add(coords);
+        //     }
+    
+        //     for (int i = 0; i < foodArray.length(); i++) {
+        //         newFood[i] = foodArray.getInt(i);
+        //     }
+    
+        //     this.snake = newSnake;
+        //     this.food = newFood;
+        //     this.score = gameState.getInt("score");
+        //     this.direction = gameState.getString("direction");
+        //     this.running = gameState.getBoolean("running");
+        // }
     }
 }

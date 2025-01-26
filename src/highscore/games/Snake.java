@@ -66,7 +66,7 @@ public class Snake extends HighScoreGame {
     private Timeline timeline;
 
     private Label currentScoreValue = new Label("0");
-    private Text gameOverText = new Text("-2");
+    private Text gameOverText = new Text("-1");
 
     public Snake(HighScoreGameController highScoreGameController) {
         this.highScoreGameController = highScoreGameController;

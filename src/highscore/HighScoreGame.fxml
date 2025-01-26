@@ -66,10 +66,10 @@
          <children>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
                <children>
-                  <Label styleClass="victory-screen-title" text="Game Over" />
+                  <Label styleClass="victory-screen-title" text="Game Over" fx:id="victoryScreenTitle"/>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-score-title" text="Your Score" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-score-title" fx:id="victoryScreenSemiTitle" text="Your Score" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-score" text="" fx:id="scoreText"/>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                            <children>

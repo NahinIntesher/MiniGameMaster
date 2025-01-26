@@ -42,6 +42,10 @@ public class HighScoreGameController {
     @FXML
     private StackPane victoryScreen;
     @FXML
+    private Label victoryScreenTitle;
+    @FXML
+    private Text victoryScreenSemiTitle;
+    @FXML
     private Button victoryScreenBackButton;
     @FXML
     private Button playAgainButton;
@@ -110,6 +114,14 @@ public class HighScoreGameController {
 
     public void gameOver(int score) {
         scoreText.setText(String.valueOf(score));
+        victoryScreen.setManaged(true);
+        victoryScreen.setVisible(true);
+    }
+
+    public void gameOver(String time) {
+        scoreText.setText(time);
+        victoryScreenTitle.setText("Game Complete");
+        victoryScreenSemiTitle.setText("Taken Time");
         victoryScreen.setManaged(true);
         victoryScreen.setVisible(true);
     }

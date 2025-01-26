@@ -203,7 +203,7 @@ public class HighScoreGame extends StackPane {
                 };
                 randomI = random.nextInt(4);
                 gameInitializeInfo.put("mapData", mapsData[randomI]);
-                
+
                 return gameInitializeInfo;
 
             case 5:
@@ -225,8 +225,16 @@ public class HighScoreGame extends StackPane {
         switch (gameId) {
             case 1:
                 return new Tetris(highScoreGameController);
+            case 2:
+                return new MiniGolf(highScoreGameController);
             case 3:
                 return new Snake(highScoreGameController);
+            case 4:
+                return new RapidRoll(highScoreGameController);
+            case 5:
+                return new MemoryGame(highScoreGameController);
+            case 6:
+                return new BrickBreaker(highScoreGameController);
             default:
                 return new Tetris(highScoreGameController);
         }
@@ -244,6 +252,8 @@ public class HighScoreGame extends StackPane {
                 return "Rapid Roll";
             case 5:
                 return "Memory Game";
+            case 6:
+                return "Brick Breaker";
             default:
                 return "";
         }

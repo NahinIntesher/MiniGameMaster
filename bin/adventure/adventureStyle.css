@@ -138,3 +138,18 @@
     -fx-scale-x: 1;
     -fx-scale-y: 1;
 }
+
+
+.back-button-ingame {
+    -fx-font-family: "MGMIcon";
+    -fx-background-color: #fefe00;
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-padding: 15px 15px;
+    -fx-background-radius: 30px;
+    -fx-min-height: 50px;
+    -fx-min-width: 50px;
+    -fx-border-radius: 30px;
+    -fx-font-size: 26px;
+    -fx-opacity: 0.6;
+  }

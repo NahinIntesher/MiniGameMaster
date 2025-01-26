@@ -3,10 +3,13 @@ package adventure;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
@@ -19,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +30,9 @@ import java.util.Set;
 
 public class AdventureGameController {
     Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+
+    @FXML
+    private Button backButton;
 
 
     private  final int WIDTH = (int)screenBounds.getWidth();
@@ -77,6 +84,8 @@ public class AdventureGameController {
 
     @FXML
     public void initialize() {
+        backButton.setFocusTraversable(false);
+
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -254,9 +263,9 @@ public class AdventureGameController {
         gc.translate(cameraX, cameraY);
 
         // Draw UI
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.WHITE);
         gc.setFont(new Font(20));
-        gc.fillText("Keys Collected: " + keysCollected + "/3", 10, 20);
+        gc.fillText("Keys Collected: " + keysCollected + "/3", 100, 20);
 
         // Game won message
         if (gameWon) {
@@ -381,6 +390,28 @@ public class AdventureGameController {
             for (int i = 0; i < totalTiles; i++) {
                 gc.drawImage(textures[texture], x + (i * TILE_SIZE), y, TILE_SIZE, TILE_SIZE);
             }
+        }
+    }
+
+    @FXML
+    private void gotoHome() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../adventure/adventure.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) playground.getScene().getWindow();
+
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

@@ -362,9 +362,19 @@ public class Tetris extends HighScoreGame {
             newRow--;
         }
 
-        // Calculate score based on number of lines cleared
+        
+        // Bonus for multiple line clear
+
         int linesCleared = linesToClear.size();
-        score += linesCleared * 10; // Bonus for multiple line clear
+        score += linesCleared * 10;
+        
+        if(linesCleared>=2) {
+            score += 10;
+        }
+
+        if(linesCleared>=3) {
+            score += 20;
+        }
 
 
         // Update score label
