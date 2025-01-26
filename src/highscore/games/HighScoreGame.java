@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import database.DatabaseConnection;
+import highscore.HighScoreGameController;
 import highscore.games.Tetris;
 import javafx.scene.layout.StackPane;
 
@@ -19,6 +20,10 @@ public class HighScoreGame extends StackPane {
     }
 
     public void actionOnKeyReleased(String input) {
+    }
+
+    public void restartGame() {
+
     }
 
     public static int randomI;
@@ -216,14 +221,31 @@ public class HighScoreGame extends StackPane {
         }
     }
 
-    public static HighScoreGame getGameInstance(int gameId) {
+    public static HighScoreGame getGameInstance(int gameId, HighScoreGameController highScoreGameController) {
         switch (gameId) {
             case 1:
-                return new Tetris();
+                return new Tetris(highScoreGameController);
             case 3:
-                return new Snake();
+                return new Snake(highScoreGameController);
             default:
-                return new Tetris();
+                return new Tetris(highScoreGameController);
+        }
+    }
+
+    public static String getGameTitle(int gameId) {
+        switch (gameId) {
+            case 1:
+                return "Tetris";
+            case 2:
+                return "Mini Golf";
+            case 3:
+                return "Snake";
+            case 4:
+                return "Rapid Roll";
+            case 5:
+                return "Memory Game";
+            default:
+                return "";
         }
     }
 }

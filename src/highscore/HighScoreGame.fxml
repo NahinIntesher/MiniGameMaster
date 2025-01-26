@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -9,44 +10,78 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-
-<BorderPane fx:id="parentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="highscore.HighScoreGameController">
-   <center>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <StackPane prefHeight="150.0" prefWidth="200.0" fx:id="playground"/>
-            <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@highscoreStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="highscore.HighScoreGameController">
+   <children>
+      <BorderPane fx:id="parentPane">
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
                <children>
+                  <StackPane fx:id="playground" prefHeight="150.0" prefWidth="200.0" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" styleClass="sidbar-highscore-container" GridPane.columnIndex="1">
+                     <children>
+                        <VBox alignment="CENTER" maxHeight="-Infinity" styleClass="sidbar-highscore">
+                           <children>
+                              <Label styleClass="sidbar-highscore-title" text="High Scores" />
+                              <VBox styleClass="high-scores">
+                                 <children>
+                                    <HBox alignment="BOTTOM_CENTER" spacing="10.0">
+                                       <children>
+                                          <Button fx:id="allTimeButton" onAction="#showAllTimeScore" styleClass="tab-button" text="All Time" />
+                                          <Button fx:id="monthlyButton" onAction="#showMonthlyScore" styleClass="tab-button" text="Monthly" />
+                                       </children>
+                                    </HBox>
+                                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="350.0" styleClass="leaderboard-container">
+                                       <content>
+                                          <VBox fx:id="leaderboard" style="-fx-background-color: red;" styleClass="leaderboard" />
+                                       </content>
+                                    </ScrollPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </GridPane>
+         </center>
+         <top>
+            <HBox styleClass="header">
+               <children>
+                  <Button fx:id="backbutton" onAction="#gotoHome" styleClass="back-button" text="" />
+                  <Label fx:id="headerText" styleClass="header-text" text="" />
+               </children>
+            </HBox>
+         </top>
+      </BorderPane>
+      <StackPane managed="false" visible="false" prefHeight="150.0" prefWidth="200.0" styleClass="victory-screen" fx:id="victoryScreen">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
+               <children>
+                  <Label styleClass="victory-screen-title" text="Game Over" />
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label text="Highscore" />
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-score-title" text="Your Score" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="victory-screen-score" text="" fx:id="scoreText"/>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                            <children>
-                              <Button mnemonicParsing="false" text="This Month" />
-                              <Button mnemonicParsing="false" text="All Time" />
+                              <Button mnemonicParsing="false" onAction="#playAgain" styleClass="back-to-home" text="Play Again" fx:id="playAgainButton"/>
+                              <Button mnemonicParsing="false" onAction="#gotoBack" styleClass="back-to-home" text="Go Back"  fx:id="victoryScreenBackButton"/>
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                </children>
-            </StackPane>
+            </VBox>
          </children>
-      </GridPane>
-   </center>
-   <top>
-      <HBox prefHeight="50.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="backButton" mnemonicParsing="false" text="Back" />
-            <Label text="Game Name" />
-         </children>
-      </HBox>
-   </top>
-</BorderPane>
+      </StackPane>
+   </children>
+</StackPane>

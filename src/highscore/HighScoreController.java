@@ -235,7 +235,6 @@ public class HighScoreController {
                     VBox gameItem = new VBox();
                     gameItem.getStyleClass().add("game-item");
                     if (game_id.equals("1")) {
-                        System.out.println("buridomo");
                         gameItem.getStyleClass().add("game-item-active");
                     }
                     StackPane gameIconPane = new StackPane();

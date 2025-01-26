@@ -34,10 +34,14 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import highscore.HighScoreGameController;
+
 public class Snake extends HighScoreGame {
     private static final int WIDTH = 500;
     private static final int HEIGHT = 400;
     private static final int TILE_SIZE = 25;
+
+    HighScoreGameController highScoreGameController;
 
     int[] randomFoodX = new int[100];
     int[] randomFoodY = new int[100];
@@ -57,7 +61,6 @@ public class Snake extends HighScoreGame {
     private String direction = "RIGHT";
     private boolean running = true;
     private int score = 0; // Added score
-    private int targetScore = 10; // Added score
     private boolean directionChanged = false;
 
     private Timeline timeline;
@@ -65,7 +68,8 @@ public class Snake extends HighScoreGame {
     private Label currentScoreValue = new Label("0");
     private Text gameOverText = new Text("-2");
 
-    public Snake() {
+    public Snake(HighScoreGameController highScoreGameController) {
+        this.highScoreGameController = highScoreGameController;
         this.setBackground(new Background(new BackgroundFill(Color.web("#239b56"), null, null)));
         this.setAlignment(Pos.CENTER);
 
@@ -95,25 +99,10 @@ public class Snake extends HighScoreGame {
 
         currentScoreBox.getChildren().addAll(currentScoreLabel, currentScoreValue);
 
-        // VBox for "Target Score"
-        VBox targetScoreBox = new VBox();
-        targetScoreBox.setAlignment(javafx.geometry.Pos.CENTER);
-        targetScoreBox.setPrefSize(100, 200);
-        targetScoreBox.setStyle("-fx-background-color: #186a3b; -fx-border-color: #ffffff; -fx-border-width: 2;");
-        HBox.setHgrow(targetScoreBox, Priority.ALWAYS);
 
-        Label targetScoreLabel = new Label("Target Score");
-        targetScoreLabel.setFont(Font.font("Poppins Medium", 16));
-        targetScoreLabel.setTextFill(Color.WHITE);
-
-        Label targetScoreValue = new Label("10");
-        targetScoreValue.setFont(Font.font("Poppins Bold", 32));
-        targetScoreValue.setTextFill(Color.WHITE);
-
-        targetScoreBox.getChildren().addAll(targetScoreLabel, targetScoreValue);
 
         // Add VBoxes to HBox
-        hBox.getChildren().addAll(currentScoreBox, targetScoreBox);
+        hBox.getChildren().addAll(currentScoreBox);
 
         gameOverText.setFill(Color.RED);
         gameOverText.setStroke(Color.BLACK);
@@ -246,30 +235,20 @@ public class Snake extends HighScoreGame {
     }
 
     private void gameOver() {
+        highScoreGameController.gameOver(score);
         running = false;
         timeline.stop();
-        Platform.runLater(() -> {
-            if(score-2 >= 0) {
-                gameOverText.setText("-2");
-            }
-            else {
-                gameOverText.setText("0");                        
-            }
-            gameOverText.setVisible(true);
-        });
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(1500);
-                Platform.runLater(() -> {
-                    gameOverText.setVisible(false);
-                });
-                timeline.play();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
+        // Platform.runLater(() -> {
+        //     if(score-2 >= 0) {
+        //         gameOverText.setText("-2");
+        //     }
+        //     else {
+        //         gameOverText.setText("0");                        
+        //     }
+        //     gameOverText.setVisible(true);
+        // });
     }
+
 
     public void setDirection(String newDirection) {
         // Prevent reverse direction

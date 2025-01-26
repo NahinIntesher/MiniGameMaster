@@ -162,6 +162,29 @@ public class AdventureController {
         }
     }
 
+
+    @FXML
+    private void startGame() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../adventure/adventureGame.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) backbutton.getScene().getWindow();
+
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @FXML
     private void nextLevel() {
         if (currentLevel < levels.size()) {

@@ -67,7 +67,7 @@
              <RowConstraints minHeight="100.0" valignment="TOP" vgrow="SOMETIMES" />
            </rowConstraints>
             <children>
-               <Button mnemonicParsing="false" styleClass="play-button" text="Play" GridPane.columnIndex="1">
+               <Button onAction="#startGame" mnemonicParsing="false" styleClass="play-button" text="Play" GridPane.columnIndex="1">
                   <GridPane.margin>
                      <Insets right="100.0" />
                   </GridPane.margin>
@@ -84,12 +84,12 @@
             </children>
          </GridPane>
       </bottom>
-      <effect>
+      <!-- <effect>
          <InnerShadow height="255.0" radius="127.0" width="255.0">
             <color>
                <Color red="0.9882352948188782" green="0.9882352948188782" opacity="0.4" />
             </color>
          </InnerShadow>
-      </effect>
+      </effect> -->
     </BorderPane>
 </StackPane>

@@ -35,6 +35,8 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import highscore.HighScoreGameController;
+
 public class Tetris extends HighScoreGame {
     private static final int BOARD_WIDTH = 10;
     private static final int BOARD_HEIGHT = 16;
@@ -52,7 +54,8 @@ public class Tetris extends HighScoreGame {
     private Label currentScoreValue;
     private Boolean running = true;
     private int score = 0;
-    private int targetScore = 50;
+
+    HighScoreGameController highScoreGameController;
 
     Random random = new Random();
 
@@ -102,10 +105,11 @@ public class Tetris extends HighScoreGame {
         currentTetromino = rotated;
     }
 
-    public Tetris() {
+    public Tetris(HighScoreGameController highScoreGameController) {
         this.setBackground(new Background(new BackgroundFill(Color.web("#B3B3B3"), null, null)));
         this.setAlignment(Pos.CENTER);
-        this.setPadding(new Insets(0, 0, 60, 0));
+        // this.setPadding(new Insets(0, 0, 60, 0));
+        this.highScoreGameController = highScoreGameController;
 
         HBox root = new HBox();
         root.setAlignment(javafx.geometry.Pos.CENTER);
@@ -147,22 +151,6 @@ public class Tetris extends HighScoreGame {
 
         currentScoreBox.getChildren().addAll(currentScoreLabel, currentScoreValue);
 
-        // VBox for "Target Score"
-        VBox targetScoreBox = new VBox();
-        targetScoreBox.setAlignment(javafx.geometry.Pos.CENTER);
-        targetScoreBox.setPrefSize(160, 100);
-        targetScoreBox.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
-
-        Label targetScoreLabel = new Label("Target Score");
-        targetScoreLabel.setFont(Font.font("Poppins Medium", 16));
-        targetScoreLabel.setTextFill(Color.BLACK);
-
-        Label targetScoreValue = new Label(String.valueOf(targetScore));
-        targetScoreValue.setFont(Font.font("Poppins Bold", 32));
-        targetScoreValue.setTextFill(Color.BLACK);
-
-        targetScoreBox.getChildren().addAll(targetScoreLabel, targetScoreValue);
-
         // VBox for "Next Block"
         VBox nextBlockBox = new VBox();
         nextBlockBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -177,7 +165,6 @@ public class Tetris extends HighScoreGame {
         nextBlockBox.getChildren().addAll(nextBlockLabel, nextBlockCanvas);
 
         sidePanel.getChildren().add(currentScoreBox);
-        sidePanel.getChildren().add(targetScoreBox);
         sidePanel.getChildren().add(nextBlockBox);
 
         root.getChildren().add(canvasContainer);
@@ -244,7 +231,8 @@ public class Tetris extends HighScoreGame {
 
         // Game over check
         if (checkCollision()) {
-            resetGame();
+            running = false;
+            highScoreGameController.gameOver(score);
         }
     }
 
@@ -378,15 +366,15 @@ public class Tetris extends HighScoreGame {
         int linesCleared = linesToClear.size();
         score += linesCleared * 10; // Bonus for multiple line clear
 
-        if (score >= targetScore) {
-            running = false;
-        }
 
         // Update score label
         Platform.runLater(() -> currentScoreValue.setText(String.valueOf(score)));
     }
 
-    private void resetGame() {
+    public void restartGame() {
+        System.out.println("restarted");
+        running = true;
+
         for (int row = 0; row < BOARD_HEIGHT; row++) {
             for (int col = 0; col < BOARD_WIDTH; col++) {
                 board[row][col] = 0;
@@ -395,6 +383,8 @@ public class Tetris extends HighScoreGame {
         score = 0;
         
         Platform.runLater(() -> currentScoreValue.setText("0"));
+
+        setupGameLoop(gc);
     }
 
     private void drawBoard(GraphicsContext gc) {
