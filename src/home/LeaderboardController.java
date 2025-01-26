@@ -3,16 +3,28 @@ package home;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import database.DatabaseConnection;
+import javafx.scene.control.Button;
 
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class LeaderboardController {
+    @FXML
+    private HBox backbutton;
 
     @FXML
     private TableView<Player> leaderboardTable;
@@ -41,6 +53,28 @@ public class LeaderboardController {
         loadLeaderboard();
     }
 
+    @FXML
+    private void gotoHome() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../home/home.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) backbutton.getScene().getWindow();
+
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+
+            stage.setScene(new Scene(root));
+            stage.setTitle("Mini Game Master");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private void loadLeaderboard() {
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Connection connection = null;
@@ -51,7 +85,7 @@ public class LeaderboardController {
             connection = databaseConnection.getConnection();
             statement = connection.createStatement();
 
-            String query = "SELECT username, trophies, golds FROM users ORDER BY trophies DESC LIMIT 10";
+            String query = "SELECT username, trophies, golds FROM users ORDER BY trophies DESC";
             resultSet = statement.executeQuery(query);
 
             int rank = 1;
@@ -104,7 +138,7 @@ public class LeaderboardController {
             return trophies;
         }
 
-        public int getgolds() {
+        public int getGolds() {
             return golds;
         }
     }

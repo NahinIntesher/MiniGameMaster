@@ -305,3 +305,102 @@
   -fx-font-family: "Poppins Medium";
   -fx-font-size: 15px;
 }
+
+/* Header Styles */
+.header {
+  -fx-background-color: #fefe00;
+  -fx-padding: 8 10;
+  -fx-spacing: 10;
+  -fx-alignment: CENTER-LEFT;
+  /*  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2); */
+  -fx-border-color: #000000;
+  -fx-border-width: 0 0 2px 0;
+}
+
+.back-button {
+  -fx-font-family: "MGMIcon";
+  -fx-font-size: 26;
+  -fx-background-radius: 30;
+  -fx-min-height: 60px;
+  -fx-max-height: 60px;
+  -fx-min-width: 60px;
+  -fx-max-width: 60px;
+  -fx-alignment: center;
+  -fx-background-color: transparent;
+  -fx-cursor: hand;
+}
+
+.back-button:hover {
+  -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+.header-text {
+  -fx-font-size: 24;
+  -fx-font-weight: bold;
+  -fx-text-fill: #000000;
+}
+
+.back-button {
+  -fx-font-size: 18px;
+  -fx-text-fill: black;
+  -fx-background-color: transparent;
+  -fx-border-width: 0;
+}
+
+/* Button Hover */
+.back-button:hover {
+  -fx-text-fill: #f0e68c;
+  -fx-cursor: hand;
+}
+/* Table Styles */
+.table-view {
+  -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
+  -fx-border-color: #ccc;
+  -fx-border-width: 1px;
+  -fx-font-size: 18px; /* Larger font size for the entire table */
+}
+
+.table-column {
+  -fx-font-size: 18px; /* Larger font size for column headers */
+  -fx-padding: 15px; /* Larger padding for more space */
+}
+
+.table-column .table-cell {
+  -fx-alignment: center;
+}
+
+/* Column Header Styles */
+.table-view .column-header {
+  -fx-font-size: 25px; /* Larger font size for column headers */
+  -fx-font-weight: bold;
+  -fx-text-fill: #000000;
+  -fx-padding: 10px; /* Add some padding for spacing */
+}
+
+/* Table Rows */
+.table-view .table-row-cell {
+  -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
+
+  -fx-border-color: #000000;
+  -fx-border-width: 0 0 1px 0;
+  -fx-padding: 15px; /* Increase padding for rows */
+}
+
+/* Hover Effect on Table Rows */
+.table-view .table-row-cell:hover {
+  -fx-background-color: #fffacb;
+  -fx-cursor: default;
+}
+
+/* Table Cells Styling */
+.table-view .table-cell {
+  -fx-alignment: center;
+  -fx-font-size: 18px; /* Larger font size for table cell content */
+  -fx-text-fill: #000000;
+  -fx-padding: 15px; /* Larger padding in cells */
+}
+
+.table-view .table-cell:selected {
+  -fx-background-color: #ffef5d;
+  -fx-text-fill: #000000;
+}
