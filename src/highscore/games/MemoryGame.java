@@ -294,6 +294,7 @@ public class MemoryGame extends HighScoreGame {
 
     public void restartGame() {
         initializeCards();
+        totalMatched = 0;
         startTimer();
     }
 }

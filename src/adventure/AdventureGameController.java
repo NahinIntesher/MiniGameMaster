@@ -130,7 +130,7 @@ public class AdventureGameController {
         keys.add(new Key(400, 400));
         keys.add(new Key(800, 300));
         keys.add(new Key(1200, 200));
-        door = new Door(1700, 200);
+        door = new Door(1700, 250);
 
         platforms.add(new Platform(0, 550, 400, 1));
         platforms.add(new Platform(400, 450, 200, 0));
@@ -286,7 +286,10 @@ public class AdventureGameController {
         private final double x;
         private final double y;
 
+        private Image keyImage;
+
         public Key(double x, double y) {
+            keyImage = new Image(getClass().getResource("/adventure/key.png").toExternalForm());
             this.x = x;
             this.y = y;
         }
@@ -297,8 +300,7 @@ public class AdventureGameController {
         }
 
         public void render(GraphicsContext gc) {
-            gc.setFill(Color.GOLD);
-            gc.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+            gc.drawImage(keyImage, x, y, TILE_SIZE, TILE_SIZE);
         }
     }
 
@@ -324,9 +326,9 @@ public class AdventureGameController {
 
         public void render(GraphicsContext gc, boolean isOpend) {
             if (isOpend) {
-                gc.drawImage(openDoor, x, y, TILE_SIZE, TILE_SIZE * 2);
+                gc.drawImage(openDoor, x, y, TILE_SIZE, TILE_SIZE);
             } else {
-                gc.drawImage(closeDoor, x, y, TILE_SIZE, TILE_SIZE * 2);
+                gc.drawImage(closeDoor, x, y, TILE_SIZE, TILE_SIZE);
             }
         }
     }

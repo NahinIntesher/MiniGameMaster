@@ -308,11 +308,16 @@ public class HighScoreController {
                         "FROM game_scores gs " +
                         "JOIN users u ON gs.player_id = u.id " +
                         "WHERE gs.game_id = ? " +
-                        "GROUP BY u.username " +
+                        "AND gs.score = ( "+
+                        "SELECT MAX(gs2.score) "+
+                        "FROM game_scores gs2 "+
+                        "JOIN users u2 ON gs2.player_id = u2.id "+
+                        "WHERE gs2.game_id = ? AND u2.username = u.username) "+
                         "ORDER BY gs.score DESC";
     
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                    statement.setInt(1, currentGameId); // Use parameterized query to prevent SQL injection
+                    statement.setInt(1, currentGameId); // Use parameteri
+                    statement.setInt(2, currentGameId); // Use parameterized query to prevent SQL injection
                     try (ResultSet result = statement.executeQuery()) {
                         // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear
                         // previous data
@@ -321,7 +326,6 @@ public class HighScoreController {
                             leaderboard.getChildren().clear();
                         });
     
-                        System.out.println("outer game id: " + currentGameId);
     
                         while (result.next()) {
                             String score = result.getString("score");
@@ -329,7 +333,6 @@ public class HighScoreController {
                             String username = result.getString("username");
                             String trophies = result.getString("trophies");
     
-                            System.out.println(time);
     
                             GridPane scoreBox = new GridPane();
                             scoreBox.getStyleClass().add("score-entry");
@@ -410,11 +413,16 @@ public class HighScoreController {
                         "JOIN users u ON gs.player_id = u.id " +
                         "WHERE gs.game_id = ? " +
                         "AND gs.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH) " +
-                        "GROUP BY u.username " +
+                        "AND gs.score = ( "+
+                        "SELECT MAX(gs2.score) "+
+                        "FROM game_scores gs2 "+
+                        "JOIN users u2 ON gs2.player_id = u2.id "+
+                        "WHERE gs2.game_id = ? AND u2.username = u.username) "+
                         "ORDER BY gs.score DESC";
     
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                    statement.setInt(1, currentGameId); // Use parameterized query to prevent SQL injection
+                    statement.setInt(1, currentGameId); 
+                    statement.setInt(2, currentGameId); 
                     try (ResultSet result = statement.executeQuery()) {
                         // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear
                         // previous data
@@ -423,7 +431,6 @@ public class HighScoreController {
                             leaderboard.getChildren().clear();
                         });
     
-                        System.out.println("outer game id: " + currentGameId);
     
                         while (result.next()) {
                             String score = result.getString("score");

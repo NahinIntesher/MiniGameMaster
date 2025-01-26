@@ -20,7 +20,7 @@
    xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
    fx:controller="livegame.LiveGameController">
    <children>
-      <StackPane style="-fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c); -fx-font-family: 'Poppins';" fx:id="runningGameContainer">
+      <StackPane style="-fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c); -fx-font-family: 'Poppins';" fx:id="findingPlayerContainer">
          <children>
             <VBox alignment="CENTER" spacing="10">
                <ProgressIndicator style="-fx-progress-color: #000000;" prefWidth="100"

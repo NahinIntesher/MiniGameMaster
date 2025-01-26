@@ -86,7 +86,6 @@ public class HighScoreGameController {
         Platform.runLater(() -> {
             headerText.setText(HighScoreGame.getGameTitle(gameId));
             Scene primaryScene = parentPane.getScene();
-            System.out.println(gameId);
             gameInstance = HighScoreGame.getGameInstance(gameId, this);
 
             playground.getChildren().add(gameInstance);
@@ -108,12 +107,13 @@ public class HighScoreGameController {
 
     @FXML
     private void playAgain() {
-        System.out.println("choling");
         victoryScreen.setManaged(false);
         victoryScreen.setVisible(false);
         Platform.runLater(() -> {
             gameInstance.restartGame();
         });
+
+        showAllTimeScore();
     }
 
     public void gameOver(int score) {
@@ -238,11 +238,16 @@ public class HighScoreGameController {
                         "FROM game_scores gs " +
                         "JOIN users u ON gs.player_id = u.id " +
                         "WHERE gs.game_id = ? " +
-                        "GROUP BY u.username " +
+                        "AND gs.score = ( "+
+                        "SELECT MAX(gs2.score) "+
+                        "FROM game_scores gs2 "+
+                        "JOIN users u2 ON gs2.player_id = u2.id "+
+                        "WHERE gs2.game_id = ? AND u2.username = u.username) "+
                         "ORDER BY gs.score DESC";
 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                    statement.setInt(1, gameId); // Use parameterized query to prevent SQL injection
+                    statement.setInt(1, gameId);
+                    statement.setInt(2, gameId); // Use parameterized query to prevent SQL injection
                     try (ResultSet result = statement.executeQuery()) {
                         // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear
                         // previous data
@@ -251,7 +256,6 @@ public class HighScoreGameController {
                             leaderboard.getChildren().clear();
                         });
 
-                        System.out.println("outer game id: " + gameId);
 
                         while (result.next()) {
                             String score = result.getString("score");
@@ -337,11 +341,16 @@ public class HighScoreGameController {
                         "JOIN users u ON gs.player_id = u.id " +
                         "WHERE gs.game_id = ? " +
                         "AND gs.created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH) " +
-                        "GROUP BY u.username " +
+                        "AND gs.score = ( "+
+                        "SELECT MAX(gs2.score) "+
+                        "FROM game_scores gs2 "+
+                        "JOIN users u2 ON gs2.player_id = u2.id "+
+                        "WHERE gs2.game_id = ? AND u2.username = u.username) "+
                         "ORDER BY gs.score DESC";
 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                    statement.setInt(1, gameId); // Use parameterized query to prevent SQL injection
+                    statement.setInt(1, gameId); 
+                    statement.setInt(2, gameId); // Use parameterized quer Use parameterized query to prevent SQL injection
                     try (ResultSet result = statement.executeQuery()) {
                         // Platform.runLater(() -> leaderboardContainer.getChildren().clear()); // Clear
                         // previous data
@@ -350,7 +359,6 @@ public class HighScoreGameController {
                             leaderboard.getChildren().clear();
                         });
 
-                        System.out.println("outer game id: " + gameId);
 
                         while (result.next()) {
                             String score = result.getString("score");
