@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.UUID;
@@ -57,7 +58,7 @@ public class LiveGameController {
     JSONObject messageObject;
 
     Preferences preferences = Preferences.userRoot().node("authData");
-    
+
     private String userid = preferences.get("userid", "default");
 
     private String playerBlueNameData = preferences.get("username", "default");
@@ -189,7 +190,7 @@ public class LiveGameController {
     private Label victoryScreenPlayerBlueGame3Time;
 
     @FXML
-    private Label victoryScreenPlayerRedName; 
+    private Label victoryScreenPlayerRedName;
     @FXML
     private Label victoryScreenPlayerRedTrophy;
     @FXML
@@ -201,13 +202,13 @@ public class LiveGameController {
 
     @FXML
     public void initialize() {
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             Stage stage = (Stage) ((Node) playerRedPlayground).getScene().getWindow();
 
             stage.setOnCloseRequest((event) -> {
-                if(socket != null) {
-                    out.println("matchEnd:"+playerToken);
-                    out.println("playerLeft:"+playerToken);
+                if (socket != null) {
+                    out.println("matchEnd:" + playerToken);
+                    out.println("playerLeft:" + playerToken);
                 }
             });
         });
@@ -293,7 +294,7 @@ public class LiveGameController {
                                 String getPlayerToken = message.split(":")[1];
 
                                 if (!getPlayerToken.equals(playerToken)) {
-                                    Platform.runLater(()->{
+                                    Platform.runLater(() -> {
                                         setVictoryScreenData();
                                         victoryContainer.setManaged(true);
                                         victoryContainer.setVisible(true);
@@ -391,17 +392,17 @@ public class LiveGameController {
 
         victoryScreenPlayerBlueName.setText(playerBlueNameData);
         victoryScreenPlayerBlueTrophy.setText(playerBlueTrophiesData);
-        if(playerBlueGameTime1 != null) {
+        if (playerBlueGameTime1 != null) {
             victoryScreenPlayerBlueGame1Time.setText(playerBlueGameTime1);
             victoryScreenPlayerBlueGame1Time.getStyleClass().remove("victory-screen-games-not-complete");
             victoryScreenPlayerBlueGame1Time.getStyleClass().add("victory-screen-games-complete-time");
         }
-        if(playerBlueGameTime2 != null) {
+        if (playerBlueGameTime2 != null) {
             victoryScreenPlayerBlueGame2Time.setText(playerBlueGameTime2);
             victoryScreenPlayerBlueGame2Time.getStyleClass().remove("victory-screen-games-not-complete");
             victoryScreenPlayerBlueGame2Time.getStyleClass().add("victory-screen-games-complete-time");
         }
-        if(playerBlueGameTime3 != null) {
+        if (playerBlueGameTime3 != null) {
             victoryScreenPlayerBlueGame3Time.setText(playerBlueGameTime3);
             victoryScreenPlayerBlueGame3Time.getStyleClass().remove("victory-screen-games-not-complete");
             victoryScreenPlayerBlueGame3Time.getStyleClass().add("victory-screen-games-complete-time");
@@ -409,17 +410,17 @@ public class LiveGameController {
 
         victoryScreenPlayerRedName.setText(playerRedNameData);
         victoryScreenPlayerRedTrophy.setText(playerRedTrophiesData);
-        if(playerRedGameTime1 != null) {
+        if (playerRedGameTime1 != null) {
             victoryScreenPlayerRedGame1Time.setText(playerRedGameTime1);
             victoryScreenPlayerRedGame1Time.getStyleClass().remove("victory-screen-games-not-complete");
             victoryScreenPlayerRedGame1Time.getStyleClass().add("victory-screen-games-complete-time");
         }
-        if(playerRedGameTime2 != null) {
+        if (playerRedGameTime2 != null) {
             victoryScreenPlayerRedGame2Time.setText(playerRedGameTime2);
             victoryScreenPlayerRedGame2Time.getStyleClass().remove("victory-screen-games-not-complete");
             victoryScreenPlayerRedGame2Time.getStyleClass().add("victory-screen-games-complete-time");
         }
-        if(playerRedGameTime3 != null) {
+        if (playerRedGameTime3 != null) {
             victoryScreenPlayerRedGame3Time.setText(playerRedGameTime3);
             victoryScreenPlayerRedGame3Time.getStyleClass().remove("victory-screen-games-not-complete");
             victoryScreenPlayerRedGame3Time.getStyleClass().add("victory-screen-games-complete-time");
@@ -443,7 +444,8 @@ public class LiveGameController {
 
                     Scene primaryScene = runningGameContainer.getScene();
 
-                    LiveGame playerBlueGame2 = LiveGame.getGameInstance(games[1], gamesInitInfo[1], roomId, playerToken, true);
+                    LiveGame playerBlueGame2 = LiveGame.getGameInstance(games[1], gamesInitInfo[1], roomId, playerToken,
+                            true);
                     playerBluePlayground.getChildren().add(playerBlueGame2);
 
                     primaryScene.setOnKeyPressed(event -> {
@@ -469,7 +471,8 @@ public class LiveGameController {
 
                     Scene primaryScene = runningGameContainer.getScene();
 
-                    LiveGame playerBlueGame3 = LiveGame.getGameInstance(games[2], gamesInitInfo[2], roomId, playerToken, true);
+                    LiveGame playerBlueGame3 = LiveGame.getGameInstance(games[2], gamesInitInfo[2], roomId, playerToken,
+                            true);
                     playerBluePlayground.getChildren().add(playerBlueGame3);
 
                     primaryScene.setOnKeyPressed(event -> {
@@ -491,11 +494,31 @@ public class LiveGameController {
                     playerBlueProgressLabel4.setStyle("-fx-font-weight: bold;");
                     playerBlueProgressPoint4.setBackground(
                             new Background(new BackgroundFill(Color.web("#0000cc"), new CornerRadii(15), null)));
-                    
-                    out.println("matchEnd:"+playerToken);
+
+                    out.println("matchEnd:" + playerToken);
                     setVictoryScreenData();
                     victoryContainer.setManaged(true);
                     victoryContainer.setVisible(true);
+
+                    new Thread(() -> {
+                        DatabaseConnection databaseConnection = new DatabaseConnection();
+                        try (Connection connection = databaseConnection.getConnection()) {
+                            String query = "UPDATE users SET trophies = trophies + 30 WHERE id = ?;";
+
+                            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                                statement.setInt(1, Integer.parseInt(userid));
+                                try {
+                                    statement.executeUpdate();
+                                } catch (Exception ex) {
+                                    // ex.printStackTrace();
+                                }
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                    }).start();
+
                 });
             }
         } else if (player.equals("red")) {
@@ -512,7 +535,8 @@ public class LiveGameController {
 
                     playerRedPlayground.getChildren().clear();
 
-                    LiveGame playerRedGame2 = LiveGame.getGameInstance(games[1], gamesInitInfo[1], roomId, playerToken, false);
+                    LiveGame playerRedGame2 = LiveGame.getGameInstance(games[1], gamesInitInfo[1], roomId, playerToken,
+                            false);
                     playerRedPlayground.getChildren().add(playerRedGame2);
                 });
             } else if (playerRedGameTime2 == null) {
@@ -528,7 +552,8 @@ public class LiveGameController {
 
                     playerRedPlayground.getChildren().clear();
 
-                    LiveGame playerRedGame3 = LiveGame.getGameInstance(games[2], gamesInitInfo[2], roomId, playerToken, false);
+                    LiveGame playerRedGame3 = LiveGame.getGameInstance(games[2], gamesInitInfo[2], roomId, playerToken,
+                            false);
                     playerRedPlayground.getChildren().add(playerRedGame3);
                 });
             } else {
@@ -546,18 +571,38 @@ public class LiveGameController {
                     victoryLabel.setText("Defeat");
                     victoryAddedTrophy.setText("-5");
                     setVictoryScreenData();
-                    out.println("matchEnd:"+playerToken);
+                    out.println("matchEnd:" + playerToken);
                     victoryContainer.setManaged(true);
                     victoryContainer.setVisible(true);
+
+                    new Thread(() -> {
+                        DatabaseConnection databaseConnection = new DatabaseConnection();
+                        try (Connection connection = databaseConnection.getConnection()) {
+                            String query = "UPDATE users SET trophies = trophies - 5 WHERE id = ?;";
+
+                            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                                statement.setInt(1, Integer.parseInt(userid));
+                                try {
+                                    statement.executeUpdate();
+                                } catch (Exception ex) {
+                                    // ex.printStackTrace();
+                                }
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                    }).start();
+
                 });
             }
         }
     }
 
     @FXML
-    private void backToHomeButtonOnAction(ActionEvent e){
-        if(socket != null) {
-            out.println("playerLeft:"+playerToken);
+    private void backToHomeButtonOnAction(ActionEvent e) {
+        if (socket != null) {
+            out.println("playerLeft:" + playerToken);
         }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Home/home.fxml"));
