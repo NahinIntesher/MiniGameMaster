@@ -74,11 +74,7 @@
                <children>
                   <HBox prefWidth="200.0" spacing="24.0" styleClass="footer">
                      <children>
-<<<<<<< HEAD
                         <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn" onMouseClicked="#leaderboardButtonAction">
-=======
-                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="footer-btn" onMouseClicked="#showLeaderboard">
->>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
                            <children>
                               <Label styleClass="footer-btn-icon" text="" />
                               <Label styleClass="footer-btn-name" text="Leaderboard" />

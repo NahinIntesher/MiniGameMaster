@@ -65,28 +65,6 @@ public class HomeController {
         }
     }
 
-    @FXML
-    private void leaderboardButtonAction() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("./Leaderboard.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) borderPane.getScene().getWindow();
-
-            Screen screen = Screen.getPrimary();
-            Rectangle2D bounds = screen.getVisualBounds();
-            stage.setX(bounds.getMinX());
-            stage.setY(bounds.getMinY());
-            stage.setWidth(bounds.getWidth());
-            stage.setHeight(bounds.getHeight());
-            stage.setMaximized(true);
-
-            stage.setScene(new Scene(root));
-            stage.setTitle("Leaderboard - Mini Game Master");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
 
     @FXML
     private void liveGameButtonAction() {

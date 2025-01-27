@@ -1,14 +1,11 @@
 package home;
 
-<<<<<<< HEAD
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 import database.DatabaseConnection;
-=======
->>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,17 +19,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-<<<<<<< HEAD
-=======
-import database.DatabaseConnection;
-import javafx.scene.control.Button;
-
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
->>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 
 public class LeaderboardController {
     @FXML
@@ -116,18 +102,12 @@ public class LeaderboardController {
             e.printStackTrace();
         } finally {
             try {
-<<<<<<< HEAD
                 if (resultSet != null)
                     resultSet.close();
                 if (statement != null)
                     statement.close();
                 if (connection != null)
                     connection.close();
-=======
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
->>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
             } catch (Exception e) {
                 e.printStackTrace();
             }
