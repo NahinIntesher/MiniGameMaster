@@ -66,3 +66,91 @@
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
 }
+
+
+
+/* Table Styles */
+.table-view {
+  -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
+  -fx-border-color: #ccc;
+  -fx-border-width: 1px;
+  -fx-font-size: 18px;
+  /* Larger font size for the entire table */
+}
+
+.table-column {
+  -fx-font-size: 16px;
+  /* Larger font size for column headers */
+  -fx-padding: 15px;
+  /* Larger padding for more space */
+}
+
+.table-column .table-cell {
+  -fx-alignment: center;
+}
+
+/* Column Header Styles */
+.table-view .column-header {
+  -fx-font-size: 18px;
+  /* Larger font size for column headers */
+  -fx-font-weight: bold;
+  -fx-text-fill: #000000;
+  -fx-padding: 10px;
+  /* Add some padding for spacing */
+}
+
+/* Table Rows */
+.table-view .table-row-cell {
+  -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
+
+  -fx-border-color: #000000;
+  -fx-border-width: 0 0 1px 0;
+  -fx-padding: 15px;
+  /* Increase padding for rows */
+}
+
+/* Hover Effect on Table Rows */
+.table-view .table-row-cell:hover {
+  -fx-background-color: #fffacb;
+  -fx-cursor: default;
+}
+
+/* Table Cells Styling */
+.table-view .table-cell {
+  -fx-alignment: center;
+  -fx-font-size: 15px;
+  /* Larger font size for table cell content */
+  -fx-text-fill: #000000;
+  -fx-padding: 15px;
+  /* Larger padding in cells */
+}
+
+.table-view .table-cell:selected {
+  -fx-background-color: #ffef5d;
+  -fx-text-fill: #000000;
+}
+
+
+
+.game-logo-cont {
+  -fx-alignment: TOP_CENTER;
+}
+
+.game-logo-title {
+  -fx-font-size: 120px;
+  -fx-font-weight: bold;
+  -fx-fill: #fefe00;
+  -fx-text-fill: #fefe00;
+  -fx-stroke: #000000;
+  -fx-stroke-width: 2px;
+  -fx-font-family: "Ador Orjoma Unicode";
+  -fx-translate-y: -14;
+}
+
+.game-logo-sub-title {
+  -fx-font-size: 32px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #000000;
+  -fx-translate-y: 14;
+  -fx-font-family: "Poppins SemiBold";
+}
