@@ -69,7 +69,7 @@ public class RapidRoll extends AdventureMiniGame {
     private Canvas canvas;
     private GraphicsContext gc;
     private Label currentScoreValue;
-    private Text gameOverText = new Text("-10");
+    private Text gameOverText = new Text("-2");
     private boolean isGameOver = false;
     private int score = 0;
     private int targetScore;
@@ -373,9 +373,9 @@ public class RapidRoll extends AdventureMiniGame {
     private void gameOver() {
         isGameOver = true;
         Platform.runLater(() -> {
-            if(score-10 >= 0) {
-                gameOverText.setText("-10");
-                score -= 10;
+            if(score-2 >= 0) {
+                gameOverText.setText("-2");
+                score -= 2;
             }
             else if(score>0) {
                 gameOverText.setText("-"+score);

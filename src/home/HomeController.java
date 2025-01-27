@@ -154,12 +154,14 @@ public class HomeController {
                         String username = result.getString("username");
                         String trophies = result.getString("trophies");
                         String golds = result.getString("golds");
+                        String adventureLevel = result.getString("adventure_level");
     
                         Platform.runLater(()->{
                             playerUsername.setText(username);
                             preferences.put("username", username);
                             playerTrophies.setText(trophies);
                             preferences.put("trophies", trophies);
+                            preferences.put("adventureLevel", adventureLevel);
                             playerGolds.setText(golds);
                             preferences.put("golds", golds);
 
@@ -209,6 +211,26 @@ public class HomeController {
                     ex.printStackTrace();
                 }
             });
+        }
+    }
+
+    @FXML
+    private void leaderboardButtonAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../home/Leaderboard.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) borderPane.getScene().getWindow();
+            Screen screen = Screen.getPrimary();
+            Rectangle2D bounds = screen.getVisualBounds();
+            stage.setX(bounds.getMinX());
+            stage.setY(bounds.getMinY());
+            stage.setWidth(bounds.getWidth());
+            stage.setHeight(bounds.getHeight());
+            stage.setMaximized(true);
+            stage.setScene(new Scene(root));
+            stage.setTitle("Leaderboard - Mini Game Master");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

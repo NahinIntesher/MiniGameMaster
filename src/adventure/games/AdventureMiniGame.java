@@ -231,10 +231,10 @@ public class AdventureMiniGame extends StackPane {
                 return new Snake(adventureGameController, target);
             case 4:
                 return new RapidRoll(adventureGameController, target);
-            // case 5:
-            //     return new MemoryGame(highScoreGameController);
-            // case 6:
-            //     return new BrickBreaker(highScoreGameController);
+            case 5:
+                return new MemoryGame(adventureGameController, target);
+            case 6:
+                return new BrickBreaker(adventureGameController, target);
             case 7:
                 return new BubbleShooter(adventureGameController, target);
             default:

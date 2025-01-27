@@ -34,7 +34,6 @@
 /* Main Container */
 .main-container {
   -fx-background-color: #eedd00;
-  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 2);
   -fx-padding: 0;
 }
 
@@ -288,7 +287,7 @@
   -fx-font-family: "MGMIcon";
   -fx-fill: #fefe00;
   -fx-text-fill: #fefe00;
-  -fx-font-size: 16px;
+  -fx-font-size: 20px;
   -fx-scale-x: 1.5;
   -fx-scale-y: 1.5;
   -fx-translate-x: -8;

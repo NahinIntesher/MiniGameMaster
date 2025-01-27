@@ -103,7 +103,24 @@ public class BubbleShooter extends AdventureMiniGame {
 
         currentScoreBox.getChildren().addAll(currentScoreLabel, currentScoreValue);
 
-        sidePanel.getChildren().add(currentScoreBox);
+
+        VBox targetScoreBox = new VBox();
+        targetScoreBox.setAlignment(javafx.geometry.Pos.CENTER);
+        targetScoreBox.setPrefSize(160, 100);
+        targetScoreBox.setStyle("-fx-background-color: #555555; -fx-border-color: white; -fx-border-width: 2;");
+
+        Label targetScoreLabel = new Label("Target Score");
+        targetScoreLabel.setFont(Font.font("Poppins Medium", 16));
+        targetScoreLabel.setTextFill(Color.WHITE);
+
+        Label targetScoreValue = new Label(String.valueOf(target));
+        targetScoreValue.setFont(Font.font("Poppins Bold", 32));
+        targetScoreValue.setTextFill(Color.WHITE);
+
+        targetScoreBox.getChildren().addAll(targetScoreLabel, targetScoreValue);
+
+    
+        sidePanel.getChildren().addAll(currentScoreBox, targetScoreBox);
 
         root.getChildren().add(canvasContainer);
         root.getChildren().add(sidePanel);

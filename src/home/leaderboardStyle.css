@@ -1,0 +1,68 @@
+@font-face {
+    font-family: "Poppins";
+    src: url("../../resources/fonts/Poppins-Regular.ttf");
+  }
+  @font-face {
+    font-family: "Poppins";
+    src: url("../../resources/fonts/Poppins-Bold.ttf");
+  }
+  @font-face {
+    font-family: "Poppins Medium";
+    src: url("../../resources/fonts/Poppins-Medium.ttf");
+  }
+  @font-face {
+    font-family: "Poppins SemiBold";
+    src: url("../../resources/fonts/Poppins-SemiBold.ttf");
+  }
+  @font-face {
+    font-family: "Ador Orjoma Unicode";
+    src: url("../../resources/fonts/Ador-Orjoma.ttf");
+  }
+  
+  
+  @font-face {
+    font-family: "MGMIcon";
+    src: url("../../resources/fonts/MGMIcon.ttf");
+  }
+  
+  
+  /* Root Styles */
+  .root {
+    -fx-font-family: "Poppins";
+    -fx-background-color: #eedd00;
+    -fx-padding: 0;
+  }
+
+
+.header {
+    -fx-background-color: #fefe00;
+    -fx-padding: 8 10;
+    -fx-spacing: 10;
+    -fx-alignment: CENTER-LEFT;
+    /*  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2); */
+    -fx-border-color: #000000;
+    -fx-border-width: 0 0 2px 0;
+}
+
+.back-button {
+    -fx-font-family: "MGMIcon";
+    -fx-font-size: 26;
+    -fx-background-radius: 30;
+    -fx-min-height: 60px;
+    -fx-max-height: 60px;
+    -fx-min-width: 60px;
+    -fx-max-width: 60px;
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+.header-text {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
+}

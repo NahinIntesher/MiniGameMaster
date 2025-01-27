@@ -34,6 +34,7 @@ import java.util.TimerTask;
 import java.util.prefs.Preferences;
 
 import database.DatabaseConnection;
+import highscore.HighScoreGameController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.layout.AnchorPane;
@@ -47,6 +48,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AdventureController {
+    Preferences preferences = Preferences.userRoot().node("authData");
+    int unlockedLevel = Integer.parseInt(preferences.get("adventureLevel", "1"));
+
     @FXML
     private HBox backbutton;
 
@@ -70,6 +74,8 @@ public class AdventureController {
     private List<Level> levels = new ArrayList<>();
     private List<VBox> gameItems = new ArrayList<>();
 
+    public int i = 0;
+
     @FXML
     public void initialize() {
         levels.add(new Level("Welcome to Arcade World", 150, 310));
@@ -80,13 +86,25 @@ public class AdventureController {
         levels.add(new Level("Near the Lights", 840, 310));
         levels.add(new Level("Path to the Freedom", 700, 425));
 
+        
+        i = 1;
         for (Level level : levels) {
             Circle levelDot = new Circle(10);
             levelDot.getStyleClass().add("level-dot");
             levelDot.setLayoutX(level.mapPositionX);
             levelDot.setLayoutY(level.mapPositionY);
+
+            Text lockIcon = new Text("");
+            lockIcon.getStyleClass().add("lock-icon");
+            lockIcon.setLayoutX(level.mapPositionX);
+            lockIcon.setLayoutY(level.mapPositionY);
+
             Platform.runLater(() -> {
                 levelMapAnchorPane.getChildren().add(levelDot);
+                if(unlockedLevel < i) {
+                    levelMapAnchorPane.getChildren().add(lockIcon);
+                }
+                i++;
             });
         }
         activeLevelDot = new Circle(18);
@@ -105,7 +123,7 @@ public class AdventureController {
         else {
             prevLevelButton.getStyleClass().remove("inactive");
         }
-        if(currentLevel == levels.size()) {
+        if(currentLevel == unlockedLevel) {
             nextLevelButton.getStyleClass().add("inactive");
         }
         else {
@@ -178,6 +196,9 @@ public class AdventureController {
             stage.setHeight(bounds.getHeight());
             stage.setMaximized(true);
 
+            AdventureGameController adventureGameController = loader.getController();
+            adventureGameController.setLevel(currentLevel);
+
             stage.setScene(new Scene(root));
             stage.setTitle("Mini Game Master");
         } catch (IOException ex) {
@@ -187,7 +208,7 @@ public class AdventureController {
 
     @FXML
     private void nextLevel() {
-        if (currentLevel < levels.size()) {
+        if (currentLevel < unlockedLevel) {
             currentLevel++;
             activeLevelDot.setLayoutX(levels.get(currentLevel - 1).mapPositionX);
             activeLevelDot.setLayoutY(levels.get(currentLevel - 1).mapPositionY);

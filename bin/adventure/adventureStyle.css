@@ -251,3 +251,14 @@
     -fx-scale-y: 1.05;
   }
   
+.lock-icon {
+    -fx-font-family: "MGMIcon";
+    -fx-fill: #fefe00;
+    -fx-text-fill: #fefe00;
+    -fx-font-size: 24px;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+    -fx-translate-x: -8;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 2px;
+  }

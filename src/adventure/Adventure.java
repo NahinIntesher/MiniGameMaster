@@ -12,8 +12,8 @@ public class Adventure extends Application {
     public void start(Stage primaryStage) throws Exception {
         try {
             // Load FXML file from the same package
-            // FXMLLoader loader = new FXMLLoader(getClass().getResource("/adventure/adventure.fxml"));
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/adventure/adventureGame.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/adventure/adventure.fxml"));
+            // FXMLLoader loader = new FXMLLoader(getClass().getResource("/adventure/adventureGame.fxml"));
             Parent root = loader.load();
             
             Scene scene = new Scene(root);

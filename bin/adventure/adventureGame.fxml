@@ -37,7 +37,7 @@
       <StackPane fx:id="ArcadeMachinePane" managed="true" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #00000099;" visible="false">
          <children>
             <StackPane fx:id="miniGamePlayground" maxHeight="630.0" maxWidth="800.0" style="-fx-background-color: red;" StackPane.alignment="TOP_CENTER" />
-            <ImageView fitHeight="720.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+            <ImageView mouseTransparent="true" fitHeight="720.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                <image>
                   <Image url="@arcadeMachineInside.png" />
                </image>
