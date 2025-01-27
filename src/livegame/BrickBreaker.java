@@ -56,7 +56,7 @@ public class BrickBreaker extends LiveGame {
     private static final int PADDLE_WIDTH = 100;
     private static final int PADDLE_HEIGHT = 20;
     private static final int BALL_SIZE = 20;
-    private static final int NEW_BRICK_COUNT = 2;
+    private static final int NEW_BRICK_COUNT = 1;
 
     private double paddleX = WIDTH / 2.0 - PADDLE_WIDTH / 2.0;
     private double ballX = WIDTH / 2.0 - BALL_SIZE / 2.0;
@@ -140,7 +140,7 @@ public class BrickBreaker extends LiveGame {
         gameOver = new HBox();
         gameOver.setSpacing(20);
         gameOver.setAlignment(Pos.CENTER);
-        Text gameOverText1 = new Text("+2");
+        Text gameOverText1 = new Text("+1");
         gameOverText1.setFill(Color.RED);
         gameOverText1.setStroke(Color.WHITE);
         gameOverText1.setStrokeWidth(3.0);

@@ -58,7 +58,7 @@ public class Tetris extends LiveGame {
     private Label currentScoreValue;
     private Boolean running = true;
     private int score = 0;
-    private int targetScore = 50;
+    private int targetScore = 40;
 
     private String message;
     private JSONArray jsonBoard;

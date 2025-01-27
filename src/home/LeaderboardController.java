@@ -17,12 +17,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class LeaderboardController {
     @FXML
     private HBox backbutton;
+
+    @FXML
+    private StackPane leaderboard;
 
     @FXML
     private TableView<Player> leaderboardTable;
