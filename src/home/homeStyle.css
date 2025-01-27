@@ -1,112 +1,119 @@
 @font-face {
-    font-family: "Poppins";
-    src: url("../../resources/fonts/Poppins-Regular.ttf");
+  font-family: "Poppins";
+  src: url("../../resources/fonts/Poppins-Regular.ttf");
 }
 
 @font-face {
-    font-family: "Poppins";
-    src: url("../../resources/fonts/Poppins-Bold.ttf");
+  font-family: "Poppins";
+  src: url("../../resources/fonts/Poppins-Bold.ttf");
 }
 
 @font-face {
-    font-family: "Poppins Medium";
-    src: url("../../resources/fonts/Poppins-Medium.ttf");
+  font-family: "Poppins Medium";
+  src: url("../../resources/fonts/Poppins-Medium.ttf");
 }
 
 @font-face {
-    font-family: "Poppins SemiBold";
-    src: url("../../resources/fonts/Poppins-SemiBold.ttf");
+  font-family: "Poppins SemiBold";
+  src: url("../../resources/fonts/Poppins-SemiBold.ttf");
 }
 
 @font-face {
-    font-family: "Ador Orjoma Unicode";
-    src: url("../../resources/fonts/Ador-Orjoma.ttf");
+  font-family: "Ador Orjoma Unicode";
+  src: url("../../resources/fonts/Ador-Orjoma.ttf");
 }
 
 @font-face {
-    font-family: "MGMIcon";
-    src: url("../../resources/fonts/MGMIcon.ttf");
+  font-family: "MGMIcon";
+  src: url("../../resources/fonts/MGMIcon.ttf");
 }
 
 /* General Styles */
 .root {
-    -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
-    -fx-font-family: "Poppins";
+  -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
+  -fx-font-family: "Poppins";
 }
 
 .game-logo-cont {
-    -fx-alignment: TOP_CENTER;
+  -fx-alignment: TOP_CENTER;
 }
 
 .game-logo-title {
-    -fx-font-size: 120px;
-    -fx-font-weight: bold;
-    -fx-fill: #fefe00;
-    -fx-text-fill: #fefe00;
-    -fx-stroke: #000000;
-    -fx-stroke-width: 2px;
-    -fx-font-family: "Ador Orjoma Unicode";
-    -fx-translate-y: -14;
+  -fx-font-size: 120px;
+  -fx-font-weight: bold;
+  -fx-fill: #fefe00;
+  -fx-text-fill: #fefe00;
+  -fx-stroke: #000000;
+  -fx-stroke-width: 2px;
+  -fx-font-family: "Ador Orjoma Unicode";
+  -fx-translate-y: -14;
 }
 
 .game-logo-sub-title {
-    -fx-font-size: 32px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #000000;
-    -fx-translate-y: 14;
-    -fx-font-family: "Poppins SemiBold";
+  -fx-font-size: 32px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #000000;
+  -fx-translate-y: 14;
+  -fx-font-family: "Poppins SemiBold";
 }
 
 .game-mode-btn-cont {
-    -fx-pref-width: 260px;
-    -fx-max-width: 260px;
-    -fx-alignment: CENTER;
-    -fx-transition: all 0.3s ease;
+  -fx-pref-width: 260px;
+  -fx-max-width: 260px;
+  -fx-alignment: CENTER;
+  -fx-transition: all 0.3s ease;
 }
 
 .game-mode-btn {
-    -fx-background-color: #fefe00;
-    -fx-text-fill: #000000;
-    -fx-border-color: #000000;
-    -fx-border-width: 2px;
-    -fx-padding: 16px 16px 32px 16px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-    -fx-alignment: CENTER;
-    -fx-cursor: hand;
+  -fx-background-color: #fefe00;
+  -fx-text-fill: #000000;
+  -fx-border-color: #000000;
+  -fx-border-width: 2px;
+  -fx-padding: 16px 16px 32px 16px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-alignment: CENTER;
+  -fx-cursor: hand;
 }
 
 .game-mode-btn-semi-title {
+<<<<<<< HEAD
     -fx-font-size: 24px;
     -fx-font-family: "Poppins Medium";
     -fx-line-spacing: 0px;
+=======
+  -fx-font-size: 24px;
+  -fx-font-family: "Poppins Medium";
+  -fx-line-spacing: 0px;
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 }
 
 .game-mode-btn-title {
-    -fx-font-size: 36px;
-    -fx-scale-x: 1.3;
-    -fx-scale-y: 1.3;
-    -fx-font-weight: bold;
+  -fx-font-size: 36px;
+  -fx-scale-x: 1.3;
+  -fx-scale-y: 1.3;
+  -fx-font-weight: bold;
 }
 
 .game-mode-btn-bottom {
-    -fx-background-color: #fefe00;
-    -fx-text-fill: #000000;
-    -fx-border-color: #000000;
-    -fx-border-width: 2px;
-    -fx-padding: 6px 24px;
-    -fx-translate-y: -22px;
-    -fx-font-size: 18px;
-    -fx-font-family: "Poppins Medium";
-    -fx-shape: "M 20 0 L 80 0 L 100 50 L 80 100 L 20 100 L 0 50 Z";
+  -fx-background-color: #fefe00;
+  -fx-text-fill: #000000;
+  -fx-border-color: #000000;
+  -fx-border-width: 2px;
+  -fx-padding: 6px 24px;
+  -fx-translate-y: -22px;
+  -fx-font-size: 18px;
+  -fx-font-family: "Poppins Medium";
+  -fx-shape: "M 20 0 L 80 0 L 100 50 L 80 100 L 20 100 L 0 50 Z";
 }
 
 .game-mode-btn-cont:hover {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+  -fx-scale-x: 1.05;
+  -fx-scale-y: 1.05;
 }
 
 .game-mode-btn-cont:hover .game-mode-btn {
+<<<<<<< HEAD
     -fx-background-color: #eded00;
 }
 
@@ -118,208 +125,222 @@
     -fx-max-width: 300px;
     /*-fx-shape: "M 50 0 L 550 0 L 500 200 L 100 200 Z";*/
     -fx-shape: "M 80 0 L 520 0 L 550 200 L 50 200 Z";
+=======
+  -fx-background-color: #eded00;
+}
+
+.footer {
+  -fx-background-color: #000000;
+  -fx-text-fill: #fefe00;
+  -fx-padding: 10px;
+  -fx-alignment: CENTER;
+  -fx-max-width: 300px;
+  /*-fx-shape: "M 50 0 L 550 0 L 500 200 L 100 200 Z";*/
+  -fx-shape: "M 80 0 L 520 0 L 550 200 L 50 200 Z";
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 }
 
 .footer-btn {
-    -fx-background-color: #000000;
-    -fx-alignment: CENTER;
-    -fx-pref-width: -1;
-    -fx-cursor: hand;
+  -fx-background-color: #000000;
+  -fx-alignment: CENTER;
+  -fx-pref-width: -1;
+  -fx-cursor: hand;
 }
 
 .footer-btn-icon {
-    -fx-font-family: "MGMIcon";
-    -fx-text-fill: #fefe00;
-    -fx-font-size: 32px;
-    -fx-padding: 6px;
+  -fx-font-family: "MGMIcon";
+  -fx-text-fill: #fefe00;
+  -fx-font-size: 32px;
+  -fx-padding: 6px;
 }
 
 .footer-btn-name {
-    -fx-text-fill: #fefe00;
-    -fx-font-size: 16px;
-    -fx-font-family: "Poppins Medium";
-    -fx-padding: 4px;
+  -fx-text-fill: #fefe00;
+  -fx-font-size: 16px;
+  -fx-font-family: "Poppins Medium";
+  -fx-padding: 4px;
 }
 
 .footer-btn:hover {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+  -fx-scale-x: 1.05;
+  -fx-scale-y: 1.05;
 }
 
 .footer-btn:hover .footer-btn-name {
-    -fx-text-fill: #ffffff;
+  -fx-text-fill: #ffffff;
 }
 
 .footer-btn:hover .footer-btn-icon {
-    -fx-text-fill: #ffffff;
+  -fx-text-fill: #ffffff;
 }
 
 .left-cont {
-    -fx-pref-width: 120px;
-    -fx-max-width: 120px;
-    -fx-alignment: BOTTOM_CENTER;
-    -fx-padding: 20px;
+  -fx-pref-width: 120px;
+  -fx-max-width: 120px;
+  -fx-alignment: BOTTOM_CENTER;
+  -fx-padding: 20px;
 }
 
 .right-cont {
-    -fx-pref-width: 120px;
-    -fx-max-width: 120px;
-    -fx-alignment: CENTER_RIGHT;
+  -fx-pref-width: 120px;
+  -fx-max-width: 120px;
+  -fx-alignment: CENTER_RIGHT;
 }
 
 .top-cont {
-    -fx-padding: 10px 0;
-    -fx-pref-height: 120px;
+  -fx-padding: 10px 0;
+  -fx-pref-height: 120px;
 }
 
 .player-detail {
-    -fx-background-color: #0000cc;
-    -fx-padding: 20px;
-    -fx-pref-height: -1;
-    -fx-shape: "M 50 0 L 600 0 L 550 200 L 50 200 Z";
-    -fx-border-color: #000000;
-    -fx-border-width: 2px;
-    -fx-pref-width: 240px;
-    -fx-max-width: 240px;
+  -fx-background-color: #0000cc;
+  -fx-padding: 20px;
+  -fx-pref-height: -1;
+  -fx-shape: "M 50 0 L 600 0 L 550 200 L 50 200 Z";
+  -fx-border-color: #000000;
+  -fx-border-width: 2px;
+  -fx-pref-width: 240px;
+  -fx-max-width: 240px;
 }
 
 .player-detail-pic {
-    -fx-pref-width: 60px;
-    -fx-pref-height: 60px;
-    -fx-max-width: 60px;
-    -fx-max-height: 60px;
-    -fx-border-radius: 30px;
-    -fx-background-radius: 30px;
-    -fx-border-color: #ffffff;
-    -fx-border-width: 3px;
-    -fx-background-color: brown;
+  -fx-pref-width: 60px;
+  -fx-pref-height: 60px;
+  -fx-max-width: 60px;
+  -fx-max-height: 60px;
+  -fx-border-radius: 30px;
+  -fx-background-radius: 30px;
+  -fx-border-color: #ffffff;
+  -fx-border-width: 3px;
+  -fx-background-color: brown;
 }
 
 .player-detail-name {
-    -fx-text-fill: #ffffff;
-    -fx-font-size: 20px;
-    -fx-font-family: "Poppins";
-    -fx-font-weight: bold;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 20px;
+  -fx-font-family: "Poppins";
+  -fx-font-weight: bold;
 }
 
 .player-detail-trophy {
-    -fx-background-color: #00000033;
-    -fx-alignment: CENTER-LEFT;
-    -fx-translate-x: 10;
-    -fx-max-width: 82px;
+  -fx-background-color: #00000033;
+  -fx-alignment: CENTER-LEFT;
+  -fx-translate-x: 10;
+  -fx-max-width: 82px;
 }
 
 .player-detail-trophy-icon {
-    -fx-font-family: "MGMIcon";
-    -fx-fill: #fefe00;
-    -fx-text-fill: #fefe00;
-    -fx-font-size: 20px;
-    -fx-scale-x: 1.5;
-    -fx-scale-y: 1.5;
-    -fx-translate-x: -8;
-    -fx-stroke: #000000;
-    -fx-stroke-width: 1px;
+  -fx-font-family: "MGMIcon";
+  -fx-fill: #fefe00;
+  -fx-text-fill: #fefe00;
+  -fx-font-size: 20px;
+  -fx-scale-x: 1.5;
+  -fx-scale-y: 1.5;
+  -fx-translate-x: -8;
+  -fx-stroke: #000000;
+  -fx-stroke-width: 1px;
 }
 
 .player-detail-trophy-text {
-    -fx-text-fill: #ffffff;
-    -fx-font-weight: bold;
-    -fx-font-size: 18px;
-    -fx-padding: 1px 4px;
-    -fx-stroke-width: 4px;
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+  -fx-font-size: 18px;
+  -fx-padding: 1px 4px;
+  -fx-stroke-width: 4px;
 }
 
 .gold-box {
-    -fx-background-color: #fefe00;
-    -fx-pref-width: 160px;
-    -fx-max-width: 160px;
-    -fx-pref-height: 45px;
-    -fx-max-height: 45px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-border-color: #000000;
-    -fx-border-width: 2px;
+  -fx-background-color: #fefe00;
+  -fx-pref-width: 160px;
+  -fx-max-width: 160px;
+  -fx-pref-height: 45px;
+  -fx-max-height: 45px;
+  -fx-alignment: CENTER_LEFT;
+  -fx-border-color: #000000;
+  -fx-border-width: 2px;
 }
 
 .gold-box-icon {
-    -fx-font-family: "MGMIcon";
-    -fx-fill: #fefe00;
-    -fx-text-fill: #fefe00;
-    -fx-font-size: 24px;
-    -fx-scale-x: 2;
-    -fx-scale-y: 2;
-    -fx-translate-x: -8;
-    -fx-stroke: #000000;
-    -fx-stroke-width: 1px;
+  -fx-font-family: "MGMIcon";
+  -fx-fill: #fefe00;
+  -fx-text-fill: #fefe00;
+  -fx-font-size: 24px;
+  -fx-scale-x: 2;
+  -fx-scale-y: 2;
+  -fx-translate-x: -8;
+  -fx-stroke: #000000;
+  -fx-stroke-width: 1px;
 }
 
 .gold-box-text {
-    -fx-text-fill: #000000;
-    -fx-font-family: "Poppins SemiBold";
-    -fx-font-size: 20px;
-    -fx-padding: 2px 12px;
-    -fx-pref-width: 125px;
-    -fx-alignment: CENTER;
+  -fx-text-fill: #000000;
+  -fx-font-family: "Poppins SemiBold";
+  -fx-font-size: 20px;
+  -fx-padding: 2px 12px;
+  -fx-pref-width: 125px;
+  -fx-alignment: CENTER;
 }
 
 .clan-btn {
-    -fx-shape: "M 0 15 L 100 0 L 100 100 L 0 85 Z";
-    -fx-background-color: #fefe00;
-    -fx-border-color: #000000;
-    -fx-border-width: 2px;
-    -fx-alignment: CENTER;
-    -fx-pref-height: 120px;
-    -fx-max-height: 120px;
-    -fx-pref-width: 80px;
-    -fx-max-width: 80px;
-    -fx-cursor: hand;
+  -fx-shape: "M 0 15 L 100 0 L 100 100 L 0 85 Z";
+  -fx-background-color: #fefe00;
+  -fx-border-color: #000000;
+  -fx-border-width: 2px;
+  -fx-alignment: CENTER;
+  -fx-pref-height: 120px;
+  -fx-max-height: 120px;
+  -fx-pref-width: 80px;
+  -fx-max-width: 80px;
+  -fx-cursor: hand;
 }
 
 .clan-btn-icon {
-    -fx-font-family: "MGMIcon";
-    -fx-font-size: 36px;
+  -fx-font-family: "MGMIcon";
+  -fx-font-size: 36px;
 }
 
 .clan-btn-text {
-    -fx-font-family: "Poppins SemiBold";
-    -fx-font-size: 18px;
+  -fx-font-family: "Poppins SemiBold";
+  -fx-font-size: 18px;
 }
 
 .clan-btn:hover {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-    -fx-background-color: #eded00;
+  -fx-scale-x: 1.05;
+  -fx-scale-y: 1.05;
+  -fx-background-color: #eded00;
 }
 
 .logout-btn {
-    -fx-background-color: #00000022;
-    -fx-pref-height: 96px;
-    -fx-max-height: 96px;
-    -fx-pref-width: 80px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-    -fx-alignment: CENTER;
-    -fx-cursor: hand;
-    -fx-translate-y: 100px;
+  -fx-background-color: #00000022;
+  -fx-pref-height: 96px;
+  -fx-max-height: 96px;
+  -fx-pref-width: 80px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 10px;
+  -fx-alignment: CENTER;
+  -fx-cursor: hand;
+  -fx-translate-y: 100px;
 }
 
 .logout-btn:hover {
-    -fx-background-color: #00000055;
-    -fx-scale-x: 1.1;
-    -fx-scale-y: 1.1;
+  -fx-background-color: #00000055;
+  -fx-scale-x: 1.1;
+  -fx-scale-y: 1.1;
 }
 
 .logout-btn-icon {
-    -fx-font-family: "MGMIcon";
-    -fx-font-size: 36px;
+  -fx-font-family: "MGMIcon";
+  -fx-font-size: 36px;
 }
 
 .logout-btn-text {
-    -fx-font-family: "Poppins Medium";
-    -fx-font-size: 15px;
+  -fx-font-family: "Poppins Medium";
+  -fx-font-size: 15px;
 }
 
 /* Header Styles */
 .header {
+<<<<<<< HEAD
     -fx-background-color: #fefe00;
     -fx-padding: 8 10;
     -fx-spacing: 10;
@@ -357,10 +378,50 @@
     -fx-text-fill: black;
     -fx-background-color: transparent;
     -fx-border-width: 0;
+=======
+  -fx-background-color: #fefe00;
+  -fx-padding: 8 10;
+  -fx-spacing: 10;
+  -fx-alignment: CENTER-LEFT;
+  /*  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0, 0, 2); */
+  -fx-border-color: #000000;
+  -fx-border-width: 0 0 2px 0;
+}
+
+.back-button {
+  -fx-font-family: "MGMIcon";
+  -fx-font-size: 26;
+  -fx-background-radius: 30;
+  -fx-min-height: 60px;
+  -fx-max-height: 60px;
+  -fx-min-width: 60px;
+  -fx-max-width: 60px;
+  -fx-alignment: center;
+  -fx-background-color: transparent;
+  -fx-cursor: hand;
+}
+
+.back-button:hover {
+  -fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+.header-text {
+  -fx-font-size: 24;
+  -fx-font-weight: bold;
+  -fx-text-fill: #000000;
+}
+
+.back-button {
+  -fx-font-size: 18px;
+  -fx-text-fill: black;
+  -fx-background-color: transparent;
+  -fx-border-width: 0;
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 }
 
 /* Button Hover */
 .back-button:hover {
+<<<<<<< HEAD
     -fx-text-fill: #f0e68c;
     -fx-cursor: hand;
 }
@@ -383,36 +444,77 @@
 
 .table-column .table-cell {
     -fx-alignment: center;
+=======
+  -fx-text-fill: #f0e68c;
+  -fx-cursor: hand;
+}
+/* Table Styles */
+.table-view {
+  -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
+  -fx-border-color: #ccc;
+  -fx-border-width: 1px;
+  -fx-font-size: 18px; /* Larger font size for the entire table */
+}
+
+.table-column {
+  -fx-font-size: 18px; /* Larger font size for column headers */
+  -fx-padding: 15px; /* Larger padding for more space */
+}
+
+.table-column .table-cell {
+  -fx-alignment: center;
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 }
 
 /* Column Header Styles */
 .table-view .column-header {
+<<<<<<< HEAD
     -fx-font-size: 25px;
     /* Larger font size for column headers */
     -fx-font-weight: bold;
     -fx-text-fill: #000000;
     -fx-padding: 10px;
     /* Add some padding for spacing */
+=======
+  -fx-font-size: 25px; /* Larger font size for column headers */
+  -fx-font-weight: bold;
+  -fx-text-fill: #000000;
+  -fx-padding: 10px; /* Add some padding for spacing */
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 }
 
 /* Table Rows */
 .table-view .table-row-cell {
+<<<<<<< HEAD
     -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
 
     -fx-border-color: #000000;
     -fx-border-width: 0 0 1px 0;
     -fx-padding: 15px;
     /* Increase padding for rows */
+=======
+  -fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c);
+
+  -fx-border-color: #000000;
+  -fx-border-width: 0 0 1px 0;
+  -fx-padding: 15px; /* Increase padding for rows */
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 }
 
 /* Hover Effect on Table Rows */
 .table-view .table-row-cell:hover {
+<<<<<<< HEAD
     -fx-background-color: #fffacb;
     -fx-cursor: default;
+=======
+  -fx-background-color: #fffacb;
+  -fx-cursor: default;
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
 }
 
 /* Table Cells Styling */
 .table-view .table-cell {
+<<<<<<< HEAD
     -fx-alignment: center;
     -fx-font-size: 18px;
     /* Larger font size for table cell content */
@@ -425,3 +527,15 @@
     -fx-background-color: #ffef5d;
     -fx-text-fill: #000000;
 }
+=======
+  -fx-alignment: center;
+  -fx-font-size: 18px; /* Larger font size for table cell content */
+  -fx-text-fill: #000000;
+  -fx-padding: 15px; /* Larger padding in cells */
+}
+
+.table-view .table-cell:selected {
+  -fx-background-color: #ffef5d;
+  -fx-text-fill: #000000;
+}
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38

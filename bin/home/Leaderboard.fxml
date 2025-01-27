@@ -8,7 +8,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
+<<<<<<< HEAD
 <StackPane stylesheets="@leaderboardStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.LeaderboardController">
+=======
+<StackPane style="-fx-background-color: linear-gradient(to right, #e4d00a, #f0e68c); -fx-font-family: 'Poppins';" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="home.LeaderboardController">
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
     <children>
         <BorderPane prefWidth="600.0" prefHeight="400.0">
             <top>
@@ -29,4 +33,8 @@
             </center>
         </BorderPane>
     </children>
+<<<<<<< HEAD
 </StackPane>
+=======
+</StackPane>
+>>>>>>> a26a6c583a624ba61f92815b457e326e28c01f38
